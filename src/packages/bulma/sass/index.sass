@@ -6,11 +6,13 @@
 // iconfont
 @import url("//at.alicdn.com/t/font_433051_gxtmuovilb.css")
 
-=block
-  &:not(:last-child)
-    margin-bottom: 1.5rem
+/**
+ * bulma lifecycle
+ * 1. initial-variables configs
+ * 2. bulma sass framework
+ * 3. custom extensions
+ **/
 
-// 主色调 #5B88DB #5B95FE
 @import 'config.sass'
 @import '~bulma'
 @import 'extension/_all'
@@ -18,32 +20,10 @@
 .rightbar-is-active
   margin-right: 280px
 
-.app
-  display: flex
-  flex-flow: column
-  height: 100vh
-  width: 100vw
-
-.app-header
-  height: 36px
-  display: flex
-  align-items: center
-  background: #fff
-  padding-left: 12px
+.app-level
+  height: 48px
+  margin-bottom: 0
   border-bottom: 1px solid $border
-
-.app-body
-  flex: 2
-  display: flex
-  flex-flow: row
-
-.app-sidebar
-  width: 200px
-  height: 100%
-  background: #FFF
-  overflow-y: auto
-  overflow-x: hidden
-  border-right: 1px solid $border
 
 .rightbar
   top: 0
@@ -58,25 +38,8 @@
   background-color: #FFF
   border-left: 1px solid $border
 
-.app-main
-  flex: 2
-  z-index: 20
-  border-left: 1px solid $border
-  overflow: hidden
-  background: #fff
-
 .is-inline
   display: inline
-
-.login-dialog
-  position: absolute
-  padding: 20px 28px 20px 28px
-  box-shadow: $box-shadow
-  border-radius: 6px
-  width: 320px
-  left: calc(50% - 160px)
-  top: calc(30%)
-  background: #fff
 
 // editable table
 
