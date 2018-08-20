@@ -3,27 +3,27 @@
 .animated
   animation-duration: .333s
 
-// iconfont
+// iconfont  
 @import url("//at.alicdn.com/t/font_433051_gxtmuovilb.css")
 
 /**
- * bulma lifecycle
- * 1. initial-variables configs
- * 2. bulma sass framework
- * 3. custom extensions
+ * bulma 生命周期
+ * 1. 加载自定义变量
+ * 2. 加载原生 bulma 框架
+ * 3. 引入自定义扩展 sass
  **/
 
 @import 'config.sass'
 @import '~bulma'
-@import 'extension/_all'
-
-.rightbar-is-active
-  margin-right: 280px
+@import '@/packages/bulma/sass/extension/_all.sass'
 
 .app-level
   height: 48px
   margin-bottom: 0
   border-bottom: 1px solid $border
+
+.rightbar-is-active
+  margin-right: 280px
 
 .rightbar
   top: 0
@@ -40,8 +40,6 @@
 
 .is-inline
   display: inline
-
-// editable table
 
 // pagination
 .pagination-link,
