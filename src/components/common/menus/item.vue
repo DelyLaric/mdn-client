@@ -104,6 +104,8 @@ export default {
         const route = this.$route.matched.find(route => route.name === this.route.name)
         if (!route) return false
 
+        if (!this.route.params) return true
+
         for (let key in this.$route.params) {
           if (this.$route.params[key] !== this.route.params[key]) return false
         }

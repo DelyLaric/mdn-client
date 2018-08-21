@@ -1,5 +1,7 @@
 <template>
-  <div class="menu-list menu-container" :style="{'width': width}">
+  <div
+    class="menu-list menu-container"
+    :style="{'max-width': width, 'min-width': width}">
     <MenuItem
       v-for="menu in menus" :key="menu.text"
       v-bind="menu"
