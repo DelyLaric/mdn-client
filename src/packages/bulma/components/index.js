@@ -23,8 +23,10 @@ import Label from './Form/Label'
 import FieldBody from './Form/FieldBody'
 import FieldLabel from './Form/FieldLabel'
 import FieldError from './Form/Error'
+import Textarea from './Form/Textarea'
 
 import Loading from './Loading'
+import Loader from './Loader'
 import Message from './Message'
 
 import RadioTable from './Form/RadioTable'
@@ -45,6 +47,7 @@ export default {
     Vue.component('Tabs', Tabs.Tabs)
     Vue.component('TabItem', Tabs.TabItem)
     Vue.component('Title', Title)
+    Vue.component('Textarea', Textarea)
 
     Vue.component('ButtonList', ButtonList)
     Vue.component('ButtonListItem', ButtonListItem)
@@ -58,6 +61,7 @@ export default {
     Vue.component('FieldBody', FieldBody)
     Vue.component('FieldLabel', FieldLabel)
     Vue.component('Label', Label)
+    Vue.component('Loader', Loader)
 
     Vue.component('RadioTable', RadioTable)
 
