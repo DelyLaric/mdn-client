@@ -12,7 +12,7 @@
       <section class="modal-card-body">
         工厂
         <span class="tag is-medium">
-          {{plant}}
+          {{plant.name}}
         </span>
         将无法恢复
       </section>
@@ -25,39 +25,36 @@
         <button
           class="button"
           @click="handleClose">
-        取消</button>
+          取消
+        </button>
       </footer>
     </div>
   </div>
 </template>
 
 <script>
-import { remove } from '@/api/plants'
-import { getLocalStore } from '../_runtime'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  props: {
-    plant: String
-  },
-
-  data () {
-    return {
-      store: getLocalStore()
-    }
-  },
+  computed: mapGetters({
+    plant: 'plants/plant'
+  }),
 
   methods: {
+    ...mapActions({
+      delete: 'plants/delete'
+    }),
+
     handleClose () {
       this.$router.push({
-        name: 'plants',
+        name: 'plant manage',
+        params: { plant: this.plant.name }
       })
     },
 
     async handleConfirm () {
-      await remove(this.plant)
-
-      this.store.commit('removePlant', this.plant)
-      this.handleClose()
+      await this.delete()
+      this.$router.push({name: 'plants'})
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="modal-background" @click="handleClose"></div>
     <div class="modal-card" style="max-width: 560px;">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加流程属性</p>
+        <p class="modal-card-title">创建工厂</p>
         <button
           class="delete"
           @click="handleClose">
@@ -17,9 +17,7 @@
 </template>
 
 <script>
-import { create } from '@/api/plants'
-import { getLocalStore } from '../_runtime'
-
+import { mapActions } from 'vuex'
 import IntelliForm from '@/components/common/form'
 
 export default {
@@ -27,24 +25,22 @@ export default {
     IntelliForm
   },
 
-  data () {
-    return {
-      store: getLocalStore()
-    }
-  },
-
   computed: {
     schema
   },
 
   methods: {
+    ...mapActions({
+      create: 'plants/create'
+    }),
+
     handleClose () {
       this.$router.push({name: 'plants'})
     },
 
     async handleSubmit (params) {
       this.$store.dispatch('wait', async () => {
-        this.store.commit('addPlant', await create(params))
+        this.create(params)
         this.handleClose()
       })
     }
@@ -71,9 +67,14 @@ function schema () {
     ],
 
     submit: {
-      label: '创建属性',
+      label: '创建工厂',
 
-      handler: this.handleSubmit
+      handler: params => this.$store.dispatch(
+        'wait', async () => {
+          this.create(params)
+          this.handleClose()
+        }
+      )
     },
 
     validation: {

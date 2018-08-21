@@ -14,7 +14,7 @@
         v-for="(column, key) in columns"
         :key="column.id"
         :column="column"
-        @select="store.commit('selectColumn', key)"
+        @select="handleSelect(key)"
       />
     </tbody>
     <router-view :key="$route.path"/>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { storeMixin } from '../_runtime'
+import { mapState, mapMutations } from 'vuex'
 
 import AreaColumn from './item'
 
@@ -31,16 +31,12 @@ export default {
     AreaColumn
   },
 
-  mixins: [storeMixin],
+  computed: mapState({
+    columns: state => state.columns.columns
+  }),
 
-  computed: {
-    columns () {
-      return this.store.state.columns
-    },
-
-    newColumns () {
-      return this.store.state.newColumns
-    }
-  }
+  methods: mapMutations({
+    handleSelect: 'columns/selectColumn'
+  })
 }
 </script>

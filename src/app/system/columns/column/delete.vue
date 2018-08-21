@@ -12,7 +12,7 @@
       <section class="modal-card-body">
         流程属性
         <span class="tag is-medium">
-          {{column}}
+          {{column.name}}
         </span>
         将无法恢复
       </section>
@@ -32,32 +32,28 @@
 </template>
 
 <script>
-import { remove } from '@/api/area-columns'
-import { getLocalStore } from '../_runtime'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  props: {
-    column: String
-  },
-
-  data () {
-    return {
-      store: getLocalStore()
-    }
-  },
+  computed: mapGetters({
+    column: 'columns/column'
+  }),
 
   methods: {
+    ...mapActions({
+      delete: 'plants/delete'
+    }),
+
     handleClose () {
       this.$router.push({
-        name: 'area columns',
+        name: 'area column manage',
+        params: { column: this.column.name }
       })
     },
 
     async handleConfirm () {
-      await remove(this.column)
-
-      this.store.commit('removeColumn', this.column)
-      this.handleClose()
+      await this.delete()
+      this.$router.push({name: 'area columns'})
     }
   }
 }

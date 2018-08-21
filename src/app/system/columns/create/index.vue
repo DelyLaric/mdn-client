@@ -17,9 +17,7 @@
 </template>
 
 <script>
-import { create } from '@/api/area-columns'
-import { getLocalStore } from '../_runtime'
-
+import { mapActions } from 'vuex'
 import IntelliForm from '@/components/common/form'
 
 export default {
@@ -27,24 +25,22 @@ export default {
     IntelliForm
   },
 
-  data () {
-    return {
-      store: getLocalStore()
-    }
-  },
-
   computed: {
     schema
   },
 
   methods: {
+    ...mapActions({
+      create: 'columns/create'
+    }),
+
     handleClose () {
       this.$router.push({name: 'area columns'})
     },
 
     async handleSubmit (params) {
       this.$store.dispatch('wait', async () => {
-        this.store.commit('addColumn', await create(params))
+        this.create(params)
         this.handleClose()
       })
     }
