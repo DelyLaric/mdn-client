@@ -1,5 +1,5 @@
 <template>
-  <div class="modal is-active">
+  <div v-if="plant" class="modal is-active">
     <div class="modal-background" @click="handleClose"></div>
     <div class="modal-card" style="width: 600px">
       <header class="modal-card-head">
@@ -21,7 +21,7 @@
           class="button is-danger"
           @click="$router.push({
             name: 'plant delete',
-            params: { plant }
+            params: { plant: plant.name }
           })">删除工厂
         </a>
       </div>
@@ -31,9 +31,7 @@
 </template>
 
 <script>
-import { remove } from '@/api/plants'
-import { storeMixin } from '../_runtime'
-
+import { mapGetters } from 'vuex'
 import NameField from './name'
 import CommentField from './comment'
 
@@ -45,24 +43,15 @@ export default {
     CommentField
   },
 
-  mixins: [storeMixin],
-
-  props: {
-    plant: String
-  },
+  computed: mapGetters({
+    plant: 'plants/plant'
+  }),
 
   methods: {
     handleClose () {
       this.$router.push({
         name: 'plants'
       })
-    },
-
-    async handleConfirm () {
-      await remove(this.plant)
-
-      this.store.commit('removePlant', this.plant)
-      this.handleClose()
     }
   }
 }

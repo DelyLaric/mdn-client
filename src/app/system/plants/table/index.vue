@@ -13,7 +13,7 @@
         v-for="(plant, key) in plants"
         :key="plant.id"
         :plant="plant"
-        @select="store.commit('selectPlant', key)"
+        @select="handleSelect(key)"
       />
     </tbody>
     <router-view :key="$route.path"/>
@@ -21,20 +21,20 @@
 </template>
 
 <script>
-import { storeMixin } from '../_runtime'
+import { mapState, mapMutations } from 'vuex'
 import PlantItem from './item'
 
 export default {
-  mixins: [storeMixin],
-
   components: {
     PlantItem
   },
 
-  computed: {
-    plants () {
-      return this.store.state.plants
-    }
-  }
+  computed: mapState({
+    plants: state => state.plants.plants
+  }),
+
+  methods: mapMutations({
+    handleSelect: 'plants/selectPlant'
+  })
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!$store.getters.isLoading"
+    v-if="!isLoading"
     class="full-container has-background-white"
     style="padding: 0.75rem; overflow: auto">
     <Title>工厂</Title>
@@ -9,17 +9,15 @@
     <a
       class="button is-primary"
       @click="$router.push({name: 'plant create'})">
-      添加属性
+      创建工厂
     </a>
   </div>
   <div v-else class="loading" />
 </template>
 
 <script>
-import { getLocalStore } from './_runtime'
-import { search } from '@/api/plants'
+import { mapState } from 'vuex'
 import PlantsTable from './table'
-import store from './_store'
 
 export default {
   name: 'Plants',
@@ -28,20 +26,8 @@ export default {
     PlantsTable
   },
 
-  computed: {
-    store: getLocalStore
-  },
-
-  created () {
-    this.$store.registerModule('plants', store)
-
-    this.$store.dispatch('load', async () => {
-      this.store.commit('setPlants', await search())
-    })
-  },
-
-  beforeDestroy () {
-    this.$store.unregisterModule('plants')
-  }
+  computed: mapState({
+    isLoading: 'plants/isLoading'
+  })
 }
 </script>

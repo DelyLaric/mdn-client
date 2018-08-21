@@ -1,5 +1,5 @@
 <template>
-  <div class="modal is-active">
+  <div v-if="column" class="modal is-active">
     <div class="modal-background" @click="handleClose"></div>
     <div class="modal-card" style="width: 600px">
       <header class="modal-card-head">
@@ -23,7 +23,7 @@
           class="button is-danger"
           @click="$router.push({
             name: 'area column delete',
-            params: { column }
+            params: { column: column.name }
           })">删除属性
         </a>
       </div>
@@ -33,8 +33,7 @@
 </template>
 
 <script>
-import { remove } from '@/api/area-columns'
-import { storeMixin } from '../_runtime'
+import { mapGetters } from 'vuex'
 
 import NameField from './name'
 import TextField from './text'
@@ -49,24 +48,15 @@ export default {
     CommentField
   },
 
-  mixins: [storeMixin],
-
-  props: {
-    column: String
-  },
+  computed: mapGetters({
+    column: 'columns/column'
+  }),
 
   methods: {
     handleClose () {
       this.$router.push({
         name: 'area columns'
       })
-    },
-
-    async handleConfirm () {
-      await remove(this.column)
-
-      this.store.commit('removeColumn', this.column)
-      this.handleClose()
     }
   }
 }

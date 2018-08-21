@@ -1,0 +1,44 @@
+<script>
+import { mapActions } from 'vuex'
+
+export default {
+  render (h) {
+    return this.isLoading ?
+      h('div', { class: 'loading' }) :
+      this.$slots.default[0]
+  },
+
+  data () {
+    return {
+      isLoading: false
+    }
+  },
+
+  methods: {
+    handleLoad,
+    ...mapActions({
+      getPlants: 'plants/search',
+      getColumns: 'columns/search'
+    })
+  },
+
+  created () {
+    this.handleLoad([
+      this.getPlants,
+      this.getColumns
+    ])
+  }
+}
+
+async function handleLoad (callbacks) {
+  this.isLoading = true
+
+  try {
+    await Promise.all(callbacks.map(
+      async callback => await callback()
+    ))
+  } finally {
+    this.isLoading = false
+  }
+}
+</script>

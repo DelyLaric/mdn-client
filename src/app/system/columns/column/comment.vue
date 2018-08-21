@@ -19,12 +19,9 @@
 </template>
 
 <script>
-import { updateComment } from '@/api/area-columns'
-import { storeMixin } from '../_runtime'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  mixins: [storeMixin],
-
   data () {
     return {
       inputValue: ''
@@ -32,9 +29,9 @@ export default {
   },
 
   computed: {
-    column () {
-      return this.store.getters.selectedColumn
-    },
+    ...mapGetters({
+      column: 'columns/column'
+    }),
 
     isModified () {
       return this.inputValue !== this.column.comment
@@ -52,12 +49,14 @@ export default {
   },
 
   methods: {
-    async handleSave () {
-      // 处理 disabled 元素依然出发 click 事件的 bug
-      if (!this.isModified) return
-      await updateComment(this.column.name, this.inputValue)
+    ...mapActions({
+      update: 'columns/updateComment'
+    }),
 
-      this.column.comment = this.inputValue
+    async handleSave () {
+      if (this.isModified) {
+        await this.update(this.inputValue)
+      }
     }
   }
 }
