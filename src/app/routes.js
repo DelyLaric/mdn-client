@@ -1,3 +1,5 @@
+import SystemRoutes from './system/routes'
+
 export default [
   {
     path: '/test',
@@ -9,7 +11,7 @@ export default [
     name: 'home page',
     component: () => import('./homepage'),
     children: [
-
+      SystemRoutes
     ]
   }
 ]

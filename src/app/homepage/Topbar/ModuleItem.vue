@@ -1,9 +1,9 @@
 <template>
-  <p
-    class="level-item is-unselectable"
-    @click="$router.push({name: route})">
-    <strong v-if="hasMatched(route)">流程区域管理</strong>
-    <a v-else>流程区域管理</a>
+  <p class="level-item is-unselectable">
+    <strong v-if="hasMatched(route)">{{text}}</strong>
+    <a v-else @click="handleClick">
+      {{text}}
+    </a>
   </p>
 </template>
 
@@ -23,6 +23,10 @@ export default {
       return Boolean(this.$route.matched.find(
         route => route.name === routeName
       ))
+    },
+
+    handleClick () {
+      this.$router.push({name: this.route})
     }
   }
 }

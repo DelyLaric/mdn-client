@@ -1,9 +1,9 @@
 <template>
-  <div class="level-left" style="cursor: pointer">
+  <div class="level-left is-unselectable" style="cursor: pointer">
     <p
       class="app-logo title is-3"
       @click="$router.push('/')">
-      LOGO
+      &nbsp;LOGO
     </p>
   </div>
 </template>

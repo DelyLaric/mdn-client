@@ -15,24 +15,22 @@
 
 <script>
 import Logo from './Logo'
+import PlantItem from './PlantItem'
 import ModuleItem from './ModuleItem'
 
 export default {
   components: {
     Logo,
-    ModuleItem
+    ModuleItem,
+    PlantItem
   },
 
   data () {
     return {
       moduleItems: [
-
+        { route: 'system', text: '系统管理' }
       ]
     }
-  },
-
-  methods: {
-
   }
 }
 </script>

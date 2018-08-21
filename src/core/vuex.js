@@ -4,4 +4,10 @@ import store from '@/store'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store(store)
+const AppStore = new Vuex.Store(store)
+
+export function getNamespacedStore (namespace) {
+  return AppStore._modulesNamespaceMap[namespace + '/'].context
+}
+
+export default AppStore
