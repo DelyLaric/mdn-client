@@ -1,8 +1,8 @@
 <template>
   <p class="level-item is-unselectable">
-    <strong v-if="hasMatched(route)">流程区域管理</strong>
+    <strong v-if="hasMatched(route)">{{text}}</strong>
     <a v-else @click="handleClick">
-      流程区域管理
+      {{text}}
     </a>
   </p>
 </template>

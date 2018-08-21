@@ -11,9 +11,12 @@
 
 <script>
 import Topbar from './Topbar'
+import Configer from './Configer'
 
 export default {
   name: 'Homepage',
+
+  mixins: [Configer],
 
   components: {
     Topbar
