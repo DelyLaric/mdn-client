@@ -1,3 +1,6 @@
+import plants from './plants'
+import columns from './columns'
+
 export default {
   state: {
     isWaiting: false,
@@ -48,5 +51,10 @@ export default {
         commit('unsetLoading')
       }
     }
+  },
+
+  modules: {
+    plants,
+    columns
   }
 }
