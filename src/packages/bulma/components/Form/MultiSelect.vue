@@ -1,8 +1,10 @@
 <template>
   <div
     class="table-container is-unselectable"
-    :style="{'max-height': height}"
-  >
+    :style="{
+      'max-height': height,
+      'overflow': 'auto'
+    }">
     <table class="table is-hoverable is-centered is-narrow is-bordered is-fullwidth">
       <thead>
         <th>&nbsp;</th>
@@ -42,7 +44,7 @@ export default {
 
     height: {
       type: String,
-      default: '500px'
+      default: '300px'
     }
   },
 

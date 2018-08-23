@@ -19,10 +19,9 @@ export default {
   },
 
   getters: {
-    mapByPlantId: state => state.list.reduce(
+    mapIdByPlantId: state => state.list.reduce(
       (res, areaId) => {
-        const id = state.data[areaId]
-
+        const id = state.data[areaId].plant_id
         if (res[id]) res[id].push(areaId)
         else res[id] = [areaId]
 
