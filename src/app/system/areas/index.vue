@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import PlantItem from './item'
 
@@ -33,17 +33,9 @@ export default {
 
   name: 'Areas',
 
-  computed: mapState({
-    plants: state => state.plants.plants,
-    areaIds: state => state.areas.list.reduce(
-      (res, areaId) => {
-        const id = state.areas.data[areaId].plant_id
-        if (res[id]) res[id].push(areaId)
-        else res[id] = [areaId]
-
-        return res
-      }, {}
-    )
+  computed: mapGetters({
+    plants: 'plants/plants',
+    areaIds: 'areas/mapIdByPlantId'
   })
 }
 </script>
