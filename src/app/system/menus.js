@@ -6,7 +6,7 @@ export default [
   },
   {
     text: '区域属性管理',
-    icon: 'table',
+    icon: 'attributes',
     route: { name: 'area columns' }
   },
   {
