@@ -7,6 +7,7 @@
       <MultiSelect
         :value="value"
         :options="options"
+        :text="field.selectText"
         @change="setValue"
       />
     </Control>

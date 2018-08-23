@@ -10,9 +10,9 @@
         </button>
       </header>
       <section class="modal-card-body">
-        流程属性
+        流程区域
         <span class="tag is-medium">
-          {{column.name}}
+          {{area.text}}
         </span>
         将无法恢复
       </section>
@@ -27,33 +27,40 @@
           @click="handleClose">
         取消</button>
       </footer>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
-  computed: mapGetters({
-    column: 'columns/column'
+  props: {
+    areaId: [String, Number]
+  },
+
+  computed: mapState({
+    area (state) {
+      return state.areas.data[this.areaId]
+    }
   }),
 
   methods: {
     ...mapActions({
-      delete: 'columns/delete'
+      delete: 'areas/delete'
     }),
 
     handleClose () {
       this.$router.push({
-        name: 'area column manage',
-        params: { column: this.column.name }
+        name: 'area manage',
+        params: { areaId: this.areaId }
       })
     },
 
     async handleConfirm () {
-      await this.delete()
-      this.$router.push({name: 'area columns'})
+      await this.delete(this.areaId)
+      this.$router.push({name: 'areas'})
     }
   }
 }

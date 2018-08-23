@@ -11,9 +11,18 @@
       </header>
 
       <section class="modal-card-body">
-        <NameField />
+        <InputModifyField
+          text="工厂名"
+          :data="plant.name"
+          :handler="updateName"
+        />
         <div style="height: 12px"></div>
-        <CommentField />
+        <InputModifyField
+          text="备注"
+          width="320px"
+          :data="plant.comment"
+          :handler="updateComment"
+        />
       </section>
 
       <div class="modal-card-foot">
@@ -31,16 +40,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import NameField from './name'
-import CommentField from './comment'
+import { mapGetters, mapActions } from 'vuex'
+
+import InputModifyField from '@/components/common/input-modify-field'
 
 export default {
   name: 'PlantManage',
 
   components: {
-    NameField,
-    CommentField
+    InputModifyField
   },
 
   computed: mapGetters({
@@ -48,6 +56,11 @@ export default {
   }),
 
   methods: {
+    ...mapActions('plants', [
+      'updateName',
+      'updateComment'       
+    ]),
+
     handleClose () {
       this.$router.push({
         name: 'plants'

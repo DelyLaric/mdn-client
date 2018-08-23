@@ -11,11 +11,28 @@
       </header>
 
       <section class="modal-card-body">
-        <NameField />
+        <InputModifyField
+          text="字段名"
+          :data="column.name"
+          :handler="updateName"
+        />
+
         <div style="height: 12px"></div>
-        <TextField />
+
+        <InputModifyField
+          text="属性名"
+          :data="column.text"
+          :handler="updateText"
+        />
+
         <div style="height: 12px"></div>
-        <CommentField />
+
+        <InputModifyField
+          text="备注"
+          width="320px"
+          :data="column.comment"
+          :handler="updateComment"
+        />
       </section>
 
       <div class="modal-card-foot">
@@ -33,19 +50,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
-import NameField from './name'
-import TextField from './text'
-import CommentField from './comment'
+import InputModifyField from '@/components/common/input-modify-field'
 
 export default {
   name: 'AreaColumnManage',
 
   components: {
-    NameField,
-    TextField,
-    CommentField
+    InputModifyField
   },
 
   computed: mapGetters({
@@ -53,10 +66,20 @@ export default {
   }),
 
   methods: {
+    ...mapActions('columns', [
+      'updateName',
+      'updateText',
+      'updateComment'
+    ]),
+
     handleClose () {
       this.$router.push({
         name: 'area columns'
       })
+    },
+
+    handleChange (callback) {
+      console.log(event)
     }
   }
 }

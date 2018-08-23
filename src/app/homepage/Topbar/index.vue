@@ -2,12 +2,13 @@
   <nav class="app-level level">
     <Logo />
     <div class="level-right">
+      <PlantItem style="margin-right: 12px" />
       <ModuleItem
         v-for="item in moduleItems"
         :key="item.route"
         v-bind="item"
       />
-      <p class="level-item" style="width: 6px">
+      <p class="level-item" style="width: 20px">
       </p>
     </div>
   </nav>
@@ -28,7 +29,7 @@ export default {
   data () {
     return {
       moduleItems: [
-        { route: 'system', text: '系统管理' }
+        { route: 'system', text: '后台管理' }
       ]
     }
   }

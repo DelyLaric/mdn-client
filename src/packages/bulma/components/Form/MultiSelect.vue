@@ -5,24 +5,20 @@
   >
     <table class="table is-hoverable is-centered is-narrow is-bordered is-fullwidth">
       <thead>
-        <th></th>
-        <th>选项</th>
+        <th>&nbsp;</th>
+        <th>{{text}}</th>
       </thead>
       <tbody>
         <tr
           v-for="option in options"
-          :key="option.label"
           :class="{'is-hovered': value.indexOf(option.value) !== -1}"
           style="cursor: pointer;"
-          @click="check(option.value)"
-        >
+          @click="check(option.value)">
           <td style="width: 1px">
-            <Checkbox
-              :checked="value.indexOf(option.value) !== -1"
-            />
+            <Checkbox :checked="value.indexOf(option.value) !== -1"/>
           </td>
           <td>
-            {{option.label}}
+            {{option.text}}
           </td>
         </tr>
       </tbody>
@@ -39,6 +35,8 @@ export default {
 
   props: {
     value: Array,
+
+    text: [String, Array],
 
     options: Array,
 

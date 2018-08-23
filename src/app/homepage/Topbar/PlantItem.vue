@@ -3,32 +3,36 @@
     @mouseover="isShowPlants = true"
     @mouseout="isShowPlants = false"
     :class="{'is-active': isShowPlants}"
-    class="dropdown level-item is-left">
-    <div class="dropdown-trigger">
-      <span>空间管理</span>
+    class="dropdown is-left">
+    <div
+      class="dropdown-trigger"
+      style="white-space: nowrap; width: 4.15em;"
+      :class="{'is-active': hasMatched || isShowPlants}">
+      <span>
+        工厂管理
+      </span>
       <Icon name="arrow-down" />
     </div>
+      <Icon name="arrow-downs" />
     <div class="dropdown-menu" id="dropdown-menu" role="menu">
-      <div class="dropdown-content">
+      <div class="dropdown-content" style="max-width: 160px;">
         <a
           v-for="plant in plants" :key="plant.name"
-          :class="{ 'is-active': plant.name === $route.params.plant }"
-          :href="`#/plants/${plant.name}`"
+          :href="`#/plants/${plant.id}`"
+          :class="{'is-active': isMatchedPlant(plant.id)}"
           class="dropdown-item"
-          v-text="plant.text"
+          v-text="plant.name"
         />
-        <hr class="dropdown-divider" v-if="plants.length">
-        <a href="#/system/plants/create" class="dropdown-item">
-          创建工厂
-        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'TopbarSpaces',
+  name: 'TopbarPlants',
 
   data () {
     return {
@@ -36,9 +40,21 @@ export default {
     }
   },
 
-  computed: {
-    plants () {
-      return []
+  computed: mapState({
+    plants: state => state.plants.plants,
+
+    hasMatched () {
+      return this.$route.matched.findIndex(
+        route => route.name === 'plant index'
+      ) !== -1
+    }
+  }),
+
+  methods: {
+    isMatchedPlant (plantId) {
+      return this.hasMatched && plantId === parseInt(
+        this.$route.params.plantId
+      )
     }
   }
 }

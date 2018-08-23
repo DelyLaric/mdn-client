@@ -3,7 +3,7 @@
     <p
       class="app-logo title is-3"
       @click="$router.push('/')">
-      &nbsp;LOGO
+      &nbsp;&nbsp;LOGO
     </p>
   </div>
 </template>

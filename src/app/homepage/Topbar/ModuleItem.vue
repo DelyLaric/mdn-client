@@ -1,10 +1,13 @@
 <template>
-  <p class="level-item is-unselectable">
-    <strong v-if="hasMatched(route)">{{text}}</strong>
-    <a v-else @click="handleClick">
-      {{text}}
-    </a>
-  </p>
+  <a
+    @click="handleClick"
+    :class="{
+      'level-item': true,
+      'is-unselectable': true,
+      'is-active': hasMatched(),
+    }">
+    {{text}}
+  </a>
 </template>
 
 <script>
@@ -19,14 +22,16 @@ export default {
   },
 
   methods: {
-    hasMatched (routeName) {
+    hasMatched () {
       return Boolean(this.$route.matched.find(
-        route => route.name === routeName
+        route => route.name === this.route
       ))
     },
 
     handleClick () {
-      this.$router.push({name: this.route})
+      if (!this.hasMatched()) {
+        this.$router.push({name: this.route})
+      }
     }
   }
 }

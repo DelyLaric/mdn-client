@@ -17,13 +17,15 @@ export default {
   methods: {
     handleLoad,
     ...mapActions({
+      getAreas: 'areas/search',
       getPlants: 'plants/search',
-      getColumns: 'columns/search'
+      getColumns: 'columns/search',
     })
   },
 
   created () {
     this.handleLoad([
+      this.getAreas,
       this.getPlants,
       this.getColumns
     ])

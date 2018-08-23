@@ -10,6 +10,8 @@ export default {
   namespaced: true,
 
   state: {
+    list: [],
+    data: [],
     plants: [],
 
     pointer: 0,
@@ -17,14 +19,24 @@ export default {
   },
 
   getters: {
-    plant (state) {
-      return state.plants[state.pointer]
-    }
+    plant: state => state.plants[state.pointer],
+
+    plants: state => state.plants
   },
 
   mutations: {
     setPlants (state, plants) {
       state.plants = plants
+
+      const data = {}
+
+      state.list = []
+      plants.forEach(plant => {
+        state.list.push(plant.id)
+        data[plant.id] = plant
+      })
+
+      state.data = data
     },
 
     addPlant (state, plant) {

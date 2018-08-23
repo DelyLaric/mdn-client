@@ -259,6 +259,6 @@ function valueHandler (value) {
   // 处理 null 为 object 的诡异设计
   if (value === null) return null
   let type = typeof value
-  return type === 'object' ? JSON.stringify(value) : value
+  return value
 }
 </script>

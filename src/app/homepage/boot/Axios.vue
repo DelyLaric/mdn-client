@@ -13,7 +13,7 @@ export default {
 
 function setHttpConfig () {
   http.interceptors.request.use((config) => {
-    this.$loading.start()
+    // this.$loading.start()
 
     return config
   }, function (error) {
@@ -27,7 +27,7 @@ function setHttpConfig () {
         this.$message.success({title: response.data.message})
         break
     }
-    this.$loading.finish()
+    // this.$loading.finish()
 
     return response
   }, (error) => {
@@ -54,7 +54,7 @@ function setHttpConfig () {
       type: 'danger'
     })
 
-    this.$loading.error()
+    // this.$loading.error()
     return Promise.reject(error)
   })
 }

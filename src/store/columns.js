@@ -5,13 +5,14 @@ import {
   updateName,
   updateText,
   updateComment
-} from '@/api/area-columns'
+} from '@/api/columns'
 
 export default {
   namespaced: true,
 
   state: {
     columns: [],
+    result: [],
 
     pointer: 0,
     isLoading: true
@@ -20,6 +21,13 @@ export default {
   getters: {
     column (state) {
       return state.columns[state.pointer]
+    },
+
+    mapById (state) {
+      return state.columns.reduce((res, column) => {
+        res[column.id] = column
+        return res
+      }, {})
     }
   },
 
