@@ -1,7 +1,9 @@
 export default {
   state: {
     isWaiting: false,
-    isLoading: []
+    isLoading: [],
+
+    app: {}
   },
 
   getters: {
