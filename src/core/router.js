@@ -4,6 +4,10 @@ import routes from '@/app/routes'
 
 Vue.use(Router)
 
+function getValue (value) {
+  return typeof value === 'number' ? value.toString() : value
+}
+
 Router.prototype.hasMatched = function ({name, params}) {
   const route = this.app.$route
   const hasMatched = route.matched.findIndex(
@@ -13,7 +17,10 @@ Router.prototype.hasMatched = function ({name, params}) {
   if (!hasMatched || !params) return hasMatched
 
   for (let key in params) {
-    if (route.params[key] !== params[key]) {
+    if (
+      getValue(params[key]) !==
+      getValue(route.params[key])
+    ) {
       return false
     }
   }
