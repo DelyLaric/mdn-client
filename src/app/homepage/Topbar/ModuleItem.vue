@@ -2,7 +2,7 @@
   <a
     @click="handleClick"
     :class="{
-      'level-item': true,
+      'app-level-item': true,
       'is-unselectable': true,
       'is-active': hasMatched(),
     }">
@@ -23,9 +23,7 @@ export default {
 
   methods: {
     hasMatched () {
-      return Boolean(this.$route.matched.find(
-        route => route.name === this.route
-      ))
+      return this.$router.hasMatched({name: this.route})
     },
 
     handleClick () {

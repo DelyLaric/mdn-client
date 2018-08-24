@@ -1,10 +1,10 @@
 <template>
-  <div class="level-left is-unselectable" style="cursor: pointer">
-    <p
+  <div class="is-unselectable" style="cursor: pointer">
+    <div
       class="app-logo title is-3"
       @click="$router.push('/')">
-      &nbsp;&nbsp;LOGO
-    </p>
+      LOGO
+    </div>
   </div>
 </template>
 

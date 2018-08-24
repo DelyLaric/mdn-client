@@ -1,17 +1,19 @@
 <template>
-  <nav class="app-level level">
+  <div class="app-level is-flex" style="align-items: center; white-space: nowrap">
+    <div style="width: 0.75rem"></div>
+
     <Logo />
-    <div class="level-right">
-      <PlantItem style="margin-right: 12px" />
-      <ModuleItem
-        v-for="item in moduleItems"
-        :key="item.route"
-        v-bind="item"
-      />
-      <p class="level-item" style="width: 20px">
-      </p>
-    </div>
-  </nav>
+
+    <PlantItem style="margin-right: 12px; margin-left: auto" />
+
+    <ModuleItem
+      v-for="item in moduleItems"
+      :key="item.route"
+      v-bind="item"
+    />
+
+    <div style="width: 0.75rem"></div>
+  </div>
 </template>
 
 <script>

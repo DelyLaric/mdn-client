@@ -3,7 +3,7 @@
     @mouseover="isShowPlants = true"
     @mouseout="isShowPlants = false"
     :class="{'is-active': isShowPlants}"
-    class="dropdown is-left is-unselectable">
+    class="dropdown is-left is-unselectable" >
     <div
       class="dropdown-trigger"
       style="white-space: nowrap; width: 4.15em;"
