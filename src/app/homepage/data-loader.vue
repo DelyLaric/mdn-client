@@ -1,5 +1,5 @@
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   render (h) {
@@ -16,19 +16,22 @@ export default {
 
   methods: {
     handleLoad,
+
     ...mapActions({
       getAreas: 'areas/search',
       getPlants: 'plants/search',
-      getColumns: 'columns/search',
+      getColumns: 'columns/search'
     })
   },
 
   created () {
-    this.handleLoad([
+    const apis = [
       this.getAreas,
       this.getPlants,
       this.getColumns
-    ])
+    ]
+
+    this.handleLoad(apis)
   }
 }
 
