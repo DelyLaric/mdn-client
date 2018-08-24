@@ -101,16 +101,7 @@ export default {
       if (typeof this.route === 'string') {
         return this.$route.path === this.route
       } else {
-        const route = this.$route.matched.find(route => route.name === this.route.name)
-        if (!route) return false
-
-        if (!this.route.params) return true
-
-        for (let key in this.$route.params) {
-          if (this.$route.params[key] !== this.route.params[key]) return false
-        }
-
-        return true
+        return this.$router.hasMatched(this.route)
       }
     }
   },
