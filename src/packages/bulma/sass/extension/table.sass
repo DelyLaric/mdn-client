@@ -39,16 +39,22 @@
     &.is-error
       outline-color: $danger
     &.is-editable
+      white-space: nowrap
       -webkit-user-modify: read-write-plaintext-only
     &.is-editable,
     &.is-selectable,
       outline: 1px solid transparent
       &:hover
         cursor: pointer
+        outline-color: $primary
       &:focus,
       &.is-focus
         cursor: text
-        outline-color: $primary
+        outline-width: 1px
+        outline-color: $info
+      &.is-active
+        background-color: $white-bis
+        font-weight: bold
 
     &.is-centered
       text-align: center
