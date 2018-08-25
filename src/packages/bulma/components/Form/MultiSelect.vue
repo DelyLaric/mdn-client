@@ -17,7 +17,7 @@
           style="cursor: pointer;"
           @click="check(option.value)">
           <td style="width: 1px">
-            <Checkbox :checked="value.indexOf(option.value) !== -1"/>
+            <Checkbox :value="value.indexOf(option.value) !== -1"/>
           </td>
           <td>
             {{option.text}}
@@ -44,7 +44,7 @@ export default {
 
     height: {
       type: String,
-      default: '300px'
+      default: 'auto'
     }
   },
 

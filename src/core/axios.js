@@ -1,8 +1,8 @@
 import Axios from 'axios'
 
-const dev = true
+const dev = false
 const LOCAL_URL = 'http://mdn.api'
-const SERVER_URL = 'http://115.159.51.252:8000'
+const SERVER_URL = 'http://115.159.51.252:8001'
 
 if (dev) {
   Axios.defaults.baseURL = LOCAL_URL

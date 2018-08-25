@@ -87,6 +87,10 @@ export default {
     updateItemModified (state, {id, column, value}) {
       const item = state.data[id]
       const data = { ...item._isModified }
+      if (item[column] === value) {
+        return
+      }
+
       data[column] = value
 
       item._isModified = data
