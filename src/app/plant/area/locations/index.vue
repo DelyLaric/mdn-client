@@ -2,32 +2,48 @@
   <div
     class="full-container is-flex is-flex-column"
     style="padding: 0.5rem">
-    <div>
-      <div
-        class="buttons has-addons"
-        style="margin-right: 0.5rem">
+    <div class="is-flex">
+      <div class="buttons has-addons" style="margin-right: 0.5rem">
         <a
-          @click="search()"
-          :class="{ 'button': true, 'is-loading': isLoading }">
-          <Icon name="refresh"/>
+          @click="$store.dispatch('wait', handleCreateItem)"
+          :disabled="isLoading"
+          class="button">
+          <Icon name="create-record"/>
+          <span>新增</span>
         </a>
-      </div>
-
-      <div class="buttons has-addons">
         <a
           @click="$store.dispatch('wait', updateModifiedItems)"
           :disabled="!modifiedItems.length"
           class="button is-selected has-text-grey-dark">
-          <Icon name="save" />
+          <Icon name="save"/>
           <span>保存</span>
         </a>
         <a
           :disabled="!stateOfSelected"
           @click="$store.dispatch('wait', deleteItems)"
           class="button">
-          <Icon name="bin" />
+          <Icon name="bin"/>
           <span>删除</span>
         </a>
+      </div>
+
+      <div class="field has-addons">
+        <div class="control">
+          <input
+            :value="query" class="input"
+            type="text" style="width: 160px"
+            @change="setQuery($event.target.value)"
+            @keypress.enter="handleQueryEnter"
+          >
+        </div>
+        <div class="control">
+          <a
+            @click="search"
+            :class="{'is-loading': isLoading}"
+            class="button is-info">
+            <Icon name="search"/>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -36,16 +52,15 @@
     <div class="table-container is-flex-auto">
       <table
         v-if="!isLoading"
-        class="table is-hoverable is-fullwidth is-bordered is-nowraped">
+        class="table is-fullwidth is-bordered is-nowrapped">
         <thead>
           <td
             @click="handleCheck"
-            style="cursor: pointer">
-            <Checkbox :value="stateOfSelected" />
+            style="cursor: pointer; width: 1px">
+            <Checkbox :value="stateOfSelected"/>
           </td>
-          <th>#</th>
-          <th v-for="text in tableHeaders" :key="text">
-            {{text}}
+          <th v-for="column in tableColumns" :key="column.name">
+            {{column.text}}
           </th>
         </thead>
         <tbody>
@@ -53,7 +68,8 @@
             v-for="id in list"
             :key="id"
             :location="data[id]"
-            :columns="columns"
+            :columns="tableColumns"
+            ref="items"
           />
         </tbody>
       </table>
@@ -62,7 +78,7 @@
     <div style="height: 0.5rem"></div>
     <div>
       <a @click="handleDataExport" class="button">
-        <Icon name="download" />
+        <Icon name="download"/>
         <span>数据导出</span>
       </a>
       <Pagination
@@ -104,6 +120,7 @@ export default {
       list: state => state.locations.list,
       data: state => state.locations.data,
       meta: state => state.locations.meta,
+      query: state => state.locations.query,
       isLoading: state => state.locations.isLoading,
 
       area (state) {
@@ -126,21 +143,11 @@ export default {
       return this.area.column_ids.map(id => this.columnsMap[id])
     },
 
-    tableHeaders () {
-      const res = this.columns.map(column => column.text)
-      res.unshift('区域代码')
-
-      return res
-    }
-  },
-
-  watch: {
-    areaId: {
-      immediate: true,
-
-      handler (val) {
-        this.search()
-      }
+    tableColumns () {
+      return [
+        { name: 'location_id', text: '坐标代码' },
+        ...this.columns
+      ]
     }
   },
 
@@ -148,11 +155,13 @@ export default {
     ...vuex.mapActions('locations', [
       'search',
       'export',
+      'createItem',
       'deleteItems',
       'updateModifiedItems'
     ]),
 
     ...vuex.mapMutations({
+      setQuery: 'locations/setQuery',
       selectItem: 'locations/selectItem'
     }),
 
@@ -160,13 +169,33 @@ export default {
       this.selectItem(this.stateOfSelected !== true)
     },
 
+    handleQueryEnter (event) {
+      event.target.blur()
+      this.search()
+    },
+
+    async handleCreateItem () {
+      if (this.isLoading) return
+      const id = await this.createItem()
+      this.$refs.items.find(item => item.location.id === id).$refs.cells[0].focus()
+    },
+
     async handleDataExport () {
       let dataSource = []
       await this.$store.dispatch(
         'wait', async () => dataSource = await this.export()
       )
-      dataSource.unshift(this.tableHeaders)
+      dataSource.unshift(this.tableColumns.map(column => column.text))
       csv.download(this.area.text, dataSource)
+    }
+  },
+
+  watch: {
+    areaId: {
+      immediate: true,
+      handler (val) {
+        this.search()
+      }
     }
   }
 }

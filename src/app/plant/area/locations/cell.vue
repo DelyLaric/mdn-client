@@ -1,12 +1,12 @@
 <template>
   <td
-    class="is-editable"
-    :class="{'is-active': isChanged}"
-    v-text="value"
+    :class="{ 'is-active': isChanged, 'is-editable': true }"
+    v-html="value ? matchedText : value"
+    @keypress.enter="handleEsc"
     @focus="handleFocus"
     @blur="handleBlur"
-    @keypress.enter="handleEsc"
     tabindex="0"
+    ref="td"
   />
 </template>
 
@@ -16,6 +16,15 @@ export default {
     value: {},
 
     isChanged: {}
+  },
+
+  data () {
+    return {
+      matchedText: typeof this.value === 'string' ? this.value.replace(
+        this.$parent.queryText,
+        `<strong class="has-background-warning">${this.$parent.queryText}</strong>`
+      ) : this.value
+    }
   },
 
   methods: {
@@ -32,11 +41,18 @@ export default {
       const selection = window.getSelection()
       range.selectNodeContents(event.target)
       selection.removeAllRanges()
-      this.$emit('change', event.target.innerText)
+      const value = event.target.innerText.trim()
+      if (this.value !== value) {
+        this.$emit('change', value)
+      }
     },
 
     handleEsc (event) {
       event.target.blur()
+    },
+
+    focus () {
+      this.$refs.td.focus()
     }
   }
 }

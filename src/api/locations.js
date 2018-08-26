@@ -1,5 +1,11 @@
 import axios from '@/core/axios'
 
+export async function create(areaId) {
+  const { data } = await axios.post('locations/create', {areaId})
+
+  return data
+}
+
 export async function search (params) {
   const { data } = await axios.post('locations/search', params)
 

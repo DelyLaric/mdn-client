@@ -4,12 +4,13 @@ import {
   search,
   update,
   remove,
-  // create,
-  // updateName,
-  // updateText,
-  // updateComment,
-  // updateColumns
+  create
 } from '@/api/locations'
+
+const itemState = {
+  _isModified: {},
+  _isSelected: false,
+}
 
 export default {
   namespaced: true,
@@ -19,6 +20,8 @@ export default {
     data: {},
     meta: null,
 
+    query: undefined,
+
     isLoading: true
   },
 
@@ -27,9 +30,10 @@ export default {
       return app.$route.params.areaId
     },
 
-    params (state, {areaId}) {
+    params ({query}, {areaId}) {
       return {
-        areaId
+        query,
+        areaId,
       }
     },
 
@@ -57,18 +61,22 @@ export default {
 
   mutations: {
     setDataSource (state, dataSource) {
+      const data = {}
       state.meta = dataSource.meta
-      const _state = {
-        _isModified: {},
-        _isSelected: false,
-      }
 
       state.list = []
       dataSource.data.forEach(item => {
         state.list.push(item.id)
 
-        Vue.set(state.data, item.id, Object.assign(item, _state))
+        data[item.id] = Object.assign(item, itemState)
       })
+
+      state.data = data
+    },
+
+    setQuery (state, value) {
+      value = value.trim()
+      state.query = value === '' ? undefined : value
     },
 
     selectItem (state, id) {
@@ -84,10 +92,11 @@ export default {
       }
     },
 
-    updateItemModified (state, {id, column, value}) {
+    modifyItem (state, {id, column, value}) {
       const item = state.data[id]
       const data = { ...item._isModified }
-      if (item[column] === value) {
+
+      if (value === '' && item[column] === null) {
         return
       }
 
@@ -114,31 +123,11 @@ export default {
       })
     },
 
-    // addArea (state, area) {
-    //   state.list.push(area.id)
-    //   state.data[area.id] = area
-    // },
-
-    // removeArea (state, id) {
-    //   state.list.splice(state.list.indexOf(id), 1)
-    //   delete state.data[id]
-    // },
-
-    // updateName (state, {id, name}) {
-    //   state.data[id].name = name
-    // },
-
-    // updateText (state, {id, text}) {
-    //   state.data[id].text = text
-    // },
-
-    // updateComment (state, {id, comment}) {
-    //   state.data[id].comment = comment
-    // },
-
-    // updateColumns (state, {id, columns}) {
-    //   state.data[id].column_ids = columns
-    // },
+    addNewItem (state, item) {
+      state.list.unshift(item.id)
+      Object.assign(item, itemState)
+      Vue.set(state.data, item.id, item)
+    },
 
     startLoading (state) {
       state.isLoading = true
@@ -174,46 +163,27 @@ export default {
       })
     },
 
+    async createItem ({getters, commit}) {
+      const item = await create(getters.areaId)
+      commit('addNewItem', item)
+
+      return item.id
+    },
+
     async updateModifiedItems ({getters, commit}) {
+      if (getters.modifiedItems.length === 0) return
+
       await update(getters.modifiedItems)
 
       commit('updateModifiedItems', getters.modifiedItems.map(item => item.id))
     },
 
-    async deleteItems ({getters, commit}) {
+    async deleteItems ({getters, dispatch}) {
+      if (getters.selectedItems.length === 0) return
+
       const ids = getters.selectedItems.map(item => item.id)
       await remove(ids)
-
-      commit('deleteItems', ids)
+      dispatch('search')
     }
-
-    // async create ({commit}, params) {
-    //   commit('addArea', await create(params))
-    // },
-
-    // async delete ({commit}, id) {
-    //   await remove(id)
-    //   commit('removeArea', id)
-    // },
-
-    // async updateName ({commit}, {id, name}) {
-    //   await updateName(id, name)
-    //   commit('updateName', {id, name})
-    // },
-
-    // async updateText ({commit}, {id, text}) {
-    //   await updateText(id, text)
-    //   commit('updateText', {id, text})
-    // },
-
-    // async updateComment ({commit}, {id, comment}) {
-    //   await updateComment(id, comment)
-    //   commit('updateComment', {id, comment})
-    // },
-
-    // async updateColumns ({commit}, {id, columns}) {
-    //   await updateColumns(id, columns)
-    //   commit('updateColumns', {id, columns})
-    // }
   }
 }

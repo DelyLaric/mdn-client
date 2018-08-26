@@ -1,7 +1,7 @@
 <template>
   <div>
     测试页面
-    {{user}}
+    {{array}}
     <a class="button" @click="handleClick">
       test
     </a>
@@ -14,17 +14,14 @@ export default {
 
   data () {
     return {
-      user: {
-        name: 'laric',
-        id: 1
-      }
+      array: [{a: 1}, {b: 2}]
     }
   },
 
   methods: {
     handleClick () {
-      Object.defineProperty(this.user, 'email', { value: 'delylaric' })
-      console.log(this.user)
+      this.array[0].b = 100
+      this.array.splice(0, 1, this.array[0])
     }
   }
 }

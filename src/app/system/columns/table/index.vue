@@ -1,5 +1,5 @@
 <template>
-  <table class="table is-hoverable is-nowraped is-bordered">
+  <table class="table is-hoverable is-nowrapped is-bordered">
     <thead>
       <tr>
         <th style="width: 1px">编号</th>

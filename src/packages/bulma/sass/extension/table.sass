@@ -1,5 +1,6 @@
 .table
   margin-bottom: 0
+
   &.is-centered
     th,
     td
@@ -14,7 +15,7 @@
     thead
       background-color: #f9fafb
 
-  &.is-nowraped
+  &.is-nowrapped
     th,
     td
       white-space: nowrap
@@ -32,10 +33,10 @@
       border-color: $border
   &.is-editable
     td
-      border-width: 2px
       -webkit-user-modify: read-write-plaintext-only
   th,
   td
+    outline: 2px solid transparent
     &.is-error
       outline-color: $danger
     &.is-editable
@@ -43,17 +44,15 @@
       -webkit-user-modify: read-write-plaintext-only
     &.is-editable,
     &.is-selectable,
-      outline: 1px solid transparent
       &:hover
         cursor: pointer
-        outline-color: $primary
+        background-color: $background
       &:focus,
       &.is-focus
         cursor: text
-        outline-width: 1px
-        outline-color: $info
+        outline-color: #73a2e3
       &.is-active
-        background-color: $white-bis
+        background-color: #f2f6ff
         font-weight: bold
 
     &.is-centered
@@ -71,7 +70,7 @@
         z-index: 4
       &:hover
         &::after
-          border-color: $primary
+          border-color: #73a2e3
       &.is-focus
         .dropdown-menu
           display: block

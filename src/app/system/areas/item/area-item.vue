@@ -5,7 +5,7 @@
     @click="handleClick"
     :class="{'panel-block': true, 'is-active': isActive}"
     style="height: 60px; display: flex;">
-    <span>{{area.name}}</span>
+    <span>{{area.text}}</span>
     <span class="icon" style="margin-left: auto">
       <i class="iconfont icon-gear" />
     </span>
