@@ -1,13 +1,14 @@
 import Axios from 'axios'
+import Vue from 'vue'
 
-const dev = true
+const dev = false
 const LOCAL_URL = 'http://mdn.api'
 const SERVER_URL = 'http://115.159.51.252:8001'
 
-if (dev) {
-  Axios.defaults.baseURL = LOCAL_URL
-} else {
+if (Vue.productionTip || !dev) {
   Axios.defaults.baseURL = SERVER_URL
+} else {
+  Axios.defaults.baseURL = LOCAL_URL
 }
 
 const Http = Axios.create()
