@@ -8,7 +8,7 @@
         :style="{ width, 'margin-right': '6px' }"
       />
       <a
-        @click="$store.dispatch('wait', () => handler(value))"
+        @click="isModified && $store.dispatch('wait', () => handler(value))"
         class="button is-outlined"
         :disabled="!isModified">
         修改
