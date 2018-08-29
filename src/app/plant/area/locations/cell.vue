@@ -1,7 +1,7 @@
 <template>
   <td
     :class="{ 'is-active': isChanged, 'is-editable': true }"
-    v-html="value ? matchedText : value"
+    v-html="!isFocused && value ? matchedText : value"
     @keypress.enter="handleEsc"
     @focus="handleFocus"
     @blur="handleBlur"
@@ -14,12 +14,12 @@
 export default {
   props: {
     value: {},
-
-    isChanged: {}
+    isChanged: {},
   },
 
   data () {
     return {
+      isFocused: false,
       matchedText: typeof this.value === 'string' ? this.value.replace(
         this.$parent.queryText,
         `<strong class="has-background-warning">${this.$parent.queryText}</strong>`
@@ -29,6 +29,7 @@ export default {
 
   methods: {
     handleFocus (event) {
+      this.isFocused = true
       const range = document.createRange()
       const selection = window.getSelection()
       range.selectNodeContents(event.target)

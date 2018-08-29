@@ -23,6 +23,34 @@ export default {
           props: true
         }
       ]
+    },
+    {
+      path: 'projects',
+      name: 'plant projects',
+      component: () => import('./projects'),
+      props: true,
+      children: [
+        {
+          path: 'create',
+          name: 'project create',
+          component: () => import('./projects/create'),
+          props: true
+        },
+        {
+          path: ':projectId',
+          name: 'project manage',
+          component: () => import('./projects/manage'),
+          props: true,
+          children: [
+            {
+              path: 'delete',
+              name: 'project delete',
+              component: () => import('./projects/manage/delete'),
+              props: true
+            }
+          ]
+        }
+      ]
     }
   ]
 }

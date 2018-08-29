@@ -1,11 +1,22 @@
 .menu-list
+  height: 100%
+  overflow-y: auto
+  overflow-x: hidden
+  border-right: 1px solid $border
+  &.is-active
+    border-color: $primary
   a.is-active
     background-color: #e0eefa
     color: $text
 
 .menu-container
-  height: 100%
-  background: #FFF
-  overflow-y: auto
-  overflow-x: hidden
-  border-right: 1px solid $border
+  display: flex
+  .menu-toggler
+    width: 2rem
+    height: 2rem
+    z-index: 100
+    cursor: pointer
+    align-self: center
+    background-color: $border
+    &.is-active
+      background-color: $primary

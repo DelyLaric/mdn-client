@@ -3,6 +3,7 @@ import areas from './areas'
 import plants from './plants'
 import columns from './columns'
 import locations from './locations'
+import projects from './projects'
 
 export default {
   ...root,
@@ -10,6 +11,7 @@ export default {
     areas,
     plants,
     columns,
-    locations
+    locations,
+    projects
   }
 }

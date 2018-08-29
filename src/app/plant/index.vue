@@ -14,7 +14,7 @@ import MenuData from './menus'
 import MenuList from '@/components/common/menus'
 
 export default {
-  name: 'SystemAdmin',
+  name: 'PlantIndex',
 
   components: {
     MenuList

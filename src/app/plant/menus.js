@@ -1,13 +1,23 @@
 export default function () {
+  const plantId = this.plantId
+
   return [
+    {
+      text: '项目管理',
+      icon: 'table',
+      route: {
+        name: 'plant projects',
+        params: { plantId }
+      }
+    },
     {
       text: '区域数据',
       icon: 'process',
       expanding: true,
       children: this.areas.map(area => {
         const params = {
-          areaId: area.id,
-          plantId: this.plantId
+          plantId,
+          areaId: area.id
         }
 
         return {

@@ -1,7 +1,7 @@
 <template>
   <div v-if="area" class="modal is-active">
     <div class="modal-background" @click="handleClose"></div>
-    <div class="modal-card" style="width: 680px">
+    <div class="modal-card" style="width: 680px; height: 800px">
       <header class="modal-card-head">
         <p class="modal-card-title">流程属性管理</p>
         <button

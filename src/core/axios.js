@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import Vue from 'vue'
 
-const dev = false
+const dev = true
 const LOCAL_URL = 'http://mdn.api'
 const SERVER_URL = 'http://115.159.51.252:8001'
 
