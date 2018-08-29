@@ -12,7 +12,6 @@
       <Control>
         <Button
           color="primary"
-          :loading="isLoading"
           @click="handleSubmit"
           :class="schema.submit.class"
           style="margin-right: 8px">
@@ -40,10 +39,6 @@ export default {
     schema: {
       type: Object,
       required: true
-    },
-    loading: {
-      type: Boolean,
-      default: false
     }
   },
 
@@ -62,16 +57,6 @@ export default {
 
     event () {
       return this.schema.validation && this.schema.validation.event
-    },
-
-    isLoading () {
-      if (this.loading) return true
-      if (this.state['submit.loading']) return true
-      for (let key in this.dataSource.fields) {
-        if (this.dataSource.fields[key]._isLoading) return true
-      }
-
-      return false
     },
 
     mapFields () {
@@ -103,8 +88,7 @@ export default {
       dataSource: getDataSource(this.schema),
       components,
       state: {
-        'error.empty': false,
-        'submit.loading': false
+        'error.empty': false
       }
     }
   },
@@ -128,7 +112,6 @@ export default {
     async handleSubmit () {
       // 并发处理所有表单的 validate
       try {
-        this.$loading.start()
         this.$store.commit('setWaiting')
         await Promise.all(this.mapFields(async field => {
           if (!field._isValidated) {
@@ -137,8 +120,6 @@ export default {
         }))
 
         if (this.hasErrorField()) {
-          this.$loading.error()
-          this.$store.commit('unsetWaiting')
           return
         }
 
@@ -146,7 +127,6 @@ export default {
 
         if (fields.length) {
           this.state['error.empty'] = false
-          this.state['submit.loading'] = true
           await this.schema.submit.handler(
             fields.reduce((res, field) => {
               res[field.key] = field.value
@@ -157,13 +137,8 @@ export default {
         } else {
           this.state['error.empty'] = true
         }
-      } catch (error) {
-        this.$loading.error()
-
-        throw (error)
       } finally {
-        this.state['submit.loading'] = false
-        this.$loading.finish()
+        this.$store.commit('unsetWaiting')
       }
     }
   }
