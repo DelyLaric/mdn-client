@@ -5,10 +5,11 @@
       @click="selectItem(location.id)">
       <Checkbox :value="location._isSelected"/>
     </td>
-    <TableCell
+    <EditableCell
       v-for="column in this.$parent.tableColumns"
       :key="column.name"
       :value="location[column.name]"
+      :highlight="queryText"
       :isChanged="
         location._isModified[column.name] !== undefined &&
         location._isModified[column.name] !== location[column.name]
@@ -26,11 +27,11 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 
-import TableCell from './cell'
+import EditableCell from '@/components/common/editable-cell'
 
 export default {
   components: {
-    TableCell
+    EditableCell
   },
 
   props: {

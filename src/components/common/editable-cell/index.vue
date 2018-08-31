@@ -15,14 +15,15 @@ export default {
   props: {
     value: {},
     isChanged: {},
+    highlight: String
   },
 
   data () {
     return {
       isFocused: false,
       matchedText: typeof this.value === 'string' ? this.value.replace(
-        this.$parent.queryText,
-        `<strong class="has-background-warning">${this.$parent.queryText}</strong>`
+        this.highlight,
+        `<strong class="has-background-warning">${this.highlight}</strong>`
       ) : this.value
     }
   },
@@ -48,6 +49,7 @@ export default {
       }
     },
 
+    // not working
     handleEsc (event) {
       event.target.blur()
     },
