@@ -1,5 +1,6 @@
 <template>
   <DatePicker
+    class="is-centered"
     :is-active="newValue !== value"
     @change="handleChange(id, $event)"
     wrapper="td" :value="value"
