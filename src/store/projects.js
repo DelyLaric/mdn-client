@@ -58,7 +58,7 @@ export default {
       state.data[id].filed_at = date
     },
 
-    reopen (state, id) {
+    reopen (state, {id}) {
       state.data[id].filed_at = null
     },
 
