@@ -1,7 +1,5 @@
 <template>
-  <table
-    style="margin-bottom: 120px"
-    class="table is-bordered is-fullwidth is-nowrapped">
+  <table class="table is-bordered is-fullwidth is-nowrapped">
     <thead>
       <th class="is-centered" style="width: 1px">#</th>
       <th class="is-centered" style="width: 120px;">任务状态</th>
@@ -13,6 +11,7 @@
     <tbody>
       <InfoItem
         v-for="(task, index) in tasks"
+        :total="tasks.length"
         :index="index"
         :key="task.id"
         :task="task"

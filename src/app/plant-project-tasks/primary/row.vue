@@ -1,7 +1,12 @@
 <template>
   <tr>
     <td class="is-centered">{{index}}</td>
-    <StatusCell :id="task.id" :value="task.status"/>
+    <StatusCell
+      :id="task.id"
+      :total="total"
+      :index="index"
+      :value="task.status"
+    />
     <EditableCell
       style="min-width: 300px"
       :value="task.comment"
@@ -33,8 +38,9 @@ export default {
   },
 
   props: {
+    task: Object,
     index: Number,
-    task: Object
+    total: Number,
   },
 
   computed: {
