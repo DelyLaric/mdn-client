@@ -1,6 +1,6 @@
 <template>
   <component
-    :value="date"
+    :value="value"
     :is="wrapperComponent"
   />
 </template>
@@ -41,15 +41,7 @@ export default {
     name () {
       return this.wrap ? 'wrapperInput' : 'singleInput'
     },
-    date: {
-      get () {
-        return this.selectedDates || this.value
-      },
-      set (newValue) {
-        this.selectedDates = newValue
-        this.$emit('change', newValue)
-      }
-    },
+
     wrapperComponent () {
       switch (this.wrapper) {
         case 'input': return Input
@@ -62,10 +54,10 @@ export default {
     if (!this.datepicker) {
       this.config.onValueUpdate = this.dateUpdated
       this.datepicker = new Flatpickr(this.$el, this.config)
-      this.setDate(this.value)
+      this.datepicker.setDate(this.value)
     }
     this.$watch('config', this.redraw)
-    this.$watch('value', this.setDate)
+    this.$watch('value', (value) => this.datepicker.setDate(value))
   },
 
   beforeDestroy () {
@@ -81,18 +73,9 @@ export default {
       this.datepicker.redraw()
       this.datepicker.jumpToDate()
     },
-    setDate (newDate) {
-      if (newDate === null) {
-        this.clearDate()
-      } else {
-        this.datepicker.setDate(newDate)
-      }
-    },
+
     dateUpdated (selectedDates, dateStr) {
-      this.date = dateStr
-    },
-    clearDate () {
-      this.date = null
+      this.$emit('change', dateStr)
     }
   }
 }
