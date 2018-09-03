@@ -19,7 +19,10 @@ export default function (schema) {
   const result = {}
   schema.forEach(([name, url, data]) => {
     result[name] = async (params) => {
-      return get(await axios.post(url, params), data)
+      const res = await axios.post(url, params)
+
+      if (data === undefined) return res
+      else return get(res, data)
     }
   })
 

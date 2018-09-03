@@ -5,24 +5,25 @@
       @click="close">
     </div>
     <div
-      :style="{'width': width}"
-      class="modal-card animated">
+      class="modal-card animated"
+      :style="{ 'width': width, 'height': height }">
       <header class="modal-card-head">
         <p class="modal-card-title">
           <slot name="title"></slot>
         </p>
         <a
+          @click="close"
           class="delete"
-          aria-label="close"
-          @click="close">
-        </a>
+          v-if="hasCloseIcon"
+        />
       </header>
       <section
-        style="padding: 12px"
-        class="modal-card-body"
-        :class="{'has-no-footer': !$slots.foot}">
+        :class="{
+          'modal-card-body': true,
+          'has-no-footer': !$slots.foot
+        }">
         <slot></slot>
-        <slot name="body"></slot>
+        <slot name="content"></slot>
       </section>
       <footer v-if="$slots.foot" class="modal-card-foot">
         <slot name="foot" />
@@ -39,10 +40,22 @@ export default {
   },
 
   props: {
-    show: Boolean,
-    width: {
-      type: String,
-      default: '800px'
+    show: {
+      type: Boolean,
+      default: true
+    },
+
+    zIndex: {
+      type: String
+    },
+
+    width: String,
+
+    height: String,
+
+    hasCloseIcon: {
+      type: Boolean,
+      default: true
     }
   },
 

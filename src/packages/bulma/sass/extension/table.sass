@@ -4,6 +4,10 @@
   td
     &.is-outlined
       outline-color: $primary
+    &.is-hoverable
+      cursor: pointer
+      &:hover
+        background-color: $background
   &.is-centered
     th,
     td
@@ -26,9 +30,9 @@
     tbody
       tr:not(.is-selected)
         &:hover
-          background-color: #f2f6ff
+          background-color: $background
       tr.is-hovered
-          background-color: #f2f6ff
+          background-color: $background
   tr.is-selected
     color: $text
     background-color: #f2f6ff

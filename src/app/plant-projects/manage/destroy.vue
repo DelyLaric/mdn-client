@@ -1,5 +1,5 @@
 <template>
-  <DeleteDialog
+  <DestroyDialog
     @close="handleClose"
     :handler="parent.handleDestroy">
     项目
@@ -7,15 +7,15 @@
       {{parent.project.text}}
     </span>
     将无法恢复
-  </DeleteDialog>
+  </DestroyDialog>
 </template>
 
 <script>
-import DeleteDialog from '@/components/common/delete-dialog'
+import DestroyDialog from '@/components/common/destroy-dialog'
 
 export default {
   components: {
-    DeleteDialog
+    DestroyDialog
   },
 
   computed: {

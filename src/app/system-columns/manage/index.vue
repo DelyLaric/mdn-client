@@ -1,5 +1,5 @@
 <template>
-  <div class="modal is-active">
+  <div v-if="column" class="modal is-active">
     <div class="modal-background" @click="handleClose"></div>
     <div class="modal-card" style="width: 600px">
       <header class="modal-card-head">
@@ -55,7 +55,7 @@ import { mapActions } from 'vuex'
 import InputModifyField from '@/components/common/input-modify-field'
 
 export default {
-  name: 'AreaColumnManage',
+  name: 'ColumnManage',
 
   components: {
     InputModifyField

@@ -1,5 +1,10 @@
 <template>
-  <td class="is-centered">
+  <td
+    style="cursor: pointer"
+    :class="{
+      'is-centered': true,
+      'is-hoverable': true
+    }">
     <span :class="['tag', trans.class]">
       {{trans.text}}
     </span>
@@ -10,6 +15,12 @@
 export default {
   props: {
     value: Number
+  },
+
+  data () {
+    return {
+      isHovered: false
+    }
   },
 
   computed: {

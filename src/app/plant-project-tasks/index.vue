@@ -57,7 +57,7 @@
 import { mapState, mapActions } from 'vuex'
 
 import TaskAreas from './areas'
-import TaskInfos from './infos'
+import TaskInfos from './primary'
 
 export default {
   props: {

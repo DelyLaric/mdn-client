@@ -1,9 +1,7 @@
 <template>
   <tr>
     <td class="is-centered">{{index}}</td>
-    <td class="is-centered">{{project.created_at.slice(0, 10)}}</td>
     <StatusCell :value="project.status"/>
-    <td class="is-centered">{{project.due_time}}</td>
     <EditableCell
       style="min-width: 300px"
       :value="project.comment"
@@ -13,6 +11,8 @@
       }))"
       ref="comment"
     />
+    <td class="is-centered">{{project.created_at.slice(0, 10)}}</td>
+    <td class="is-centered">{{project.due_time}}</td>
     <td class="is-centered">
       <a
         @click="$wait(() => destroy({id: project.id}))">
@@ -28,7 +28,7 @@ import StatusCell from './status-cell'
 import EditableCell from '@/components/common/editable-cell'
 
 export default {
-  name: 'TaskInfoItem',
+  name: 'TaskPrimaryViewItem',
 
   components: {
     StatusCell,
