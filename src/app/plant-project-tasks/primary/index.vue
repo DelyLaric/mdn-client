@@ -18,7 +18,6 @@
         ref="items"
       />
     </tbody>
-    <router-view />
   </table>
 </template>
 
