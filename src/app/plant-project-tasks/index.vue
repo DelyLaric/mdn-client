@@ -40,16 +40,19 @@
           <component
             v-show="view.text === currentView"
             v-for="view in views"
-            v-bind="view.props"
-            :key="view.text"
             :is="view.component"
+            :key="view.text"
+            :tasks="tasks"
             ref="views"
           />
         </div>
         <div v-else class="loading" />
       </div>
     </div>
-    <router-view :project="project"/>
+    <router-view
+      :task="data[taskId]"
+      :project="project"
+    />
   </div>
 </template>
 
@@ -60,9 +63,12 @@ import TaskAreas from './areas'
 import TaskInfos from './primary'
 
 export default {
+  name: 'ProjectTasks',
+
   props: {
+    taskId: {},
+    projectId: {},
     project: Object,
-    projectId: {}
   },
 
   data () {
@@ -79,7 +85,11 @@ export default {
     ...mapState({
       data: state => state.tasks.data,
       list: state => state.tasks.list,
-      isLoading: state => state.tasks.isLoading
+      isLoading: state => state.tasks.isLoading,
+
+      tasks (state) {
+        return state.tasks.list.map(id => state.tasks.data[id])
+      }
     }),
 
     // @danger

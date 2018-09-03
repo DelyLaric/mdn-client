@@ -39,8 +39,7 @@ export default {
     options: Array,
 
     height: {
-      type: String,
-      default: '500px'
+      type: String
     }
   },
 

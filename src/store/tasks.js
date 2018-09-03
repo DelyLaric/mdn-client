@@ -54,8 +54,12 @@ export default {
       state.list.splice(state.list.indexOf(id), 1)
     },
 
-    updateComment (state, {id, value}) {
-      state.data[id].comment = value
+    updateComment (state, {id, comment}) {
+      state.data[id].comment = comment
+    },
+
+    updateStatus (state, {id, status}) {
+      state.data[id].status = status
     },
 
     startLoading (state) {
@@ -97,6 +101,11 @@ export default {
     async updateComment ({commit}, params) {
       await tasks.updateComment(params)
       commit('updateComment', params)
+    },
+
+    async updateStatus ({commit}, params) {
+      await tasks.updateStatus(params)
+      commit('updateStatus', params)
     }
 
   }

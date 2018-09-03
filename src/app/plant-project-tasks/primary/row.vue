@@ -1,21 +1,18 @@
 <template>
   <tr>
     <td class="is-centered">{{index}}</td>
-    <StatusCell :value="project.status"/>
+    <StatusCell :id="task.id" :value="task.status"/>
     <EditableCell
       style="min-width: 300px"
-      :value="project.comment"
-      @change="$wait(() => updateComment({
-        id: project.id,
-        value: $event
-      }))"
+      :value="task.comment"
+      @change="$wait(() => updateComment({id, comment: $event}))"
       ref="comment"
     />
-    <td class="is-centered">{{project.created_at.slice(0, 10)}}</td>
-    <td class="is-centered">{{project.due_time}}</td>
+    <td class="is-centered">{{task.created_at.slice(0, 10)}}</td>
+    <td class="is-centered">{{task.due_time}}</td>
     <td class="is-centered">
       <a
-        @click="$wait(() => destroy({id: project.id}))">
+        @click="$wait(() => destroy({id: task.id}))">
         删除
       </a>
     </td>
@@ -37,7 +34,13 @@ export default {
 
   props: {
     index: Number,
-    project: Object
+    task: Object
+  },
+
+  computed: {
+    id () {
+      return this.task.id
+    }
   },
 
   methods: {

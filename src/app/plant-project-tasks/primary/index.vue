@@ -1,8 +1,10 @@
 <template>
-  <table class="table is-bordered is-fullwidth is-nowrapped">
+  <table
+    style="margin-bottom: 120px"
+    class="table is-bordered is-fullwidth is-nowrapped">
     <thead>
       <th class="is-centered" style="width: 1px">#</th>
-      <th class="is-centered" >任务状态</th>
+      <th class="is-centered" style="width: 120px;">任务状态</th>
       <th>备注</th>
       <th class="is-centered" >创建时间</th>
       <th class="is-centered" >截止日期</th>
@@ -10,10 +12,10 @@
     </thead>
     <tbody>
       <InfoItem
-        v-for="(id, index) in parent.list"
-        :key="id"
-        :project="parent.data[id]"
+        v-for="(task, index) in tasks"
         :index="index"
+        :key="task.id"
+        :task="task"
         ref="items"
       />
     </tbody>
@@ -31,10 +33,8 @@ export default {
     InfoItem
   },
 
-  computed: {
-    parent () {
-      return this.$parent
-    }
+  props: {
+    tasks: Array
   }
 }
 </script>

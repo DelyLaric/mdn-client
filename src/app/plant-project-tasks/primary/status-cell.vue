@@ -1,46 +1,72 @@
 <template>
   <td
-    style="cursor: pointer"
     :class="{
       'is-centered': true,
-      'is-hoverable': true
-    }">
-    <span :class="['tag', trans.class]">
-      {{trans.text}}
+      'is-hoverable': true,
+      'is-selectable': true,
+      'is-unselectable': true,
+      'is-changed': isShowDropdown
+    }"
+    style="min-width: 160px; max-width: 160px;"
+    @click="isShowDropdown = !isShowDropdown">
+    <span :class="['tag', 'is-' + state.color]">
+      {{state.text}}
     </span>
+    <div
+      class="dropdown-menu"
+      :style="{ display: isShowDropdown ? 'block' : 'none' }">
+      <div class="is-background"></div>
+      <div class="dropdown-content" style="width: 160px">
+        <a
+          v-for="status in [0, 1, 2]" :key="status"
+          style="padding-left: 3rem"
+          class="dropdown-item"
+          @click="status !== value && $wait(() => updateStatus({id, status}))">
+          {{states[status].text}}
+        </a>
+      </div>
+    </div>
   </td>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
+  name: 'TaskStatus',
+
   props: {
-    value: Number
+    id: {},
+    value: {}
   },
 
   data () {
     return {
-      isHovered: false
+      isShowDropdown: false,
+      states: {
+        0: { text: '待规划', color: 'warning' },
+        1: { text: '规划中', color: 'info' },
+        2: { text: '已完成', color: 'success' }
+      }
     }
   },
 
   computed: {
-    trans () {
-      const res = {}
-      switch (this.value) {
-        case 0:
-          res.text = '待规划'
-          res.class = 'is-warning'
-          return res
-        case 1:
-          res.text = '规划中'
-          res.class = 'is-success'
-          return res
-        case 2:
-          res.text = '已完成'
-          res.class = 'is-info'
-          return res
+    state () {
+      const res = this.states[this.value]
+
+      if (res) return res
+      else return {
+        color: 'none',
+        text: '其他'
       }
     }
+  },
+
+  methods: {
+    ...mapActions({
+      updateStatus: 'tasks/updateStatus'
+    })
   }
 }
 </script>
