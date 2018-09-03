@@ -60,7 +60,7 @@
         </a>
       </div>
     </div>
-    <router-view />
+    <router-view :project="project"/>
   </div>
 </template>
 
