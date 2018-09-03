@@ -11,7 +11,7 @@ document.body.appendChild(instance.$el)
 export default async function (callback) {
   instance.show = true
   try {
-    await sleep(667)
+    await sleep(333)
     await callback()
   } finally {
     instance.show = false
