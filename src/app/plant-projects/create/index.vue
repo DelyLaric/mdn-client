@@ -21,6 +21,8 @@ import { mapActions } from 'vuex'
 import IntelliForm from '@/components/common/form'
 
 export default {
+  name: 'ProjectCreate',
+
   components: {
     IntelliForm
   },
