@@ -30,6 +30,9 @@ export default {
 
     async handleChange (id, duetime) {
       this.newValue = duetime
+      if (duetime === this.value) {
+        duetime = null
+      }
       this.$waiting.start()
       try {
         await sleep(333)

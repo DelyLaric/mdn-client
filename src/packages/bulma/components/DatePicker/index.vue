@@ -46,10 +46,8 @@ export default {
         return this.selectedDates || this.value
       },
       set (newValue) {
-        if (this.selectedDates !== newValue) {
-          this.selectedDates = newValue
-          this.$emit('change', newValue)
-        }
+        this.selectedDates = newValue
+        this.$emit('change', newValue)
       }
     },
     wrapperComponent () {
@@ -84,7 +82,11 @@ export default {
       this.datepicker.jumpToDate()
     },
     setDate (newDate) {
-      this.datepicker.setDate(newDate)
+      if (newDate === null) {
+        this.clearDate()
+      } else {
+        this.datepicker.setDate(newDate)
+      }
     },
     dateUpdated (selectedDates, dateStr) {
       this.date = dateStr
