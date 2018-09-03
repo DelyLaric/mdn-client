@@ -13,8 +13,8 @@
       @change="$wait(() => updateComment({id, comment: $event}))"
       ref="comment"
     />
-    <td class="is-centered">{{task.created_at.slice(0, 10)}}</td>
     <td class="is-centered">{{task.due_time}}</td>
+    <td class="is-centered">{{task.created_at.slice(0, 10)}}</td>
     <td class="is-centered">
       <a
         @click="$wait(() => destroy({id: task.id}))">

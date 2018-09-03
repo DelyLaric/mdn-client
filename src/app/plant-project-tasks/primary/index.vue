@@ -4,8 +4,8 @@
       <th class="is-centered" style="width: 1px">#</th>
       <th class="is-centered" style="width: 120px;">任务状态</th>
       <th>备注</th>
-      <th class="is-centered" >创建时间</th>
       <th class="is-centered" >截止日期</th>
+      <th class="is-centered" >创建时间</th>
       <th class="is-centered">操作</th>
     </thead>
     <tbody>
