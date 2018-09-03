@@ -13,7 +13,10 @@
       @change="$wait(() => updateComment({id, comment: $event}))"
       ref="comment"
     />
-    <td class="is-centered">{{task.due_time}}</td>
+    <DuetimeCell
+      :id="task.id"
+      :value="task.duetime"
+    />
     <td class="is-centered">{{task.created_at.slice(0, 10)}}</td>
     <td class="is-centered">
       <a
@@ -27,6 +30,7 @@
 <script>
 import { mapActions } from 'vuex'
 import StatusCell from './status-cell'
+import DuetimeCell from './duetime-cell'
 import EditableCell from '@/components/common/editable-cell'
 
 export default {
@@ -34,6 +38,7 @@ export default {
 
   components: {
     StatusCell,
+    DuetimeCell,
     EditableCell
   },
 

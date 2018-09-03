@@ -1,41 +1,62 @@
 <template>
   <component
     :value="date"
-    :color="color"
-    :placeholder="placeholder"
-    :alignment="alignment"
-    :is="wrap ? 'WrapperInput' : 'SingleInput'
-  ">
-    <slot></slot>
-  </component>
+    :is="wrapperComponent"
+  />
 </template>
 
 <script>
 import BasicInput from './BasicInput'
-import SingleInput from './SingleInput'
-import WrapperInput from './WrapperInput'
+import Input from './input'
+import Td from './td'
 import Flatpickr from 'flatpickr'
 
 export default {
   mixins: [BasicInput],
 
   props: {
-    alignment: String,
+    wrapper: {
+      type: String,
+      default: 'input'
+    },
     config: {
-      type: Object,
       default: () => ({})
     }
-  },
-
-  components: {
-    SingleInput,
-    WrapperInput
   },
 
   data () {
     return {
       datepicker: null,
       selectedDates: null
+    }
+  },
+
+  computed: {
+    wrap () {
+      return !!this.config.wrap
+    },
+    static () {
+      return !!this.config.static
+    },
+    name () {
+      return this.wrap ? 'wrapperInput' : 'singleInput'
+    },
+    date: {
+      get () {
+        return this.selectedDates || this.value
+      },
+      set (newValue) {
+        if (this.selectedDates !== newValue) {
+          this.selectedDates = newValue
+          this.$emit('change', newValue)
+        }
+      }
+    },
+    wrapperComponent () {
+      switch (this.wrapper) {
+        case 'input': return Input
+        case 'td': return Td
+      }
     }
   },
 
@@ -62,7 +83,7 @@ export default {
       this.datepicker.redraw()
       this.datepicker.jumpToDate()
     },
-    setDate (newDate, oldDate) {
+    setDate (newDate) {
       this.datepicker.setDate(newDate)
     },
     dateUpdated (selectedDates, dateStr) {
@@ -70,29 +91,6 @@ export default {
     },
     clearDate () {
       this.date = null
-    }
-  },
-
-  computed: {
-    wrap () {
-      return !!this.config.wrap
-    },
-    static () {
-      return !!this.config.static
-    },
-    name () {
-      return this.wrap ? 'wrapperInput' : 'singleInput'
-    },
-    date: {
-      get () {
-        return this.selectedDates || this.value
-      },
-      set (newValue) {
-        if (this.selectedDates !== newValue) {
-          this.selectedDates = newValue
-          this.$emit('change', newValue)
-        }
-      }
     }
   }
 }

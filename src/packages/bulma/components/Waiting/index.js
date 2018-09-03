@@ -8,7 +8,17 @@ const instance = new Vue({
 
 document.body.appendChild(instance.$el)
 
-export default async function (callback) {
+export const Waiting = {
+  start () {
+    instance.show = true
+  },
+
+  finish () {
+    instance.show = false
+  }  
+}
+
+export async function Wait (callback) {
   instance.show = true
   try {
     await sleep(333)

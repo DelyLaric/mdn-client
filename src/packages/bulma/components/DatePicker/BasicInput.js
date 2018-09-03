@@ -8,6 +8,7 @@ export default {
       type: String,
       default: 'normal'
     },
+    isActive: Boolean,
     value: String
   }
 }

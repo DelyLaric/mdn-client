@@ -6,4 +6,5 @@ export default build([
   ['destroy', 'tasks/destroy'],
   ['updateStatus', 'tasks/status/update'],
   ['updateComment', 'tasks/comment/update'],
+  ['updateDuetime', 'tasks/duetime/update']
 ])

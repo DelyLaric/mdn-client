@@ -62,6 +62,10 @@ export default {
       state.data[id].status = status
     },
 
+    updateDuetime (state, {id, duetime}) {
+      state.data[id].duetime = duetime
+    },
+
     startLoading (state) {
       state.isLoading = true
     },
@@ -106,6 +110,11 @@ export default {
     async updateStatus ({commit}, params) {
       await tasks.updateStatus(params)
       commit('updateStatus', params)
+    },
+
+    async updateDuetime ({commit}, params) {
+      await tasks.updateDuetime(params)
+      commit('updateDuetime', params)
     }
 
   }
