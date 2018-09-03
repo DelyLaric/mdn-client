@@ -4,7 +4,7 @@
     style="display: flex"
     :class="{
       'panel-block': true,
-      'is-active': $route.params.projectId === project.id
+      'is-active': isActive
     }">
     <div style="width: 100px; overflow: hidden;">
       <div>
@@ -19,7 +19,7 @@
     </div>
     <div class="is-right is-flex" style="items-align: center; height: 1.5rem">
       <a
-        v-show="projectId === project.id"
+        v-show="isActive"
         class="is-clickable"
         style="margin-right: 0.75rem"
         @click.stop="handleClickSetting">
@@ -43,6 +43,12 @@ export default {
     projectId: {},
     project: {},
     highlight: String
+  },
+
+  computed: {
+    isActive () {
+      return this.projectId == this.project.id
+    }
   },
 
   methods: {
