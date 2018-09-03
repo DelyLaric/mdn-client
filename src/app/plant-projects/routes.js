@@ -7,7 +7,7 @@ export default {
     {
       path: ':projectId',
       name: 'project tasks',
-      component: () => import('./tasks'),
+      component: () => import('../plant-project-tasks'),
       props: true,
       children: [
         {
