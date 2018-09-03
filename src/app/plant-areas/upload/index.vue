@@ -4,33 +4,33 @@
 
 <script>
 import { upload } from '@/api/common'
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import DataUpload from '@/components/common/upload'
 
 export default {
-  props: {
-    areaId: {}
-  },
+  name: 'LocationsUpload',
 
   components: {
     DataUpload
   },
 
+  props: {
+    areaId: {}
+  },
+
   computed: {
     ...mapState({
+      columnsData: state => state.columns.data,
+
       area (state) {
         return state.areas.data[this.areaId]
       }
     }),
 
-    ...mapGetters({
-      columnsMapById: 'columns/mapById'
-    }),
-
     columns () {
       return this.area.column_ids.map(id => ({
-        name: this.columnsMapById[id].name,
-        text: this.columnsMapById[id].text
+        name: this.columnsData[id].name,
+        text: this.columnsData[id].text
       }))
     },
 
@@ -43,16 +43,21 @@ export default {
 
         unique: ['location_id'],
 
-        handler: async (params) => {
-          params.table = 'locations'
-          params.header.push('area_id')
-          params.unique.push('area_id')
-          params.data.forEach(item => item.push(this.areaId))
-          const data = await upload(params)
-          data.forEach(item => item.pop())
-          return data
-        }
+        handler: this.submit
       }
+    }
+  },
+
+  methods: {
+    async submit (params) {
+      params.table = 'locations'
+      params.header.push('area_id')
+      params.unique.push('area_id')
+      params.data.forEach(item => item.push(this.areaId))
+      /* es-lint disable vue/no-async-in-computed-properties */
+      const data = await upload(params)
+      data.forEach(item => item.pop())
+      return data
     }
   }
 }

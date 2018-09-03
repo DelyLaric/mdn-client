@@ -12,7 +12,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="option in options"
+          v-for="option in options" :key="option.text"
           :class="{'is-hovered': value.indexOf(option.value) !== -1}"
           style="cursor: pointer;"
           @click="check(option.value)">

@@ -2,14 +2,14 @@
   <table class="table is-bordered is-fullwidth is-nowrapped">
     <thead>
       <th style="width: 1px">#</th>
-      <th v-for="area in areas">
+      <th v-for="area in areas" :key="area.id">
         {{area.text}}
       </th>
     </thead>
     <tbody>
-      <tr v-for="(id, index) in parent.list">
+      <tr v-for="(id, index) in parent.list" :key="id">
         <td>{{index}}</td>
-        <td v-for="area in areas">
+        <td v-for="area in areas" :key="area.id">
 
         </td>
       </tr>

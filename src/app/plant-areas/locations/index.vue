@@ -94,13 +94,11 @@
 import vuex from 'vuex'
 import csv from '@/utils/export-csv'
 
-import ExportData from './export'
 import LocationTableItem from './item'
 import Pagination from '@/components/common/pagination'
 
 export default {
   components: {
-    ExportData,
     Pagination,
     LocationTableItem
   },
@@ -146,7 +144,7 @@ export default {
 
     tableColumns () {
       return [
-        { name: 'location_id', text: '坐标代码' },
+        { name: 'location_id', text: '位置代码' },
         ...this.columns
       ]
     }
@@ -194,7 +192,7 @@ export default {
   watch: {
     areaId: {
       immediate: true,
-      handler (val) {
+      handler () {
         this.search()
       }
     }

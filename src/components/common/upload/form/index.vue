@@ -10,8 +10,8 @@
         <Radio
           v-for="mode in uploadModes"
           :key="mode.name"
-          :label="mode.label"
-          :checked="currentUploadMode === mode.name"
+          :text="mode.text"
+          :value="currentUploadMode === mode.name"
           @click="SelectUploadMode(mode.name)">
         </Radio>
       </Label>
@@ -59,8 +59,8 @@ export default {
     return {
       loading: false,
       uploadModes: [
-        { name: 'ignore', label: '忽略' },
-        { name: 'update', label: '更新' }
+        { name: 'ignore', text: '忽略' },
+        { name: 'update', text: '更新' }
       ],
 
       currentUploadMode: 'ignore'

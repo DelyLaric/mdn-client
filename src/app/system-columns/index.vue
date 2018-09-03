@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 import ColumnItem from './item'
 
 export default {

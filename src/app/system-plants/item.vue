@@ -4,7 +4,6 @@
     <td>{{plant.name}}</td>
     <td>{{plant.comment}}</td>
     <td
-    <td
       class="is-centered"
       style="width: 100px; cursor: pointer"
       @click="handleManage(plant.id)">

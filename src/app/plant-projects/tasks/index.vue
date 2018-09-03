@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 import TaskAreas from './areas'
 import TaskInfos from './infos'
@@ -122,7 +122,7 @@ export default {
     projectId: {
       immediate: true,
 
-      handler (val) {
+      handler () {
         this.search()
       }
     }

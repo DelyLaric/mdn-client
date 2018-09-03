@@ -228,7 +228,7 @@ function getSubmitParams () {
 function valueHandler (value) {
   // 处理 null 为 object 的诡异设计
   if (value === null) return null
-  let type = typeof value
+  // let type = typeof value
   return value
 }
 </script>

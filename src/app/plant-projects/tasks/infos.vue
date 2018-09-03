@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import InfoItem from './info-item'
 
 export default {
@@ -33,14 +32,6 @@ export default {
     parent () {
       return this.$parent
     }
-  },
-
-  methods: {
-
-  },
-
-  created () {
-
   }
 }
 </script>

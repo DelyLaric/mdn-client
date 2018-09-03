@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 import InputModifyField from '@/components/common/input-modify-field'
 
