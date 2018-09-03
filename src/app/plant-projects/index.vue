@@ -46,6 +46,7 @@
                 <ProjectItem
                   v-for="id in listFilteredByQuery"
                   :highlight="isQueryFocus ? query : ''"
+                  :projectId="projectId"
                   :key="id"
                   :project="data[id]"
                 />
@@ -70,6 +71,10 @@ export default {
 
   components: {
     ProjectItem
+  },
+
+  props: {
+    projectId: {}
   },
 
   data () {
