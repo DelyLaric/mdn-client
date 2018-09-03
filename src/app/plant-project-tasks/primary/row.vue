@@ -19,8 +19,7 @@
     />
     <td class="is-centered">{{task.created_at.slice(0, 10)}}</td>
     <td class="is-centered">
-      <a
-        @click="$wait(() => destroy({id: task.id}))">
+      <a @click="handleClickDestroy">
         删除
       </a>
     </td>
@@ -56,9 +55,18 @@ export default {
 
   methods: {
     ...mapActions('tasks', [
-      'destroy',
       'updateComment'
-    ])
+    ]),
+
+    handleClickDestroy () {
+      this.$router.push({
+        name: 'task destroy',
+        params: {
+          taskId: this.task.id,
+          ...this.$route.params
+        }
+      })
+    }
   }
 }
 </script>
