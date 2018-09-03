@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'TopbarPlants',
@@ -40,15 +40,17 @@ export default {
     }
   },
 
-  computed: mapState({
-    plants: state => state.plants.plants,
+  computed: {
+    ...mapGetters({
+      plants: 'plants/plants'
+    }),
 
     hasMatched () {
       return this.$route.matched.findIndex(
         route => route.name === 'plant index'
       ) !== -1
     }
-  }),
+  },
 
   methods: {
     isMatchedPlant (plantId) {

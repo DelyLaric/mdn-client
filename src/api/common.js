@@ -11,3 +11,8 @@ export async function upload(params) {
 
   return data
 }
+
+export default {
+  upload,
+  validate
+}

@@ -1,6 +1,10 @@
 <template>
   <td
-    :class="{ 'is-active': isChanged, 'is-editable': true }"
+    :class="{
+      'is-editable': true,
+      'is-changed': isChanged || hasChanged,
+      'is-outlined': isOutlined,
+    }"
     v-html="!isFocused && value ? matchedText : value"
     @keypress.enter="handleEsc"
     @focus="handleFocus"
@@ -15,16 +19,33 @@ export default {
   props: {
     value: {},
     isChanged: {},
-    highlight: String
+    highlight: String,
+    isOutlined: Boolean,
   },
 
   data () {
     return {
+      inputValue: '',
       isFocused: false,
       matchedText: typeof this.value === 'string' ? this.value.replace(
         this.highlight,
         `<strong class="has-background-warning">${this.highlight}</strong>`
       ) : this.value
+    }
+  },
+
+  computed: {
+    hasChanged () {
+      return this.value !== this.inputValue
+    }
+  },
+
+  watch: {
+    value: {
+      immediate: true,
+      handler () {
+        this.inputValue = this.value
+      }
     }
   },
 
@@ -43,9 +64,9 @@ export default {
       const selection = window.getSelection()
       range.selectNodeContents(event.target)
       selection.removeAllRanges()
-      const value = event.target.innerText.trim()
-      if (this.value !== value) {
-        this.$emit('change', value)
+      this.inputValue = event.target.innerText.trim()
+      if (!valueEqual(this.value, this.inputValue)) {
+        this.$emit('change', this.inputValue)
       }
     },
 
@@ -58,5 +79,12 @@ export default {
       this.$refs.td.focus()
     }
   }
+}
+
+function valueEqual (foo, bar) {
+  if (foo === null) foo = ''
+  if (bar === null) bar = ''
+
+  return foo === bar
 }
 </script>

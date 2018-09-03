@@ -17,6 +17,11 @@
 @import '~bulma'
 @import '@/packages/bulma/sass/extension/_all.sass'
 
+// 暂时解决 x 轴的恶心问题
+// 后续将重新造轮子解决该问题
+.el-scrollbar__wrap
+  overflow-x: hidden
+
 .app-level
   width: 100vw
   height: 54px

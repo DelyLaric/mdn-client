@@ -1,63 +1,44 @@
-import {
-  search,
-  remove,
-  create,
-  updateName,
-  updateText,
-  updateComment
-} from '@/api/columns'
+import columns from '@/api/columns'
+import { App } from '@/core/vue'
 
 export default {
   namespaced: true,
 
   state: {
-    columns: [],
-    result: [],
+    list: [],
+    data: [],
 
-    pointer: 0,
     isLoading: true
   },
 
   getters: {
-    column (state) {
-      return state.columns[state.pointer]
-    },
-
-    mapById (state) {
-      return state.columns.reduce((res, column) => {
-        res[column.id] = column
-        return res
-      }, {})
+    columns (state) {
+      return state.list.map(id => state.data[id])
     }
   },
 
   mutations: {
-    setColumns (state, columns) {
-      state.columns = columns
+    setDataSource (state, resource) {
+      const data = {}
+      const list = []
+
+      resource.forEach(item => {
+        list.push(item.id)
+        data[item.id] = item
+      })
+
+      state.list = list
+      state.data = data
     },
 
-    addColumn (state, column) {
-      state.columns.push(column)
+    addItem (state, item) {
+      state.list.push(item.id)
+      state.data[item.id] = item
     },
 
-    removeColumn (state) {
-      state.columns.splice(state.pointer, 1)
-    },
-
-    selectColumn (state, key) {
-      state.pointer = key
-    },
-
-    updateName (state, value) {
-      state.columns[state.pointer].name = value
-    },
-
-    updateText (state, value) {
-      state.columns[state.pointer].text = value
-    },
-
-    updateComment (state, value) {
-      state.columns[state.pointer].comment = value
+    destroy (state, {id}) {
+      App.$delete(state.data, id)
+      state.list.splice(state.list.indexOf(id), 1)
     },
 
     startLoading (state) {
@@ -66,41 +47,61 @@ export default {
 
     finishLoading (state) {
       state.isLoading = false
+    },
+
+    updateName (state, {id, name}) {
+      state.data[id].name = name
+    },
+
+    updateText (state, {id, text}) {
+      state.data[id].text = text
+    },
+
+    updateComment (state, {id, comment}) {
+      state.data[id].comment = comment
     }
   },
 
   actions: {
-    async search ({commit}) {
+    /**
+     * todo*
+     * 关于状态共享，副作用处理的细节文章
+     */
+    async search ({getters, commit}) {
+      const params = {}
+      params.plantId = getters.plantId
+
       commit('startLoading')
       try {
-        commit('setColumns', await search())
+        commit('setDataSource', await columns.search(params))
       } finally {
         commit('finishLoading')
       }
     },
 
-    async delete ({commit, getters}) {
-      await remove(getters.column.name)
-      commit('removeColumn')
-    },
-
     async create ({commit}, params) {
-      commit('addColumn', await create(params))
+      const item = await columns.create(params)
+      commit('addItem', item)
     },
 
-    async updateName ({commit, getters}, name) {
-      await updateName(getters.column.name, name)
-      commit('updateName', name)
+    async destroy ({commit}, id) {
+      await columns.destroy(id)
+      commit('destroy', id)
     },
 
-    async updateText ({commit, getters}, name) {
-      await updateText(getters.column.name, name)
-      commit('updateText', name)
+    async updateName ({commit}, params) {
+      await columns.updateName(params)
+      commit('updateName', params)
     },
 
-    async updateComment ({commit, getters}, name) {
-      await updateComment(getters.column.name, name)
-      commit('updateComment', name)
+    async updateText ({commit}, params) {
+      await columns.updateText(params)
+      commit('updateText', params)
+    },
+
+    async updateComment ({commit}, params) {
+      await columns.updateComment(params)
+      commit('updateComment', params)
     }
   }
 }

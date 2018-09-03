@@ -1,15 +1,5 @@
-import Vue from 'vue'
-
-import {
-  search,
-  create,
-  file,
-  reopen,
-  destroy,
-  updateName,
-  updateText,
-  updateComment
-} from '@/api/projects'
+import { App } from '@/core/vue'
+import projects from '@/api/projects'
 
 export default {
   namespaced: true,
@@ -24,32 +14,32 @@ export default {
   },
 
   getters: {
-    plantId (state, getters, {app}) {
-      return app.$route.params.plantId
-    },
-
-    projectId (state, getters, {app}) {
-      return app.$route.params.projectId
+    plantId () {
+      return App.$route.params.plantId
     }
   },
 
   mutations: {
-    setDataSource (state, dataSource) {
+    setDataSource (state, resource) {
       const data = {}
 
       state.list = []
-      dataSource.forEach(item => {
+      resource.forEach(item => {
         state.list.push(item.id)
         data[item.id] = item
       })
-
+  
       state.data = data
     },
 
     addItem (state, item) {
-      state.list.unshift(item.id)
+      state.list.push(item.id)
+      state.data[item.id] = item
+    },
 
-      Vue.set(state.data, item.id, item)
+    destroy (state, {id}) {
+      App.$delete(state.data, id)
+      state.list.splice(state.list.indexOf(id), 1)
     },
 
     updateName (state, {id, name}) {
@@ -63,18 +53,13 @@ export default {
     updateComment (state, {id, comment}) {
       state.data[id].comment = comment
     },
-
+  
     file (state, {id, date}) {
       state.data[id].filed_at = date
     },
 
     reopen (state, id) {
       state.data[id].filed_at = null
-    },
-
-    destroy (state, id) {
-      Vue.delete(state.data, id)
-      state.list.splice(state.list.indexOf(id), 1)
     },
 
     setQuery (state, text) {
@@ -84,11 +69,10 @@ export default {
     startLoading (state) {
       state.isLoading = true
     },
-
+  
     finishLoading (state) {
       state.isLoading = false
     }
-
   },
 
   actions: {
@@ -98,45 +82,46 @@ export default {
 
       commit('startLoading')
       try {
-        commit('setDataSource', await search(params))
+        commit('setDataSource', await projects.search(params))
       } finally {
         commit('finishLoading')
       }
     },
 
     async create ({commit}, params) {
-      const item = await create(params)
+      const item = await projects.create(params)
       commit('addItem', item)
     },
 
+    async destroy ({commit}, params) {
+      await projects.destroy(params)
+      commit('destroy', params)
+    },
+
+    async file ({commit}, {id}) {
+      commit('file', {
+        id, date: await projects.file({id})
+      })
+    },
+
+    async reopen ({commit}, params) {
+      await projects.reopen(params)
+      commit('reopen', params)
+    },
+
     async updateName ({commit}, params) {
-      await updateName(params)
+      await projects.updateName(params)
       commit('updateName', params)
     },
 
     async updateText ({commit}, params) {
-      await updateText(params)
+      await projects.updateText(params)
       commit('updateText', params)
     },
 
     async updateComment ({commit}, params) {
-      await updateComment(params)
+      await projects.updateComment(params)
       commit('updateComment', params)
-    },
-
-    async file ({commit}, id) {
-      commit('file', { id, date: await file(id) })
-    },
-
-    async reopen ({commit}, id) {
-      await reopen(id)
-      commit('reopen', id)
-    },
-
-    async destroy ({commit}, id) {
-      await destroy(id)
-      commit('destroy', id)
     }
-
   }
 }

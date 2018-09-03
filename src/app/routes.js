@@ -1,5 +1,5 @@
-import PlantRoutes from './plant/routes'
-import SystemRoutes from './system/routes'
+import plant from './plant/routes'
+import system from './system/routes'
 
 export default [
   {
@@ -12,8 +12,8 @@ export default [
     name: 'home page',
     component: () => import('./homepage'),
     children: [
-      PlantRoutes,
-      SystemRoutes
+      plant,
+      system
     ]
   }
 ]

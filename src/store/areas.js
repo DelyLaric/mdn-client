@@ -1,57 +1,60 @@
-import {
-  search,
-  remove,
-  create,
-  updateName,
-  updateText,
-  updateComment,
-  updateColumns
-} from '@/api/areas'
+import areas from '@/api/areas'
+import { App } from '@/core/vue'
 
 export default {
   namespaced: true,
 
   state: {
     list: [],
-    data: {},
+    data: [],
 
     isLoading: true
   },
 
   getters: {
-    mapIdByPlantId: state => state.list.reduce(
-      (res, areaId) => {
-        const id = state.data[areaId].plant_id
-        if (res[id]) res[id].push(areaId)
-        else res[id] = [areaId]
+    mapIdByPlantId (state, getters, rootState) {
+      const res = {}
+      rootState.plants.list.forEach(id => res[id] = [])
 
-        return res
-      }, {}
-    )
+      state.list.forEach(id => {
+        const plantId = state.data[id].plant_id
+        res[plantId] && res[plantId].push(id)
+      })
+
+      return res
+    }
   },
 
   mutations: {
-    setAreas (state, areas) {
-      // 无法直接向对象添加响应式属性
+    setDataSource (state, resource) {
       const data = {}
+      const list = []
 
-      state.list = []
-      areas.forEach(area => {
-        state.list.push(area.id)
-        data[area.id] = area
+      resource.forEach(item => {
+        list.push(item.id)
+        data[item.id] = item
       })
 
+      state.list = list
       state.data = data
     },
 
-    addArea (state, area) {
-      state.list.push(area.id)
-      state.data[area.id] = area
+    addItem (state, item) {
+      state.list.push(item.id)
+      App.$set(state.data, item.id, item)
     },
 
-    removeArea (state, id) {
+    destroy (state, {id}) {
+      App.$delete(state.data, id)
       state.list.splice(state.list.indexOf(id), 1)
-      delete state.data[id]
+    },
+
+    startLoading (state) {
+      state.isLoading = true
+    },
+
+    finishLoading (state) {
+      state.isLoading = false
     },
 
     updateName (state, {id, name}) {
@@ -68,54 +71,54 @@ export default {
 
     updateColumns (state, {id, columns}) {
       state.data[id].column_ids = columns
-    },
-
-    startLoading (state) {
-      state.isLoading = true
-    },
-
-    finishLoading (state) {
-      state.isLoading = false
     }
   },
 
   actions: {
-    async search ({commit}) {
+    /**
+     * todo*
+     * 关于状态共享，副作用处理的细节文章
+     */
+    async search ({getters, commit}) {
+      const params = {}
+      params.plantId = getters.plantId
+
       commit('startLoading')
       try {
-        commit('setAreas', await search())
+        commit('setDataSource', await areas.search(params))
       } finally {
         commit('finishLoading')
       }
     },
 
     async create ({commit}, params) {
-      commit('addArea', await create(params))
+      const item = await areas.create(params)
+      commit('addItem', item)
     },
 
-    async delete ({commit}, id) {
-      await remove(id)
-      commit('removeArea', id)
+    async destroy ({commit}, id) {
+      await areas.destroy(id)
+      commit('destroy', id)
     },
 
-    async updateName ({commit}, {id, name}) {
-      await updateName(id, name)
-      commit('updateName', {id, name})
+    async updateName ({commit}, params) {
+      await areas.updateName(params)
+      commit('updateName', params)
     },
 
-    async updateText ({commit}, {id, text}) {
-      await updateText(id, text)
-      commit('updateText', {id, text})
+    async updateText ({commit}, params) {
+      await areas.updateText(params)
+      commit('updateText', params)
     },
 
-    async updateComment ({commit}, {id, comment}) {
-      await updateComment(id, comment)
-      commit('updateComment', {id, comment})
+    async updateComment ({commit}, params) {
+      await areas.updateComment(params)
+      commit('updateComment', params)
     },
 
-    async updateColumns ({commit}, {id, columns}) {
-      await updateColumns(id, columns)
-      commit('updateColumns', {id, columns})
+    async updateColumns ({commit}, params) {
+      await areas.updateColumns(params)
+      commit('updateColumns', params)
     }
   }
 }

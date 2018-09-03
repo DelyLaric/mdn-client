@@ -28,6 +28,7 @@ import Textarea from './Form/Textarea'
 import Loading from './Loading'
 import Loader from './Loader'
 import Message from './Message'
+import Waiting from './Waiting'
 
 import RadioTable from './Form/RadioTable'
 
@@ -67,5 +68,6 @@ export default {
 
     Vue.prototype.$loading = Loading
     Vue.prototype.$message = Message
+    Vue.prototype.$wait = Waiting
   }
 }

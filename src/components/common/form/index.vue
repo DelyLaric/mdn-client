@@ -12,7 +12,7 @@
       <Control>
         <Button
           color="primary"
-          @click="handleSubmit"
+          @click="$wait(handleSubmit)"
           :class="schema.submit.class"
           style="margin-right: 8px">
           {{schema.submit.label}}
@@ -111,34 +111,29 @@ export default {
 
     async handleSubmit () {
       // 并发处理所有表单的 validate
-      try {
-        this.$store.commit('setWaiting')
-        await Promise.all(this.mapFields(async field => {
-          if (!field._isValidated) {
-            await field._validate()
-          }
-        }))
-
-        if (this.hasErrorField()) {
-          return
+      await Promise.all(this.mapFields(async field => {
+        if (!field._isValidated) {
+          await field._validate()
         }
+      }))
 
-        let fields = this.getSubmitParams()
+      if (this.hasErrorField()) {
+        return
+      }
 
-        if (fields.length) {
-          this.state['error.empty'] = false
-          await this.schema.submit.handler(
-            fields.reduce((res, field) => {
-              res[field.key] = field.value
-              return res
-            }, {}),
-            fields
-          )
-        } else {
-          this.state['error.empty'] = true
-        }
-      } finally {
-        this.$store.commit('unsetWaiting')
+      let fields = this.getSubmitParams()
+
+      if (fields.length) {
+        this.state['error.empty'] = false
+        await this.schema.submit.handler(
+          fields.reduce((res, field) => {
+            res[field.key] = field.value
+            return res
+          }, {}),
+          fields
+        )
+      } else {
+        this.state['error.empty'] = true
       }
     }
   }

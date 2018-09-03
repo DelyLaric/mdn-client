@@ -1,11 +1,5 @@
-import Vue from 'vue'
-
-import {
-  search,
-  update,
-  remove,
-  create
-} from '@/api/locations'
+import { App } from '@/core/vue'
+import locations from '@/api/locations'
 
 const itemState = {
   _isModified: {},
@@ -26,8 +20,8 @@ export default {
   },
 
   getters: {
-    areaId (state, getters, {app}) {
-      return app.$route.params.areaId
+    areaId () {
+      return App.$route.params.areaId
     },
 
     params ({query}, {areaId}) {
@@ -105,7 +99,7 @@ export default {
       item._isModified = data
     },
 
-    updateModifiedItems (state, ids) {
+    saveItems (state, ids) {
       ids.forEach(id => {
         const item = state.data[id]
         for (let key in item._isModified) {
@@ -116,17 +110,17 @@ export default {
       })
     },
 
-    deleteItems (state, ids) {
+    destroy (state, ids) {
       ids.forEach(id => {
         state.list.splice(state.list.indexOf(id), 1)
-        delete state.data[id]
+        App.$delete(state.data, id)
       })
     },
 
-    addNewItem (state, item) {
+    addItem (state, item) {
       state.list.unshift(item.id)
       Object.assign(item, itemState)
-      Vue.set(state.data, item.id, item)
+      App.$set(state.data, item.id, item)
     },
 
     startLoading (state) {
@@ -139,13 +133,22 @@ export default {
   },
 
   actions: {
+    async load ({commit}, callback) {
+      commit('startLoading')
+      try {
+        await callback()
+      } finally {
+        commit('finishLoading')
+      }
+    },
+
     async search ({getters, commit}, params = {}) {
       // 处理请求页数
       params.format = 'paginate'
       if (!params.page) params.page = 1
       commit('startLoading')
       try {
-        commit('setDataSource', await search({
+        commit('setDataSource', await locations.search({
           ...params,
           ...getters.params
         }))
@@ -157,33 +160,34 @@ export default {
     async export ({getters}, params = {}) {
       params.format = 'array'
 
-      return await search({
+      return await locations.search({
         ...params,
         ...getters.params
       })
     },
 
-    async createItem ({getters, commit}) {
-      const item = await create(getters.areaId)
-      commit('addNewItem', item)
+    async create ({commit}, params) {
+      const item = await locations.create(params)
+      commit('addItem', item)
 
       return item.id
     },
 
-    async updateModifiedItems ({getters, commit}) {
-      if (getters.modifiedItems.length === 0) return
+    async saveItems ({getters, commit}) {
+      const items = getters.modifiedItems
+      if (items.length === 0) return
 
-      await update(getters.modifiedItems)
-
-      commit('updateModifiedItems', getters.modifiedItems.map(item => item.id))
+      await locations.update({items})
+      commit('saveItems', items.map(item => item.id))
     },
 
-    async deleteItems ({getters, dispatch}) {
-      if (getters.selectedItems.length === 0) return
+    async destroy ({getters, commit}) {
+      const items = getters.selectedItems
+      if (items.length === 0) return
 
-      const ids = getters.selectedItems.map(item => item.id)
-      await remove(ids)
-      dispatch('search')
+      const ids = items.map(item => item.id)
+      await locations.destroy({ids})
+      commit('destroy', ids)
     }
   }
 }

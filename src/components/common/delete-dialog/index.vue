@@ -15,7 +15,7 @@
       <footer class="modal-card-foot">
         <button
           class="button is-primary"
-          @click="$store.dispatch('wait', handler)">
+          @click="$wait(handler)">
           {{confirmButtonText}}
         </button>
         <button

@@ -1,23 +1,33 @@
 <template>
-  <div class="full-container is-flex">
+  <div v-if="!isLoading" class="full-container is-flex">
     <MenuList :menus="MenuData" width="220px" />
     <div class="is-flex-auto">
       <router-view />
     </div>
   </div>
+  <div v-else class="loading" />
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import MenuData from './menus'
 import MenuList from '@/components/common/menus'
 
+import { sleep } from '@/utils/async'
+
 export default {
-  name: 'PlantIndex',
+  name: 'Plant',
 
   components: {
     MenuList
+  },
+
+  data () {
+    return {
+      // 假装正在读取
+      isLoading: true
+    }
   },
 
   props: {
@@ -26,12 +36,12 @@ export default {
 
   computed: {
     ...mapGetters({
-      plantsAreaIds: 'areas/mapIdByPlantId'
+      areasIdMapByPlantId: 'areas/mapIdByPlantId'
     }),
 
     ...mapState({
       areaIds () {
-        return this.plantsAreaIds[this.plantId]
+        return this.areasIdMapByPlantId[this.plantId]
       },
 
       areas (state) {
@@ -40,6 +50,17 @@ export default {
     }),
 
     MenuData
+  },
+
+  watch: {
+    plantId: {
+      immediate: true,
+      async handler () {
+        this.isLoading = true
+        await sleep(500)
+        this.isLoading = false
+      }
+    }
   }
 }
 </script>

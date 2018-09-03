@@ -1,20 +1,18 @@
 <template>
   <label
-    @click="$emit('click', value)"
+    @click="$emit('click')"
     style="display: inline-block; font-weight: 400; margin-right: 8px"
     class="is-unselectable"
   >
-    <i v-if="checked"
+    <i v-if="value"
       class="iconfont icon-radio-checked has-text-info"
-      @click="$emit('click-radio')"
     />
     <i v-else
       style="color: #c0c0c0"
       class="iconfont icon-radio-unchecked"
-      @click="$emit('click-radio')"
     />
-    <span v-if="label">
-      {{label}}
+    <span v-if="text">
+      {{text}}
     </span>
     <slot></slot>
   </label>
@@ -23,12 +21,7 @@
 <script>
 export default {
   props: {
-    checked: {
-      type: Boolean,
-      default: true
-    },
-
-    label: {
+    text: {
       type: String
     },
 

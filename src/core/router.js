@@ -28,6 +28,4 @@ Router.prototype.hasMatched = function ({name, params}) {
   return true
 }
 
-export default new Router({
-  routes
-})
+export default new Router({routes})

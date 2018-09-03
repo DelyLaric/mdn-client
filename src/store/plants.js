@@ -1,10 +1,5 @@
-import {
-  search,
-  remove,
-  create,
-  updateName,
-  updateComment
-} from '@/api/plants'
+import plants from '@/api/plants'
+import { App } from '@/core/vue'
 
 export default {
   namespaced: true,
@@ -12,51 +7,38 @@ export default {
   state: {
     list: [],
     data: [],
-    plants: [],
 
-    pointer: 0,
     isLoading: true
   },
 
   getters: {
-    plant: state => state.plants[state.pointer],
-
-    plants: state => state.plants
+    plants (state) {
+      return state.list.map(id => state.data[id])
+    }
   },
 
   mutations: {
-    setPlants (state, plants) {
-      state.plants = plants
-
+    setDataSource (state, resource) {
       const data = {}
+      const list = []
 
-      state.list = []
-      plants.forEach(plant => {
-        state.list.push(plant.id)
-        data[plant.id] = plant
+      resource.forEach(item => {
+        list.push(item.id)
+        data[item.id] = item
       })
 
+      state.list = list
       state.data = data
     },
 
-    addPlant (state, plant) {
-      state.plants.push(plant)
+    addItem (state, item) {
+      state.list.push(item.id)
+      state.data[item.id] = item
     },
 
-    removePlant (state) {
-      state.plants.splice(state.pointer, 1)
-    },
-
-    selectPlant (state, key) {
-      state.pointer = key
-    },
-
-    updateName (state, value) {
-      state.plants[state.pointer].name = value
-    },
-
-    updateComment (state, value) {
-      state.plants[state.pointer].comment = value
+    destroy (state, {id}) {
+      App.$delete(state.data, id)
+      state.list.splice(state.list.indexOf(id), 1)
     },
 
     startLoading (state) {
@@ -65,38 +47,52 @@ export default {
 
     finishLoading (state) {
       state.isLoading = false
+    },
+
+    updateName (state, {id, name}) {
+      state.data[id].name = name
+    },
+
+    updateComment (state, {id, comment}) {
+      state.data[id].comment = comment
     }
   },
 
   actions: {
-    async search ({commit}) {
+    /**
+     * todo*
+     * 关于状态共享，副作用处理的细节文章
+     */
+    async search ({getters, commit}) {
+      const params = {}
+      params.plantId = getters.plantId
+
       commit('startLoading')
       try {
-        commit('setPlants', await search())
+        commit('setDataSource', await plants.search(params))
       } finally {
         commit('finishLoading')
       }
     },
 
-    async delete ({commit, getters}) {
-      await remove(getters.plant.name)
-      commit('removePlant')
-    },
-
     async create ({commit}, params) {
-      commit('addPlant', await create(params))
+      const item = await plants.create(params)
+      commit('addItem', item)
     },
 
-    async updateName ({commit, getters}, value) {
-      await updateName(getters.plant, value)
-
-      commit('updateName', value)
+    async destroy ({commit}, id) {
+      await plants.destroy(id)
+      commit('destroy', id)
     },
 
-    async updateComment ({commit, getters}, value) {
-      await updateComment(getters.plant, value)
+    async updateName ({commit}, params) {
+      await plants.updateName(params)
+      commit('updateName', params)
+    },
 
-      commit('updateComment', value)
+    async updateComment ({commit}, params) {
+      await plants.updateComment(params)
+      commit('updateComment', params)
     }
   }
 }

@@ -1,14 +1,14 @@
-import AreaRoutes from './areas/routes'
-import PlantRoutes from './plants/routes'
-import AreaColumnRoutes from './columns/routes'
+import areas from '../system-areas/routes'
+import plants from '../system-plants/routes'
+import columns from '../system-columns/routes'
 
 export default {
   path: 'system',
   name: 'system',
   component: () => import('./index'),
   children: [
-    AreaRoutes,
-    PlantRoutes,
-    AreaColumnRoutes
+    areas,
+    plants,
+    columns
   ]
 }
