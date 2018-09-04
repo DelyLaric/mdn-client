@@ -7,7 +7,7 @@
       'is-unselectable': true,
       'is-changed': isShowDropdown
     }"
-    style="min-width: 160px; max-width: 160px;"
+    style="min-width: 120px; max-width: 120px;"
     @click="isShowDropdown = !isShowDropdown">
     <span :class="['tag', 'is-' + state.color]">
       {{state.text}}
@@ -17,10 +17,10 @@
       :class="{'is-up': total - index < 4}"
       :style="{ display: isShowDropdown ? 'block' : 'none' }">
       <div class="is-background"></div>
-      <div class="dropdown-content" style="width: 160px">
+      <div class="dropdown-content" style="width: 120px">
         <a
           v-for="status in [0, 1, 2]" :key="status"
-          style="padding-left: 3rem"
+          style="padding-left: 2.5rem"
           class="dropdown-item"
           @click="status !== value && $wait(() => updateStatus({id, status}))">
           {{states[status].text}}

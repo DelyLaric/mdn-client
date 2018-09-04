@@ -8,7 +8,6 @@
       :value="task.status"
     />
     <EditableCell
-      style="min-width: 300px"
       :value="task.comment"
       @change="$wait(() => updateComment({id, comment: $event}))"
       ref="comment"
