@@ -7,7 +7,7 @@
       'is-unselectable': true,
       'is-changed': isShowDropdown
     }"
-    style="min-width: 120px; max-width: 120px;"
+    style="min-width: 120px; max-width: 120px; padding: 0"
     @click="isShowDropdown = !isShowDropdown">
     <span :class="['tag', 'is-' + state.color]">
       {{state.text}}
