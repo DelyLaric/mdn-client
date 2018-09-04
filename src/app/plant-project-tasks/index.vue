@@ -19,24 +19,28 @@
 
       <Control
         class="is-unselectable is-bordered"
+        v-for="(viewGroup, index) in views"
+        :key="index"
         style="min-height: 32px; padding: 8px; border-bottom: none">
         <Radio
-          v-for="view in views"
+          v-for="view in viewGroup"
           :key="view.text"
           :text="view.text"
           :value="currentView === view.text"
           @click="currentView = view.text"
         />
       </Control>
-
       <div class="table-container is-flex-auto">
         <div class="full-container" v-if="!isLoading">
           <component
             v-show="view.text === currentView"
-            v-for="view in views"
+            v-for="view in viewsFlatten"
             :is="view.component"
             :key="view.text"
             :tasks="tasks"
+            :areas="areas"
+            :area="view.area"
+            :columns="columns"
             ref="views"
           />
         </div>
@@ -51,10 +55,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import flatten from 'lodash/flatten'
+
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 import TaskAreas from './areas'
 import TaskInfos from './primary'
+import TaskArea from './area'
 
 export default {
   name: 'ProjectTasks',
@@ -67,11 +74,7 @@ export default {
 
   data () {
     return {
-      currentView: '基本信息',
-      views: [
-        { text: '基本信息', component: TaskInfos },
-        { text: '流程区域', component: TaskAreas }
-      ]
+      currentView: '基本信息'
     }
   },
 
@@ -81,22 +84,41 @@ export default {
       list: state => state.tasks.list,
       isLoading: state => state.tasks.isLoading,
 
+      columns: state => state.columns.data,
+
       tasks (state) {
         return state.tasks.list.map(id => state.tasks.data[id])
       }
     }),
 
-    // @danger
-    parent () {
-      return this.$parent
-    },
+    ...mapGetters({
+      areasMapByPlantId: 'areas/mapByPlantId'
+    }),
 
     areas () {
-      return this.areasId[this.plantId].map(id => this.data[id])
+      return this.areasMapByPlantId[this.plantId]
     },
 
     plantId () {
       return this.$route.params.plantId
+    },
+
+    views () {
+      return [
+        [
+          { text: '基本信息', component: TaskInfos },
+          { text: '区域管理', component: TaskAreas }
+        ],
+        this.areas.map(area => ({
+          area: area,
+          text: area.text,
+          component: TaskArea
+        }))
+      ]
+    },
+
+    viewsFlatten () {
+      return flatten(this.views)
     }
   },
 

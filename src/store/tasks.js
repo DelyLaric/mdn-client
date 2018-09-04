@@ -66,6 +66,14 @@ export default {
       state.data[id].duetime = duetime
     },
 
+    addArea (state, area) {
+      App.$set(state.data[area.task_id].areas, area.area_id, area)
+    },
+
+    removeArea (state, {taskId, areaId}) {
+      App.$delete(state.data[taskId].areas, areaId)
+    },
+
     startLoading (state) {
       state.isLoading = true
     },
@@ -115,7 +123,15 @@ export default {
     async updateDuetime ({commit}, params) {
       await tasks.updateDuetime(params)
       commit('updateDuetime', params)
-    }
+    },
 
+    async addArea ({commit}, params) {
+      commit('addArea', await tasks.addArea(params))
+    },
+
+    async removeArea ({commit}, params) {
+      await tasks.removeArea(params)
+      commit('removeArea', params)
+    }
   }
 }

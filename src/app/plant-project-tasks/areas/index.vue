@@ -1,16 +1,24 @@
 <template>
   <table class="table is-bordered is-fullwidth is-nowrapped">
     <thead>
-      <th style="width: 1px">#</th>
+      <th class="is-centered" style="width: 1px">#</th>
+      <th>备注</th>
       <th v-for="area in areas" :key="area.id">
         {{area.text}}
       </th>
     </thead>
     <tbody>
-      <tr v-for="(id, index) in parent.list" :key="id">
-        <td>{{index}}</td>
-        <td v-for="area in areas" :key="area.id">
-
+      <tr v-for="(task, index) in tasks" :key="task.id">
+        <td class="is-centered">{{index}}</td>
+        <td>{{task.comment}}</td>
+        <td
+          v-for="area in areas" :key="area.id"
+          @click="handleClick(
+            task.id, area.id, getArea(task, area.id)
+          )"
+          style="cursor: pointer"
+          class="is-centered">
+          <Checkbox :value="getArea(task, area.id)"/>
         </td>
       </tr>
     </tbody>
@@ -18,36 +26,37 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import get from 'lodash/get'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'TaskAreas',
 
-  data () {
-    return {
-
-    }
+  props: {
+    tasks: Array,
+    areas: Array
   },
 
-  computed: {
-    ...mapState({
-      data: state => state.areas.data
-    }),
+  methods: {
+    ...mapActions('tasks', [
+      'addArea',
+      'removeArea'
+    ]),
 
-    ...mapGetters({
-      areasId: 'areas/mapIdByPlantId'
-    }),
-
-    parent () {
-      return this.$parent
+    getArea (task, id) {
+      return Boolean(get(task, 'areas.' + id))
     },
 
-    areas () {
-      return this.areasId[this.plantId].map(id => this.data[id])
-    },
+    handleClick (taskId, areaId, value) {
+      let callback
 
-    plantId () {
-      return this.$route.params.plantId
+      if (value === false) {
+        callback = () => this.addArea({taskId, areaId})
+      } else {
+        callback = () => this.removeArea({taskId, areaId})
+      }
+
+      this.$wait(() => callback())
     }
   }
 }
