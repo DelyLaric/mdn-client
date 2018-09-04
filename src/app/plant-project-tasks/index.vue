@@ -13,12 +13,6 @@
           <Icon name="create-record"/>
           <span>创建任务</span>
         </a>
-
-        <a
-          class="button">
-          <Icon name="bin"/>
-          <span>删除</span>
-        </a>
       </div>
 
       <div style="height: 0.5rem"></div>
