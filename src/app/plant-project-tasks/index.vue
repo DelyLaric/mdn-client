@@ -119,7 +119,7 @@ export default {
       })
 
       this.$refs.views[0].$refs.items.find(
-        item => item.project.id === id
+        item => item.task.id === id
       ).$refs.comment.focus()
     },
 

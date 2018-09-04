@@ -45,7 +45,7 @@ export default {
     },
 
     addItem (state, item) {
-      state.list.splice(0, 1, item.id)
+      state.list.splice(0, 0, item.id)
       App.$set(state.data, item.id, item)
     },
 
