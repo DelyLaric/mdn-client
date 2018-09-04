@@ -10,6 +10,7 @@ import BasicInput from './BasicInput'
 import Input from './input'
 import Td from './td'
 import Flatpickr from 'flatpickr'
+import zh from 'flatpickr/dist/l10n/zh.js'
 
 export default {
   mixins: [BasicInput],
@@ -21,6 +22,10 @@ export default {
     },
     config: {
       default: () => ({})
+    },
+    locale: {
+      type: String,
+      default: 'zh'
     }
   },
 
@@ -53,6 +58,9 @@ export default {
   mounted () {
     if (!this.datepicker) {
       this.config.onValueUpdate = this.dateUpdated
+      if (this.locale === 'zh') {
+        this.config.locale = zh.zh
+      }
       this.datepicker = new Flatpickr(this.$el, this.config)
       this.datepicker.setDate(this.value)
     }
