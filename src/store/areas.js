@@ -12,13 +12,13 @@ export default {
   },
 
   getters: {
-    mapIdByPlantId (state, getters, rootState) {
+    mapByPlantId (state, getters, rootState) {
       const res = {}
       rootState.plants.list.forEach(id => res[id] = [])
 
       state.list.forEach(id => {
         const plantId = state.data[id].plant_id
-        res[plantId] && res[plantId].push(id)
+        res[plantId] && res[plantId].push(state.data[id])
       })
 
       return res

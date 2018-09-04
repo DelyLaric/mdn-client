@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import MenuData from './menus'
 import MenuList from '@/components/common/menus'
@@ -36,18 +36,12 @@ export default {
 
   computed: {
     ...mapGetters({
-      areasIdMapByPlantId: 'areas/mapIdByPlantId'
+      areasMapByPlantId: 'areas/mapByPlantId'
     }),
 
-    ...mapState({
-      areaIds () {
-        return this.areasIdMapByPlantId[this.plantId]
-      },
-
-      areas (state) {
-        return this.areaIds.map(id => state.areas.data[id])
-      }
-    }),
+    areas (state) {
+      return this.areasMapByPlantId[this.plantId]
+    },
 
     MenuData
   },

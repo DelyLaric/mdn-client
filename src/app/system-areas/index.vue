@@ -12,7 +12,7 @@
       v-for="plantId in plantsList"
       :key="plantId"
       :plant="plantsData[plantId]"
-      :areas="areaIdsMapByPlantId[plantId].map(id => areasData[id])"
+      :areas="areasMapByPlantId[plantId]"
     />
 
     <div>&nbsp;</div>
@@ -40,7 +40,7 @@ export default {
     }),
 
     ...mapGetters({
-      areaIdsMapByPlantId: 'areas/mapIdByPlantId'
+      areasMapByPlantId: 'areas/mapByPlantId'
     }),
   }
 }
