@@ -36,10 +36,7 @@
         <ColumnsField
           :columns="columns"
           :data="area.column_ids"
-          :handler="columns => {
-            columns.sort((a, b) => a > b)
-            updateColumns({id, columns})
-          }"
+          :handler="columns => updateColumns({id, columns})"
         />
       </section>
 
