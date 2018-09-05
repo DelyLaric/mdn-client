@@ -42,7 +42,6 @@ export default {
 
   computed: {
     isModified () {
-      console.log(this.value)
       if (this.value.length !== this.data.length) return true
       for (let i = 0, L = this.value.length; i < L; i++) {
         if (this.data.indexOf(this.value[i]) === -1) return true
