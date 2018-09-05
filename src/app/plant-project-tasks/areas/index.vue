@@ -1,5 +1,5 @@
 <template>
-  <table class="table is-bordered is-fullwidth is-nowrapped">
+  <table class="table is-bordered is-nowrapped">
     <thead>
       <th class="is-centered" style="width: 1px">#</th>
       <th>备注</th>
