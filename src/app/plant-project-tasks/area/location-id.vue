@@ -8,6 +8,7 @@
   <EditableCell
     v-else
     class="is-centered"
+    :class="{ 'has-text-danger': !task.areas[area.id].location.id }"
     @change="$wait(() => updateAreaLocation({
       taskId: task.id,
       areaId: area.id,
@@ -33,8 +34,10 @@ export default {
     area: Object
   },
 
-  methods: mapActions('tasks', [
-    'updateAreaLocation'
-  ])
+  methods: {
+    ...mapActions('tasks', [
+      'updateAreaLocation'
+    ])
+  }
 }
 </script>
