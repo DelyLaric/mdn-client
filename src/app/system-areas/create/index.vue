@@ -48,6 +48,7 @@ export default {
 
     async handleSubmit (params) {
       params.plantId = this.plantId
+      params.columns = params.columns.sort((a, b) => a - b)
       this.$wait(async () => {
         await this.create(params)
         this.handleClose()
