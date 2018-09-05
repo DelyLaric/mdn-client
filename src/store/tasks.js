@@ -66,8 +66,13 @@ export default {
       state.data[id].duetime = duetime
     },
 
-    addArea (state, area) {
-      App.$set(state.data[area.task_id].areas, area.area_id, area)
+    addArea (state, {taskId, areaId}) {
+      App.$set(state.data[taskId].areas, areaId, {
+        task_id: taskId,
+        area_id: areaId,
+        location_id: null,
+        location: {}
+      })
     },
 
     removeArea (state, {taskId, areaId}) {
@@ -126,7 +131,8 @@ export default {
     },
 
     async addArea ({commit}, params) {
-      commit('addArea', await tasks.addArea(params))
+      await tasks.addArea(params)
+      commit('addArea', params)
     },
 
     async removeArea ({commit}, params) {
