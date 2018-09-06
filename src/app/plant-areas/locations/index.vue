@@ -52,7 +52,7 @@
     <div class="table-container is-flex-auto">
       <table
         v-if="!isLoading"
-        class="table is-fullwidth is-bordered is-nowrapped">
+        class="table is-bordered is-nowrapped">
         <thead>
           <td
             @click="handleCheck"
