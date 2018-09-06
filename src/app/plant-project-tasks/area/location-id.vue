@@ -1,6 +1,6 @@
 <template>
   <td
-    v-if="!task.areas[area.id]"
+    v-if="!taskArea"
     class="is-centered"
     style="padding: 0">
     <span class="tag">未分配</span>
@@ -8,13 +8,13 @@
   <EditableCell
     v-else
     class="is-centered"
-    :class="{ 'has-text-danger': !task.areas[area.id].location.id }"
+    :class="{ 'has-text-danger': taskArea.location_id !== null && !taskArea.location.id }"
     @change="$wait(() => updateAreaLocation({
       taskId: task.id,
       areaId: area.id,
       locationId: $event
     }))"
-    :value="task.areas[area.id].location_id"
+    :value="taskArea.location_id"
   />
 </template>
 
@@ -32,6 +32,12 @@ export default {
   props: {
     task: Object,
     area: Object
+  },
+
+  computed: {
+    taskArea () {
+      return this.task.areas[this.area.id]
+    }
   },
 
   methods: {
