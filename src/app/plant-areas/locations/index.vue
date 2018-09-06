@@ -139,7 +139,7 @@ export default {
     }),
 
     columns () {
-      return this.area.column_ids.map(id => this.columnsData[id])
+      return this.area.columns.map(id => this.columnsData[id])
     },
 
     tableColumns () {

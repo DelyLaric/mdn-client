@@ -35,7 +35,7 @@
 
         <ColumnsField
           :columns="columns"
-          :data="area.column_ids"
+          :data="area.columns"
           :handler="columns => updateColumns({id, columns})"
         />
       </section>
