@@ -22,12 +22,6 @@ export default {
 
   props: {
     column: Object
-  },
-
-  data () {
-    return {
-      isHovered: false
-    }
   }
 }
 </script>
