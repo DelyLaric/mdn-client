@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import IntelliForm from '@/components/common/form'
 
 export default {
@@ -26,14 +26,11 @@ export default {
   },
 
   props: {
+    columns: Array,
     plantId: [Number, String]
   },
 
   computed: {
-    ...mapGetters({
-      columns: 'columns/columns'
-    }),
-
     schema
   },
 

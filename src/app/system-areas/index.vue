@@ -9,14 +9,18 @@
     ">
 
     <PlantItem
-      v-for="plantId in plantsList"
-      :key="plantId"
-      :plant="plantsData[plantId]"
-      :areas="areasMapByPlantId[plantId]"
+      v-for="plant in plants"
+      :key="plant.id"
+      :plant="plant"
+      :areas="areasMapByPlantId[plant.id]"
     />
 
     <div>&nbsp;</div>
-    <router-view :area="areasData[$route.params.areaId]"/>
+    <router-view
+      :plantId="plantId"
+      :columns="columns"
+      :area="areas[areaId]"
+    />
   </div>
 </template>
 
@@ -26,22 +30,31 @@ import { mapState, mapGetters } from 'vuex'
 import PlantItem from './item'
 
 export default {
+  name: 'Areas',
+
   components: {
     PlantItem
   },
 
-  name: 'Areas',
+  props: {
+    areaId: {},
+    plantId: {}
+  },
 
   computed: {
     ...mapState({
-      areasData: state => state.areas.data,
-      plantsData: state => state.plants.data,
-      plantsList: state => state.plants.list
+      areas: state => state.areas.data
     }),
 
     ...mapGetters({
-      areasMapByPlantId: 'areas/mapByPlantId'
+      plants: 'plants/plants',
+      areasMapByPlantId: 'areas/mapByPlantId',
+      columnsMapByTable: 'columns/mapByTable'
     }),
+
+    columns () {
+      return this.columnsMapByTable.locations
+    }
   }
 }
 </script>

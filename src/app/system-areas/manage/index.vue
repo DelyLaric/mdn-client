@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 import ColumnsField from './columns'
 import InputModifyField from '@/components/common/input-modify-field'
@@ -69,14 +69,11 @@ export default {
   },
 
   props: {
-    area: Object
+    area: Object,
+    columns: Array
   },
 
   computed: {
-    ...mapGetters({
-      columns: 'columns/columns'
-    }),
-
     id () {
       return this.area.id
     }
