@@ -181,7 +181,7 @@ export default {
 
     async handleDataExport () {
       let dataSource = []
-      await this.$wait(() => dataSource = await this.export())
+      await this.$wait(() => dataSource = this.export())
       dataSource.unshift(this.tableColumns.map(column => column.text))
       csv.download(this.area.text, dataSource)
     }
