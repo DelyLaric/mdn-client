@@ -21,6 +21,8 @@ import { mapActions } from 'vuex'
 import IntelliForm from '@/components/common/form'
 
 export default {
+  name: 'AreaColumnCreate',
+
   components: {
     IntelliForm
   },
@@ -35,7 +37,7 @@ export default {
     }),
 
     handleClose () {
-      this.$router.push({name: 'columns'})
+      this.$router.push({name: 'area columns'})
     },
 
     async handleSubmit (params) {
@@ -55,8 +57,7 @@ function schema () {
         key: 'name',
         text: '字段名',
         rules: [
-          { name: 'required', message: '字段名不能为空' },
-          { name: 'unique:area_columns,name', message: '流程字段名已存在' }
+          { name: 'required', message: '字段名不能为空' }
         ]
       },
       {
@@ -71,6 +72,11 @@ function schema () {
         type: 'textarea',
         key: 'comment',
         text: '备注'
+      },
+      {
+        type: 'auto',
+        key: 'table',
+        value: 'locations'
       }
     ],
 

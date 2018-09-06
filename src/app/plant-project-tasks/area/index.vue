@@ -4,7 +4,7 @@
       <th class="is-centered" style="width: 1px">#</th>
       <th>备注</th>
       <th class="is-centered">位置代码</th>
-      <th v-for="id in area.column_ids" :key="id">
+      <th v-for="id in area.columns" :key="id">
         {{columns[id].text}}
       </th>
     </thead>
@@ -13,7 +13,7 @@
         <td class="is-centered">{{index}}</td>
         <td>{{task.comment}}</td>
         <LocationId :task="task" :area="area"/>
-        <td v-for="id in area.column_ids" :key="id">
+        <td v-for="id in area.columns" :key="id">
           {{getLocationData(task, columns[id])}}
         </td>
       </tr>

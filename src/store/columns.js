@@ -14,6 +14,21 @@ export default {
   getters: {
     columns (state) {
       return state.list.map(id => state.data[id])
+    },
+
+    mapByTable (state, getters) {
+      const res = {}
+      getters.columns.forEach(column => {
+        const table = column.table
+
+        if (res[table]) {
+          res[table].push(column)
+        } else {
+          res[table] = [column]
+        }
+      })
+
+      return res
     }
   },
 

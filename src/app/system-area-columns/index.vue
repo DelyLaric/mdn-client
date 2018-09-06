@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="!isLoading"
     class="full-container has-background-white"
     style="padding: 0.75rem; overflow: auto">
 
@@ -18,9 +17,9 @@
       </thead>
       <tbody>
         <ColumnItem
-          v-for="id in list"
-          :key="id"
-          :column="data[id]"
+          v-for="column in columns"
+          :key="column.id"
+          :column="column"
         />
       </tbody>
     </table>
@@ -29,20 +28,23 @@
 
     <a
       class="button is-primary"
-      @click="$router.push({name: 'column create'})">
+      @click="$router.push({name: 'area column create'})">
       创建属性
     </a>
-    <router-view :column="column"/>
+
+    <router-view
+      :columns="columns"
+      :column="columnsData[columnId]"
+    />
   </div>
-  <div v-else class="loading" />
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import ColumnItem from './item'
 
 export default {
-  name: 'Columns',
+  name: 'AreaColumns',
 
   components: {
     ColumnItem
@@ -52,14 +54,18 @@ export default {
     columnId: {}
   },
 
-  computed: mapState('columns', {
-    list: state => state.list,
-    data: state => state.data,
-    isLoading: state => state.isLoading,
+  computed: {
+    ...mapState ({
+      columnsData: state => state.columns.data
+    }),
 
-    column (state) {
-      return state.data[this.columnId]
+    ...mapGetters({
+      columnsMapByTable: 'columns/mapByTable'
+    }),
+
+    columns () {
+      return this.columnsMapByTable.locations
     }
-  })
+  }
 }
 </script>

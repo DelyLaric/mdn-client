@@ -17,31 +17,38 @@ import { mapActions } from 'vuex'
 import DestroyDialog from '@/components/common/destroy-dialog'
 
 export default {
+  name: 'AreaColumnDestroy',
+
   components: {
     DestroyDialog
   },
 
   props: {
+    table: String,
     column: Object
   },
 
   methods: {
     ...mapActions({
+      search: 'areas/search',
       destroy: 'columns/destroy'
     }),
 
     handleClose () {
       this.$router.push({
-        name: 'column manage',
+        name: 'area column manage',
         params: { columnId: this.column.id }
       })
     },
 
-    async handleConfirm () {
-      await this.destroy({
-        id: this.column.id
+    handleConfirm () {
+      return this.destroy({
+        id: this.column.id,
+        pivot: 'areas',
+        pivotKey: 'columns'
       })
-      this.$router.push({name: 'columns'})
+      .then(() => this.search()) // 暂时通过刷新来提交数据层变化
+      .then(() => this.$router.push({name: 'area columns'}))
     }
   }
 }

@@ -28,7 +28,7 @@ export default {
     }),
 
     columns () {
-      return this.area.column_ids.map(id => ({
+      return this.area.columns.map(id => ({
         name: this.columnsData[id].name,
         text: this.columnsData[id].text
       }))

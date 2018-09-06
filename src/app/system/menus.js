@@ -7,7 +7,7 @@ export default [
   {
     text: '区域属性管理',
     icon: 'attributes',
-    route: { name: 'columns' }
+    route: { name: 'area columns' }
   },
   {
     text: '流程区域管理',
