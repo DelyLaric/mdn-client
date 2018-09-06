@@ -17,6 +17,8 @@ import { mapActions } from 'vuex'
 import DestroyDialog from '@/components/common/destroy-dialog'
 
 export default {
+  name: 'AreaColumnDestroy',
+
   components: {
     DestroyDialog
   },
@@ -32,7 +34,7 @@ export default {
 
     handleClose () {
       this.$router.push({
-        name: 'column manage',
+        name: 'area column manage',
         params: { columnId: this.column.id }
       })
     },
@@ -41,7 +43,7 @@ export default {
       await this.destroy({
         id: this.column.id
       })
-      this.$router.push({name: 'columns'})
+      this.$router.push({name: 'area columns'})
     }
   }
 }

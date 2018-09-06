@@ -15,6 +15,8 @@
 
 <script>
 export default {
+  name: 'AreaColumnItem',
+
   props: {
     column: Object
   },
@@ -29,7 +31,7 @@ export default {
     handleManage (columnId) {
       this.$emit('select')
       this.$router.push({
-        name: 'column manage',
+        name: 'area column manage',
         params: { columnId }
       })
     }

@@ -29,7 +29,7 @@
 
     <a
       class="button is-primary"
-      @click="$router.push({name: 'column create'})">
+      @click="$router.push({name: 'area column create'})">
       创建属性
     </a>
     <router-view :column="column"/>
@@ -42,7 +42,7 @@ import { mapState } from 'vuex'
 import ColumnItem from './item'
 
 export default {
-  name: 'Columns',
+  name: 'AreaColumns',
 
   components: {
     ColumnItem

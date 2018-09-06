@@ -21,6 +21,8 @@ import { mapActions } from 'vuex'
 import IntelliForm from '@/components/common/form'
 
 export default {
+  name: 'AreaColumnCreate',
+
   components: {
     IntelliForm
   },
@@ -35,7 +37,7 @@ export default {
     }),
 
     handleClose () {
-      this.$router.push({name: 'columns'})
+      this.$router.push({name: 'area columns'})
     },
 
     async handleSubmit (params) {

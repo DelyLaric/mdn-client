@@ -39,7 +39,7 @@
         <a
           class="button is-danger"
           @click="$router.push({
-            name: 'column destroy',
+            name: 'area column destroy',
             params: { columnId: column.id }
           })">删除属性
         </a>
@@ -79,9 +79,7 @@ export default {
     ]),
 
     handleClose () {
-      this.$router.push({
-        name: 'columns'
-      })
+      this.$router.push({name: 'area columns'})
     }
   }
 }
