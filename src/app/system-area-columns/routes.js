@@ -13,13 +13,11 @@ export default {
       path: ':columnId',
       name: 'area column manage',
       component: () => import('./manage'),
-      props: true,
       children: [
         {
           path: 'destroy',
           name: 'area column destroy',
           component: () => import('./manage/destroy'),
-          props: true
         }
       ]
     }

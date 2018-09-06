@@ -14,7 +14,7 @@
         <InputModifyField
           text="字段名"
           :data="column.name"
-          :handler="name => updateName({id, name})"
+          :handler="name => updateName({id, name, table})"
         />
 
         <div style="height: 12px"></div>
@@ -45,7 +45,7 @@
         </a>
       </div>
     </div>
-    <router-view :column="column" />
+    <router-view :column="column" :table="table" />
   </div>
 </template>
 
@@ -55,7 +55,7 @@ import { mapActions } from 'vuex'
 import InputModifyField from '@/components/common/input-modify-field'
 
 export default {
-  name: 'ColumnManage',
+  name: 'AreaColumnManage',
 
   components: {
     InputModifyField
@@ -63,6 +63,12 @@ export default {
 
   props: {
     column: Object
+  },
+
+  data () {
+    return {
+      table: 'locations'
+    }
   },
 
   computed: {

@@ -1,6 +1,6 @@
 import areas from '../system-areas/routes'
 import plants from '../system-plants/routes'
-import columns from '../system-columns/routes'
+import columns from '../system-area-columns/routes'
 
 export default {
   path: 'system',

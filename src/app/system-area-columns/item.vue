@@ -7,7 +7,10 @@
     <td
       class="is-centered"
       style="width: 100px; cursor: pointer"
-      @click="handleManage(column.id)">
+      @click="$router.push({
+        name: 'area column manage',
+        params: { columnId: column.id }
+      })">
       <a>管理</a>
     </td>
   </tr>
@@ -24,16 +27,6 @@ export default {
   data () {
     return {
       isHovered: false
-    }
-  },
-
-  methods: {
-    handleManage (columnId) {
-      this.$emit('select')
-      this.$router.push({
-        name: 'area column manage',
-        params: { columnId }
-      })
     }
   }
 }

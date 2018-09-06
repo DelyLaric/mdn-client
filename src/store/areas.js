@@ -79,13 +79,10 @@ export default {
      * todo*
      * 关于状态共享，副作用处理的细节文章
      */
-    async search ({getters, commit}) {
-      const params = {}
-      params.plantId = getters.plantId
-
+    async search ({commit}) {
       commit('startLoading')
       try {
-        commit('setDataSource', await areas.search(params))
+        commit('setDataSource', await areas.search())
       } finally {
         commit('finishLoading')
       }

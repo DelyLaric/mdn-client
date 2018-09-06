@@ -24,11 +24,13 @@ export default {
   },
 
   props: {
+    table: String,
     column: Object
   },
 
   methods: {
     ...mapActions({
+      search: 'areas/search',
       destroy: 'columns/destroy'
     }),
 
@@ -39,11 +41,14 @@ export default {
       })
     },
 
-    async handleConfirm () {
-      await this.destroy({
-        id: this.column.id
+    handleConfirm () {
+      return this.destroy({
+        id: this.column.id,
+        pivot: 'areas',
+        pivotKey: 'columns'
       })
-      this.$router.push({name: 'area columns'})
+      .then(() => this.search()) // 暂时通过刷新来提交数据层变化
+      .then(() => this.$router.push({name: 'area columns'}))
     }
   }
 }
