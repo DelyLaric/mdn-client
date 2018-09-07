@@ -55,6 +55,10 @@ export default {
 
     updateComment (state, {id, comment}) {
       state.data[id].comment = comment
+    },
+
+    updatePartColumns (state, {id, columns}) {
+      state.data[id].part_columns = columns
     }
   },
 
@@ -93,6 +97,11 @@ export default {
     async updateComment ({commit}, params) {
       await plants.updateComment(params)
       commit('updateComment', params)
+    },
+
+    async updatePartColumns ({commit}, params) {
+      await plants.updatePartColumns(params)
+      commit('updatePartColumns', params)
     }
   }
 }

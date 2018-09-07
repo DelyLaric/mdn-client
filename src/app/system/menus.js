@@ -13,5 +13,10 @@ export default [
     text: '流程区域管理',
     icon: 'process',
     route: { name: 'areas' }
+  },
+  {
+    text: '零件属性管理',
+    icon: 'attributes',
+    route: { name: 'parts columns' }
   }
 ]
