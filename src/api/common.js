@@ -6,13 +6,6 @@ export async function validate (params) {
   return res
 }
 
-export async function upload(params) {
-  const { data: {data} } = await axios.post('common/upload', params)
-
-  return data
-}
-
 export default {
-  upload,
   validate
 }

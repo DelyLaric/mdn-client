@@ -12,7 +12,7 @@
           <span>新增</span>
         </a>
         <a
-          @click="$wait(saveItems)"
+          @click="$wait(() => saveItems({table: 'locations'}))"
           :disabled="!modifiedItems.length"
           class="button is-selected has-text-grey-dark">
           <Icon name="save"/>
@@ -109,16 +109,16 @@ export default {
 
   computed: {
     ...vuex.mapGetters({
-      selectedItems: 'locations/selectedItems',
-      modifiedItems: 'locations/modifiedItems'
+      selectedItems: 'data/selectedItems',
+      modifiedItems: 'data/modifiedItems'
     }),
 
     ...vuex.mapState({
-      list: state => state.locations.list,
-      data: state => state.locations.data,
-      meta: state => state.locations.meta,
-      query: state => state.locations.query,
-      isLoading: state => state.locations.isLoading,
+      list: state => state.data.list,
+      data: state => state.data.data,
+      meta: state => state.data.meta,
+      query: state => state.data.query,
+      isLoading: state => state.data.isLoading,
 
       columnsData: state => state.columns.data,
 
@@ -151,17 +151,18 @@ export default {
   },
 
   methods: {
-    ...vuex.mapActions('locations', [
+    ...vuex.mapActions('data', [
       'search',
       'export',
       'create',
       'destroy',
-      'saveItems'
+      'saveItems',
     ]),
 
     ...vuex.mapMutations({
-      setQuery: 'locations/setQuery',
-      selectItem: 'locations/selectItem'
+      setQuery: 'data/setQuery',
+      selectItem: 'data/selectItem',
+      setParams: 'data/setParams'
     }),
 
     handleCheck () {
@@ -175,13 +176,18 @@ export default {
 
     async handleCreate () {
       if (this.isLoading) return
-      const id = await this.create({areaId: this.areaId})
+      const id = await this.create({
+        table: 'locations',
+        group: 'area_id',
+        groupId: this.areaId,
+        primary: 'location_id'
+      })
       this.$refs.items.find(item => item.location.id === id).$refs.cells[0].focus()
     },
 
     async handleDataExport () {
       let dataSource = []
-      await this.$wait(() => dataSource = this.export())
+      await this.$wait(async () => dataSource = await this.export())
       dataSource.unshift(this.tableColumns.map(column => column.text))
       csv.download(this.area.text, dataSource)
     }
@@ -191,6 +197,12 @@ export default {
     areaId: {
       immediate: true,
       handler () {
+        this.setParams({
+          table: 'locations',
+          primary: 'location_id',
+          group: 'area_id',
+          groupId: this.areaId
+        })
         this.search()
       }
     }

@@ -35,11 +35,11 @@ export default {
   },
 
   computed: mapState({
-    queryText: state => state.locations.query
+    queryText: state => state.data.query
   }),
 
   methods: {
-    ...mapMutations('locations', [
+    ...mapMutations('data', [
       'selectItem',
       'modifyItem'
     ])
