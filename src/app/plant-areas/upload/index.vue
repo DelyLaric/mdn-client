@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import { upload } from '@/api/common'
 import { mapState } from 'vuex'
+import data from '@/api/data'
 import DataUpload from '@/components/common/upload'
 
 export default {
@@ -55,9 +55,9 @@ export default {
       params.unique.push('area_id')
       params.data.forEach(item => item.push(this.areaId))
       /* es-lint disable vue/no-async-in-computed-properties */
-      const data = await upload(params)
-      data.forEach(item => item.pop())
-      return data
+      const dataSource = await data.upload(params)
+      dataSource.forEach(item => item.pop())
+      return dataSource
     }
   }
 }

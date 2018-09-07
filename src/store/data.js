@@ -1,5 +1,5 @@
 import { App } from '@/core/vue'
-import locations from '@/api/locations'
+import data from '@/api/data'
 
 const itemState = {
   _isModified: {},
@@ -16,6 +16,13 @@ export default {
 
     query: undefined,
 
+    params: {
+      table: null,
+      primary: null,
+      group: null,
+      groupId: null
+    },
+
     isLoading: true
   },
 
@@ -24,10 +31,10 @@ export default {
       return App.$route.params.areaId
     },
 
-    params ({query}, {areaId}) {
+    params (state) {
       return {
-        query,
-        areaId,
+        ...state.params,
+        query: state.query
       }
     },
 
@@ -54,6 +61,10 @@ export default {
   },
 
   mutations: {
+    setParams (state, params) {
+      state.params = params
+    },
+
     setDataSource (state, dataSource) {
       const data = {}
       state.meta = dataSource.meta
@@ -148,7 +159,7 @@ export default {
       if (!params.page) params.page = 1
       commit('startLoading')
       try {
-        commit('setDataSource', await locations.search({
+        commit('setDataSource', await data.search({
           ...params,
           ...getters.params
         }))
@@ -160,25 +171,25 @@ export default {
     async export ({getters}, params = {}) {
       params.format = 'array'
 
-      return await locations.search({
+      return await data.search({
         ...params,
         ...getters.params
       })
     },
 
     async create ({commit}, params) {
-      const item = await locations.create(params)
+      const item = await data.create(params)
       commit('addItem', item)
 
       return item.id
     },
 
-    async saveItems ({getters, commit}) {
-      const items = getters.modifiedItems
-      if (items.length === 0) return
+    async saveItems ({getters, commit}, params) {
+      params.items = getters.modifiedItems
+      if (params.items.length === 0) return
 
-      await locations.update({items})
-      commit('saveItems', items.map(item => item.id))
+      await data.update(params)
+      commit('saveItems', params.items.map(item => item.id))
     },
 
     async destroy ({getters, commit}) {
@@ -186,7 +197,7 @@ export default {
       if (items.length === 0) return
 
       const ids = items.map(item => item.id)
-      await locations.destroy({ids})
+      await data.destroy({ids})
       commit('destroy', ids)
     }
   }
