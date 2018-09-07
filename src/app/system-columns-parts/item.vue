@@ -8,7 +8,7 @@
       class="is-centered"
       style="width: 100px; cursor: pointer"
       @click="$router.push({
-        name: 'area column manage',
+        name: 'parts column manage',
         params: { columnId: column.id }
       })">
       <a>管理</a>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'AreaColumnItem',
+  name: 'PartsColumnItem',
 
   props: {
     column: Object
