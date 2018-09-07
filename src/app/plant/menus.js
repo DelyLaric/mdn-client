@@ -11,6 +11,14 @@ export default function () {
       }
     },
     {
+      text: '零件数据',
+      icon: 'table',
+      route: {
+        name: 'plant parts',
+        params: { plantId }
+      }
+    },
+    {
       text: '区域数据',
       icon: 'process',
       expanding: true,
