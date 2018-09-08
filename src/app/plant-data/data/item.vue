@@ -1,17 +1,17 @@
 <template>
-  <tr :class="{'is-selected': location._isSelected}">
+  <tr :class="{'is-selected': item._isSelected}">
     <td
       style="cursor: pointer"
-      @click="selectItem(location.id)">
-      <Checkbox :value="location._isSelected"/>
+      @click="selectItem(item.id)">
+      <Checkbox :value="item._isSelected"/>
     </td>
     <EditableCell
       v-for="column in this.$parent.tableColumns"
       :key="column.name"
-      :value="location[column.name]"
+      :value="item[column.name]"
       :highlight="queryText"
       @change="modifyItem({
-        id: location.id,
+        id: item.id,
         column: column.name,
         value: $event
       })"
@@ -31,7 +31,7 @@ export default {
   },
 
   props: {
-    location: Object
+    item: Object
   },
 
   computed: mapState({

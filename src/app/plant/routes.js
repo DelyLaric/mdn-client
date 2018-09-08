@@ -1,4 +1,4 @@
-import areas from '../plant-areas/routes'
+import data from '../plant-data/routes'
 import projects from '../plant-projects/routes'
 
 export default {
@@ -7,7 +7,7 @@ export default {
   component: () => import('./index'),
   props: true,
   children: [
-    areas,
+    data,
     projects
   ]
 }

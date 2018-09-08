@@ -2,12 +2,16 @@
   <div class="full-container is-flex is-flex-column">
     <RouteTabs :tabs="tabs"/>
     <div class="full-container is-flex-auto">
-      <router-view />
+      <router-view
+        :groupId="groupId"
+        :schema="schema[table]"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import RouteTabs from '@/components/common/tabs'
 
 export default {
@@ -18,8 +22,9 @@ export default {
   },
 
   props: {
-    areaId: {},
-    plantId: {},
+    table: {},
+    groupId: {},
+    schema: Object
   },
 
   computed: {
@@ -31,16 +36,16 @@ export default {
 
       return [
         {
-          text: '区域管理',
+          text: '数据管理',
           route: {
-            name: 'area locations',
+            name: 'plant table data',
             params
           }
         },
         {
           text: '数据上传',
           route: {
-            name: 'locations upload',
+            name: 'plant table data upload',
             params
           }
         }

@@ -11,12 +11,23 @@ export default function () {
       }
     },
     {
-      text: '零件数据',
-      icon: 'table',
-      route: {
-        name: 'plant parts',
-        params: { plantId }
-      }
+      text: '基础数据',
+      icon: 'storage',
+      expanding: true,
+      children: [
+        {
+          text: '零件数据',
+          icon: 'table',
+          actived: () => this.$router.hasMatched({
+            name: 'plant table',
+            params: { table: 'parts', groupId: plantId }
+          }),
+          route: {
+            name: 'plant table data',
+            params: { table: 'parts', groupId: plantId }
+          }
+        }
+      ]
     },
     {
       text: '区域数据',
@@ -25,18 +36,19 @@ export default function () {
       children: this.areas.map(area => {
         const params = {
           plantId,
-          areaId: area.id
+          table: 'locations',
+          groupId: area.id
         }
 
         return {
           text: area.text,
           icon: 'table',
           actived: () => this.$router.hasMatched({
-            name: 'plant area',
+            name: 'plant table',
             params
           }),
           route: {
-            name: 'area locations',
+            name: 'plant table data',
             params
           }
         }

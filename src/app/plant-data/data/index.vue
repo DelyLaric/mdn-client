@@ -12,7 +12,7 @@
           <span>新增</span>
         </a>
         <a
-          @click="$wait(() => saveItems({table: 'locations'}))"
+          @click="$wait(() => saveItems({table: schema.table}))"
           :disabled="!modifiedItems.length"
           class="button is-selected has-text-grey-dark">
           <Icon name="save"/>
@@ -64,10 +64,10 @@
           </th>
         </thead>
         <tbody>
-          <LocationTableItem
+          <TableItem
             v-for="id in list"
             :key="id"
-            :location="data[id]"
+            :item="data[id]"
             :columns="tableColumns"
             ref="items"
           />
@@ -94,17 +94,18 @@
 import vuex from 'vuex'
 import csv from '@/utils/export-csv'
 
-import LocationTableItem from './item'
+import TableItem from './item'
 import Pagination from '@/components/common/pagination'
 
 export default {
   components: {
     Pagination,
-    LocationTableItem
+    TableItem
   },
 
   props: {
-    areaId: {}
+    groupId: {},
+    schema: Object
   },
 
   computed: {
@@ -120,10 +121,13 @@ export default {
       query: state => state.data.query,
       isLoading: state => state.data.isLoading,
 
-      columnsData: state => state.columns.data,
+      columns: state => state.columns.data,
 
-      area (state) {
-        return state.areas.data[this.areaId]
+      tableColumns (state) {
+        return [
+          { name: this.schema.primary, text: this.schema.primaryText },
+          ...this.schema.columns(this)
+        ]
       },
 
       stateOfSelected () {
@@ -136,18 +140,7 @@ export default {
           return 'minus'
         }
       }
-    }),
-
-    columns () {
-      return this.area.columns.map(id => this.columnsData[id])
-    },
-
-    tableColumns () {
-      return [
-        { name: 'location_id', text: '位置代码' },
-        ...this.columns
-      ]
-    }
+    })
   },
 
   methods: {
@@ -177,31 +170,31 @@ export default {
     async handleCreate () {
       if (this.isLoading) return
       const id = await this.create({
-        table: 'locations',
-        group: 'area_id',
-        groupId: this.areaId,
-        primary: 'location_id'
+        table: this.schema.table,
+        group: this.schema.group,
+        groupId: this.groupId,
+        primary: this.schema.primary
       })
-      this.$refs.items.find(item => item.location.id === id).$refs.cells[0].focus()
+      this.$refs.items.find(item => item.item.id === id).$refs.cells[0].focus()
     },
 
     async handleDataExport () {
       let dataSource = []
       await this.$wait(async () => dataSource = await this.export())
       dataSource.unshift(this.tableColumns.map(column => column.text))
-      csv.download(this.area.text, dataSource)
+      csv.download('基础数据', dataSource)
     }
   },
 
   watch: {
-    areaId: {
+    groupId: {
       immediate: true,
       handler () {
         this.setParams({
-          table: 'locations',
-          primary: 'location_id',
-          group: 'area_id',
-          groupId: this.areaId
+          table: this.schema.table,
+          primary: this.schema.primary,
+          group: this.schema.group,
+          groupId: this.groupId
         })
         this.search()
       }

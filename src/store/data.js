@@ -10,6 +10,7 @@ export default {
   namespaced: true,
 
   state: {
+    schema: {},
     list: [],
     data: {},
     meta: null,
@@ -27,10 +28,6 @@ export default {
   },
 
   getters: {
-    areaId () {
-      return App.$route.params.areaId
-    },
-
     params (state) {
       return {
         ...state.params,
@@ -61,6 +58,10 @@ export default {
   },
 
   mutations: {
+    addSchema (state, schema) {
+      state[schema.namespace] = schema
+    },
+
     setParams (state, params) {
       state.params = params
     },
