@@ -4,7 +4,7 @@
     <div class="full-container is-flex-auto">
       <router-view
         :groupId="groupId"
-        :schema="schema[table]"
+        :schema="schema"
       />
     </div>
   </div>
@@ -12,6 +12,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import tables from '@/assets/tables'
 import RouteTabs from '@/components/common/tabs'
 
 export default {
@@ -23,11 +24,14 @@ export default {
 
   props: {
     table: {},
-    groupId: {},
-    schema: Object
+    groupId: {}
   },
 
   computed: {
+    schema () {
+      return tables[this.table]
+    },
+
     tabs () {
       const params = {
         areaId: this.areaId,

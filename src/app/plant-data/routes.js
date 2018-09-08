@@ -1,10 +1,8 @@
-import schema from './schema'
-
 export default {
   path: 'tables/:table/groups/:groupId',
   name: 'plant table',
   component: () => import('./index'),
-  props: route => ({ ...route.params, schema }),
+  props: true,
   children: [
     {
       path: 'data',
