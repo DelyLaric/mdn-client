@@ -70,7 +70,7 @@ export default {
     },
 
     updateColumns (state, {id, columns}) {
-      state.data[id].column_ids = columns
+      state.data[id].columns = columns
     }
   },
 
