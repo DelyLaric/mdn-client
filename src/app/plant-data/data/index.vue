@@ -20,7 +20,7 @@
         </a>
         <a
           :disabled="!stateOfSelected"
-          @click="$wait(destroy)"
+          @click="$wait(() => destroy({table: schema.table}))"
           class="button">
           <Icon name="bin"/>
           <span>删除</span>
