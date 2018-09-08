@@ -1,9 +1,8 @@
 <template>
-  <DataUpload v-bind="schema"/>
+  <DataUpload v-bind="uploadSchema"/>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import data from '@/api/data'
 import DataUpload from '@/components/common/upload'
 
@@ -15,33 +14,23 @@ export default {
   },
 
   props: {
-    areaId: {}
+    groupId: {},
+    schema: Object
   },
 
   computed: {
-    ...mapState({
-      columnsData: state => state.columns.data,
-
-      area (state) {
-        return state.areas.data[this.areaId]
-      }
-    }),
-
     columns () {
-      return this.area.columns.map(id => ({
-        name: this.columnsData[id].name,
-        text: this.columnsData[id].text
-      }))
+      return this.schema.columns(this)
     },
 
-    schema () {
+    uploadSchema () {
       return {
         columns: [
-          { name: 'location_id', text: '坐标代码' },
+          { name: this.schema.primary, text: this.schema.primaryText },
           ...this.columns
         ],
 
-        unique: ['location_id'],
+        unique: [this.schema.primary],
 
         handler: this.submit
       }
@@ -50,10 +39,10 @@ export default {
 
   methods: {
     async submit (params) {
-      params.table = 'locations'
-      params.header.push('area_id')
-      params.unique.push('area_id')
-      params.data.forEach(item => item.push(this.areaId))
+      params.table = this.schema.table
+      params.header.push(this.schema.group)
+      params.unique.push(this.schema.group)
+      params.data.forEach(item => item.push(this.groupId))
       /* es-lint disable vue/no-async-in-computed-properties */
       const dataSource = await data.upload(params)
       dataSource.forEach(item => item.pop())
