@@ -33,10 +33,7 @@ export default {
     },
 
     tabs () {
-      const params = {
-        areaId: this.areaId,
-        plantId: this.plantId
-      }
+      const params = this.$route.params
 
       return [
         {
