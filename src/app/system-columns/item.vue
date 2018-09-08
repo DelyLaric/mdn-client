@@ -7,10 +7,7 @@
     <td
       class="is-centered"
       style="width: 100px; cursor: pointer"
-      @click="$router.push({
-        name: 'parts column manage',
-        params: { columnId: column.id }
-      })">
+      @click="handleClickManage">
       <a>管理</a>
     </td>
   </tr>
@@ -18,10 +15,23 @@
 
 <script>
 export default {
-  name: 'PartsColumnItem',
+  name: 'SystemTableColumnsItem',
 
   props: {
-    column: Object
+    column: Object,
+    schema: Object
+  },
+
+  methods: {
+    handleClickManage () {
+      this.$router.push({
+        name: 'system table column manage',
+        params: {
+          ...this.$route.params,
+          columnId: this.column.id
+        }
+      })
+    }
   }
 }
 </script>

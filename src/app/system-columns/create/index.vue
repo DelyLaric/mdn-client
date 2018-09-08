@@ -3,7 +3,7 @@
     <div class="modal-background" @click="handleClose"></div>
     <div class="modal-card" style="max-width: 560px;">
       <header class="modal-card-head">
-        <p class="modal-card-title">添加流程属性</p>
+        <p class="modal-card-title">添加属性</p>
         <button
           class="delete"
           @click="handleClose">
@@ -21,10 +21,14 @@ import { mapActions } from 'vuex'
 import IntelliForm from '@/components/common/form'
 
 export default {
-  name: 'AreaColumnCreate',
+  name: 'SystemTablesColumnCreate',
 
   components: {
     IntelliForm
+  },
+
+  props: {
+    table: {}
   },
 
   computed: {
@@ -37,7 +41,10 @@ export default {
     }),
 
     handleClose () {
-      this.$router.push({name: 'area columns'})
+      this.$router.push({
+        name: 'system table columns',
+        params: this.$route.params
+      })
     },
 
     async handleSubmit (params) {
@@ -76,7 +83,7 @@ function schema () {
       {
         type: 'auto',
         key: 'table',
-        value: 'locations'
+        value: this.table
       }
     ],
 

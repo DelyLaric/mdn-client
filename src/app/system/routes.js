@@ -1,7 +1,6 @@
 import areas from '../system-areas/routes'
 import plants from '../system-plants/routes'
-import columns from '../system-area-columns/routes'
-import partColumns from '../system-columns-parts/routes'
+import columns from '../system-columns/routes'
 
 export default {
   path: 'system',
@@ -10,7 +9,6 @@ export default {
   children: [
     areas,
     plants,
-    columns,
-    partColumns
+    columns
   ]
 }

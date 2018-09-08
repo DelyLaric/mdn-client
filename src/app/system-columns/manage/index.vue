@@ -39,13 +39,17 @@
         <a
           class="button is-danger"
           @click="$router.push({
-            name: 'area column destroy',
-            params: { columnId: column.id }
+            name: 'system table column destroy',
+            params: $route.params
           })">删除属性
         </a>
       </div>
     </div>
-    <router-view :column="column" :table="table" />
+    <router-view
+      :schema="schema"
+      :column="column"
+      :table="table"
+    />
   </div>
 </template>
 
@@ -55,20 +59,16 @@ import { mapActions } from 'vuex'
 import InputModifyField from '@/components/common/input-modify-field'
 
 export default {
-  name: 'AreaColumnManage',
+  name: 'SystemTableColumnManage',
 
   components: {
     InputModifyField
   },
 
   props: {
+    table: {},
+    schema: Object,
     column: Object
-  },
-
-  data () {
-    return {
-      table: 'locations'
-    }
   },
 
   computed: {
@@ -85,7 +85,10 @@ export default {
     ]),
 
     handleClose () {
-      this.$router.push({name: 'area columns'})
+      this.$router.push({
+        name: 'system table columns',
+        params: this.$route.params
+      })
     }
   }
 }

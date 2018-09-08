@@ -13,11 +13,12 @@
 </template>
 
 <script>
+import get from 'lodash/get'
 import { mapActions } from 'vuex'
 import DestroyDialog from '@/components/common/destroy-dialog'
 
 export default {
-  name: 'AreaColumnDestroy',
+  name: 'SystemTableColumnDestroy',
 
   components: {
     DestroyDialog
@@ -25,30 +26,38 @@ export default {
 
   props: {
     table: String,
-    column: Object
+    column: Object,
+    schema: Object,
   },
 
   methods: {
     ...mapActions({
-      search: 'areas/search',
+      search: 'plants/search',
       destroy: 'columns/destroy'
     }),
 
     handleClose () {
       this.$router.push({
-        name: 'area column manage',
-        params: { columnId: this.column.id }
+        name: 'system table column manage',
+        params: this.$route.params
       })
     },
 
     handleConfirm () {
+      const pivot = this.schema.pivot
       return this.destroy({
         id: this.column.id,
-        pivot: 'areas',
-        pivotKey: 'columns'
+        pivot: get(this.schema, 'pivot.table'),
+        pivotKey: get(this.schema, 'pivot.key')
       })
-      .then(() => this.search()) // 暂时通过刷新来提交数据层变化
-      .then(() => this.$router.push({name: 'area columns'}))
+      .then(() => {
+        const callback = get(this.schema, 'pivot.callback')
+        if (callback) callback(this)
+      })
+      .then(() => this.$router.push({
+        name: 'system table columns',
+        params: this.$route.params
+      }))
     }
   }
 }

@@ -1,22 +1,22 @@
 export default {
-  path: 'parts/columns',
-  name: 'parts columns',
+  path: 'tables/:table/columns',
+  name: 'system table columns',
   component: () => import('./index'),
   props: true,
   children: [
     {
       path: 'create',
-      name: 'parts column create',
+      name: 'system table column create',
       component: () => import('./create')
     },
     {
       path: ':columnId',
-      name: 'parts column manage',
+      name: 'system table column manage',
       component: () => import('./manage'),
       children: [
         {
           path: 'destroy',
-          name: 'parts column destroy',
+          name: 'system table column destroy',
           component: () => import('./manage/destroy'),
         }
       ]

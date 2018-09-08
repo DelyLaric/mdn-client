@@ -3,7 +3,7 @@
     class="full-container has-background-white"
     style="padding: 0.75rem; overflow: auto">
 
-    <Title>区域属性</Title>
+    <Title>属性管理</Title>
 
     <table class="table is-hoverable is-nowrapped is-bordered">
       <thead>
@@ -20,6 +20,7 @@
           v-for="column in columns"
           :key="column.id"
           :column="column"
+          :schema="schema"
         />
       </tbody>
     </table>
@@ -28,11 +29,16 @@
 
     <a
       class="button is-primary"
-      @click="$router.push({name: 'area column create'})">
+      @click="$router.push({
+        name: 'system table column create',
+        params: $route.params
+      })">
       创建属性
     </a>
 
     <router-view
+      :table="table"
+      :schema="schema"
       :columns="columns"
       :column="columnsData[columnId]"
     />
@@ -40,17 +46,19 @@
 </template>
 
 <script>
+import tables from '@/assets/tables'
 import { mapState, mapGetters } from 'vuex'
 import ColumnItem from './item'
 
 export default {
-  name: 'AreaColumns',
+  name: 'SystemTableColumns',
 
   components: {
     ColumnItem
   },
 
   props: {
+    table: {},
     columnId: {}
   },
 
@@ -63,8 +71,12 @@ export default {
       columnsMapByTable: 'columns/mapByTable'
     }),
 
+    schema () {
+      return tables[this.table]
+    },
+
     columns () {
-      return this.columnsMapByTable.locations
+      return this.columnsMapByTable[this.table]
     }
   }
 }
