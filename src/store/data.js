@@ -193,13 +193,13 @@ export default {
       commit('saveItems', params.items.map(item => item.id))
     },
 
-    async destroy ({getters, commit}) {
+    async destroy ({getters, commit}, params) {
       const items = getters.selectedItems
       if (items.length === 0) return
 
-      const ids = items.map(item => item.id)
-      await data.destroy({ids})
-      commit('destroy', ids)
+      params.ids = items.map(item => item.id)
+      await data.destroy(params)
+      commit('destroy', params.ids)
     }
   }
 }
