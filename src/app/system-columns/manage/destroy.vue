@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import get from 'lodash/get'
 import { mapActions } from 'vuex'
 import DestroyDialog from '@/components/common/destroy-dialog'
 
@@ -26,8 +25,7 @@ export default {
 
   props: {
     table: String,
-    column: Object,
-    schema: Object,
+    column: Object
   },
 
   methods: {
@@ -44,20 +42,21 @@ export default {
     },
 
     handleConfirm () {
-      const pivot = this.schema.pivot
-      return this.destroy({
-        id: this.column.id,
-        pivot: get(this.schema, 'pivot.table'),
-        pivotKey: get(this.schema, 'pivot.key')
-      })
-      .then(() => {
-        const callback = get(this.schema, 'pivot.callback')
-        if (callback) callback(this)
-      })
-      .then(() => this.$router.push({
-        name: 'system table columns',
-        params: this.$route.params
-      }))
+      const params = {id: this.column.id}
+      if (this.table === 'locations') {
+        params.pivot = 'areas',
+        params.pivotKey = 'columns'
+      }
+      return this.destroy(params)
+        .then(() => {
+          if (this.table === 'locations') {
+            this.$store.dispatch('areas/search')
+          }
+        })
+        .then(() => this.$router.push({
+          name: 'system table columns',
+          params: this.$route.params
+        }))
     }
   }
 }

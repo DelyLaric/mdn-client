@@ -20,7 +20,6 @@
           v-for="column in columns"
           :key="column.id"
           :column="column"
-          :schema="schema"
         />
       </tbody>
     </table>
@@ -38,7 +37,6 @@
 
     <router-view
       :table="table"
-      :schema="schema"
       :columns="columns"
       :column="columnsData[columnId]"
     />
@@ -46,7 +44,6 @@
 </template>
 
 <script>
-import tables from '@/assets/tables'
 import { mapState, mapGetters } from 'vuex'
 import ColumnItem from './item'
 
@@ -70,10 +67,6 @@ export default {
     ...mapGetters({
       columnsMapByTable: 'columns/mapByTable'
     }),
-
-    schema () {
-      return tables[this.table]
-    },
 
     columns () {
       return this.columnsMapByTable[this.table]

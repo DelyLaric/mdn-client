@@ -18,8 +18,7 @@ export default {
   name: 'SystemTableColumnsItem',
 
   props: {
-    column: Object,
-    schema: Object
+    column: Object
   },
 
   methods: {

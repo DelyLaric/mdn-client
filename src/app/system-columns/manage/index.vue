@@ -47,7 +47,6 @@
       </div>
     </div>
     <router-view
-      :schema="schema"
       :column="column"
       :table="table"
     />
@@ -68,7 +67,6 @@ export default {
 
   props: {
     table: {},
-    schema: Object,
     column: Object
   },
 
