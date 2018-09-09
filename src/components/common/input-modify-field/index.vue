@@ -5,9 +5,11 @@
       <input
         class="input"
         v-model="value"
+        :readonly="disabled"
         :style="{ width, 'margin-right': '6px' }"
       />
       <a
+        v-if="!disabled"
         @click="isModified && $wait(() => handler(value))"
         class="button is-outlined"
         :disabled="!isModified">
@@ -22,6 +24,7 @@ export default {
   props: {
     text: String,
     handler: Function,
+    disabled: Boolean,
     width: {
       type: String,
       default: '160px'
