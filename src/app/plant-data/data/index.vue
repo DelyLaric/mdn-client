@@ -98,7 +98,7 @@ import TableItem from './item'
 import Pagination from '@/components/common/pagination'
 
 export default {
-  name: 'PlantTableData',
+  name: 'PlantTableDataManage',
 
   components: {
     Pagination,

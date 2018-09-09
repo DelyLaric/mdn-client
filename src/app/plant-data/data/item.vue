@@ -26,6 +26,8 @@ import { mapState, mapMutations } from 'vuex'
 import EditableCell from '@/components/common/editable-cell'
 
 export default {
+  name: 'PlantTableDataItem',
+
   components: {
     EditableCell
   },

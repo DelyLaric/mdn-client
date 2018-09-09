@@ -7,7 +7,7 @@ import data from '@/api/data'
 import DataUpload from '@/components/common/upload'
 
 export default {
-  name: 'LocationsUpload',
+  name: 'PlantTableDataUpload',
 
   components: {
     DataUpload
@@ -37,7 +37,6 @@ export default {
       params.header.push('categroy_id')
       params.unique.push('categroy_id')
       params.data.forEach(item => item.push(this.categroyId))
-      /* es-lint disable vue/no-async-in-computed-properties */
       const dataSource = await data.upload(params)
       dataSource.forEach(item => item.pop())
       return dataSource
