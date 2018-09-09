@@ -14,6 +14,7 @@
         <InputModifyField
           text="字段名"
           :data="column.name"
+          :disabled="column.is_fixed"
           :handler="name => updateName({id, name, table})"
         />
 
