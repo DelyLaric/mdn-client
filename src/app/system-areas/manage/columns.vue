@@ -16,7 +16,8 @@
         @change="handleChange"
         :options="columns.map(column => ({
           value: column.id,
-          text: column.text
+          text: column.text,
+          disabled: column.is_fixed
         }))"
       />
       <div style="height: 8px"></div>

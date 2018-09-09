@@ -83,8 +83,10 @@ function schema () {
         selectText: '区域属性',
         options: this.columns.map(column => ({
           value: column.id,
-          text: column.text
-        }))
+          text: column.text,
+          disabled: column.is_fixed
+        })),
+        default: this.columns.filter(column => column.is_fixed).map(column => column.id)
       }
     ],
 
