@@ -58,20 +58,6 @@ export default {
         }
       ]
     }
-  },
-
-  watch: {
-    '$router.currentRoute': {
-      immediate: true,
-      handler (val) {
-        if (val.name === 'plant area') {
-          this.$router.push({
-            name: 'area locations',
-            params: val.params
-          })
-        }
-      }
-    }
   }
 }
 </script>

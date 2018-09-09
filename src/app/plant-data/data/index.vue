@@ -179,7 +179,7 @@ export default {
   },
 
   watch: {
-    categroyId: {
+    '$route.path': {
       immediate: true,
       handler () {
         this.setParams({
