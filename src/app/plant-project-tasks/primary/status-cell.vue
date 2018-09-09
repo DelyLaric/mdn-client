@@ -14,7 +14,7 @@
     </span>
     <div
       class="dropdown-menu"
-      :class="{'is-up': total - index < 4}"
+      :class="{'is-up': total > 3 && total - index < 4}"
       :style="{ display: isShowDropdown ? 'block' : 'none' }">
       <div class="is-background"></div>
       <div class="dropdown-content" style="width: 120px">
