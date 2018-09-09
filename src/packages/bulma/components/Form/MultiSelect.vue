@@ -15,9 +15,12 @@
           v-for="option in options" :key="option.text"
           :class="{'is-hovered': value.indexOf(option.value) !== -1}"
           style="cursor: pointer;"
-          @click="check(option.value)">
+          @click="check(option)">
           <td style="width: 1px">
-            <Checkbox :value="value.indexOf(option.value) !== -1"/>
+            <Checkbox
+              :disabled="option.disabled"
+              :value="value.indexOf(option.value) !== -1"
+            />
           </td>
           <td>
             {{option.text}}
@@ -49,7 +52,10 @@ export default {
   },
 
   methods: {
-    check (value) {
+    check (option) {
+      if (option.disabled) return
+
+      let value= option.value
       let data = [...this.value]
       let key = this.value.indexOf(value)
 
