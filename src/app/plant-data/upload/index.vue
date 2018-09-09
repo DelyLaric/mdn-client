@@ -14,23 +14,17 @@ export default {
   },
 
   props: {
-    groupId: {},
-    schema: Object
+    table: {},
+    categroyId: {},
+    columns: Array
   },
 
   computed: {
-    columns () {
-      return this.schema.columns(this)
-    },
-
     uploadSchema () {
       return {
-        columns: [
-          { name: this.schema.primary, text: this.schema.primaryText },
-          ...this.columns
-        ],
+        columns: this.columns,
 
-        unique: [this.schema.primary],
+        unique: ['data_id'],
 
         handler: this.submit
       }
@@ -39,10 +33,10 @@ export default {
 
   methods: {
     async submit (params) {
-      params.table = this.schema.table
-      params.header.push(this.schema.group)
-      params.unique.push(this.schema.group)
-      params.data.forEach(item => item.push(this.groupId))
+      params.table = this.table
+      params.header.push('categroy_id')
+      params.unique.push('categroy_id')
+      params.data.forEach(item => item.push(this.categroyId))
       /* es-lint disable vue/no-async-in-computed-properties */
       const dataSource = await data.upload(params)
       dataSource.forEach(item => item.pop())

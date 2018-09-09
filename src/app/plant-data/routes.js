@@ -1,5 +1,5 @@
 export default {
-  path: 'tables/:table/groups/:groupId',
+  path: 'tables/:table/categroies/:categroyId',
   name: 'plant table',
   component: () => import('./index'),
   props: true,

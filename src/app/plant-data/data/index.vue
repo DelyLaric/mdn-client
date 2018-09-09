@@ -12,7 +12,7 @@
           <span>新增</span>
         </a>
         <a
-          @click="$wait(() => saveItems({table: schema.table}))"
+          @click="$wait(() => saveItems({table}))"
           :disabled="!modifiedItems.length"
           class="button is-selected has-text-grey-dark">
           <Icon name="save"/>
@@ -20,7 +20,7 @@
         </a>
         <a
           :disabled="!stateOfSelected"
-          @click="$wait(() => destroy({table: schema.table}))"
+          @click="$wait(() => destroy({table}))"
           class="button">
           <Icon name="bin"/>
           <span>删除</span>
@@ -59,7 +59,7 @@
             style="cursor: pointer; width: 1px">
             <Checkbox :value="stateOfSelected"/>
           </td>
-          <th v-for="column in tableColumns" :key="column.name">
+          <th v-for="column in columns" :key="column.name">
             {{column.text}}
           </th>
         </thead>
@@ -68,7 +68,7 @@
             v-for="id in list"
             :key="id"
             :item="data[id]"
-            :columns="tableColumns"
+            :columns="columns"
             ref="items"
           />
         </tbody>
@@ -98,14 +98,17 @@ import TableItem from './item'
 import Pagination from '@/components/common/pagination'
 
 export default {
+  name: 'PlantTableData',
+
   components: {
     Pagination,
     TableItem
   },
 
   props: {
-    groupId: {},
-    schema: Object
+    table: {},
+    categroyId: {},
+    columns: Array
   },
 
   computed: {
@@ -120,15 +123,6 @@ export default {
       meta: state => state.data.meta,
       query: state => state.data.query,
       isLoading: state => state.data.isLoading,
-
-      columns: state => state.columns.data,
-
-      tableColumns (state) {
-        return [
-          { name: this.schema.primary, text: this.schema.primaryText },
-          ...this.schema.columns(this)
-        ]
-      },
 
       stateOfSelected () {
         const L = this.selectedItems.length
@@ -170,10 +164,8 @@ export default {
     async handleCreate () {
       if (this.isLoading) return
       const id = await this.create({
-        table: this.schema.table,
-        group: this.schema.group,
-        groupId: this.groupId,
-        primary: this.schema.primary
+        table: this.table,
+        categroyId: this.categroyId,
       })
       this.$refs.items.find(item => item.item.id === id).$refs.cells[0].focus()
     },
@@ -181,20 +173,18 @@ export default {
     async handleDataExport () {
       let dataSource = []
       await this.$wait(async () => dataSource = await this.export())
-      dataSource.unshift(this.tableColumns.map(column => column.text))
+      dataSource.unshift(this.columns.map(column => column.text))
       csv.download('基础数据', dataSource)
     }
   },
 
   watch: {
-    groupId: {
+    categroyId: {
       immediate: true,
       handler () {
         this.setParams({
-          table: this.schema.table,
-          primary: this.schema.primary,
-          group: this.schema.group,
-          groupId: this.groupId
+          table: this.table,
+          categroyId: this.categroyId
         })
         this.search()
       }

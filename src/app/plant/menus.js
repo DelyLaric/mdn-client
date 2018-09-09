@@ -20,11 +20,11 @@ export default function () {
           icon: 'table',
           actived: () => this.$router.hasMatched({
             name: 'plant table',
-            params: { table: 'parts', groupId: plantId }
+            params: { table: 'parts', categroyId: plantId }
           }),
           route: {
             name: 'plant table data',
-            params: { table: 'parts', groupId: plantId }
+            params: { table: 'parts', categroyId: plantId }
           }
         }
       ]
@@ -37,7 +37,7 @@ export default function () {
         const params = {
           plantId,
           table: 'locations',
-          groupId: area.id
+          categroyId: area.id
         }
 
         return {

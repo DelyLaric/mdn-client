@@ -6,7 +6,7 @@
       <Checkbox :value="item._isSelected"/>
     </td>
     <EditableCell
-      v-for="column in this.$parent.tableColumns"
+      v-for="column in columns"
       :key="column.name"
       :value="item[column.name]"
       :highlight="queryText"
@@ -31,7 +31,8 @@ export default {
   },
 
   props: {
-    item: Object
+    item: Object,
+    columns: Array
   },
 
   computed: mapState({

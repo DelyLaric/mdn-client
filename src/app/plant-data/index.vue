@@ -3,20 +3,20 @@
     <RouteTabs :tabs="tabs"/>
     <div class="full-container is-flex-auto">
       <router-view
-        :groupId="groupId"
-        :schema="schema"
+        :table="table"
+        :categroyId="categroyId"
+        :columns="columns"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import tables from '@/assets/tables'
+import { mapGetters } from 'vuex'
 import RouteTabs from '@/components/common/tabs'
 
 export default {
-  name: 'PlantArea',
+  name: 'PlantTable',
 
   components: {
     RouteTabs
@@ -24,12 +24,18 @@ export default {
 
   props: {
     table: {},
-    groupId: {}
+    categroyId: {}
   },
 
   computed: {
-    schema () {
-      return tables[this.table]
+    columns () {
+      const store = this.$store
+      if (this.table === 'locations') {
+        const columns = store.state.areas.data[this.categroyId].columns
+        return columns.map(id => store.state.columns.data[id])
+      } else {
+        return store.getters['columns/mapByTable'][this.table]
+      }
     },
 
     tabs () {
