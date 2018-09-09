@@ -7,6 +7,7 @@ export default build([
   ['updateStatus', 'tasks/status/update'],
   ['updateComment', 'tasks/comment/update'],
   ['updateDuetime', 'tasks/duetime/update'],
+  ['updatePart', 'tasks/part/update', 'data'],
   ['addArea', 'tasks/areas/add'],
   ['removeArea', 'tasks/areas/remove'],
   ['updateAreaLocation', 'tasks/areas/location/update', 'data']

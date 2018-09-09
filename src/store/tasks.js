@@ -79,6 +79,11 @@ export default {
       App.$delete(state.data[taskId].areas, areaId)
     },
 
+    updatePart (state, {taskId, dataId, part}) {
+      state.data[taskId].part_id = dataId
+      state.data[taskId].part = part
+    },
+
     updateAreaLocation (state, {taskId, areaId, dataId, location}) {
       state.data[taskId].areas[areaId].data_id = dataId
       state.data[taskId].areas[areaId].location = location
@@ -143,6 +148,13 @@ export default {
     async removeArea ({commit}, params) {
       await tasks.removeArea(params)
       commit('removeArea', params)
+    },
+
+    async updatePart ({commit}, params) {
+      commit('updatePart', {
+        ...params,
+        part: await tasks.updatePart(params)
+      })
     },
 
     async updateAreaLocation ({commit}, params) {

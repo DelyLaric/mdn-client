@@ -3,8 +3,8 @@
     <thead>
       <th class="is-centered" style="width: 1px">#</th>
       <th>备注</th>
-      <th v-for="id in area.columns" :key="id">
-        {{columns[id].text}}
+      <th v-for="column in columns" :key="column.id">
+        {{column.text}}
       </th>
     </thead>
     <tbody>
@@ -12,15 +12,15 @@
         <td class="is-centered">{{index}}</td>
         <td>{{task.comment}}</td>
         <td
-          v-for="id in area.columns"
-          :key="id"
-          v-if="columns[id].name !== 'data_id'">
-          {{getLocationData(task, columns[id])}}
+          v-for="column in columns"
+          :key="column.id"
+          v-if="column.name !== 'data_id'">
+          {{task.part[column.name]}}
         </td>
         <DataId
           v-else
           :task="task"
-          :taskArea="task.areas[area.id]"
+          :part="task.part"
         />
       </tr>
     </tbody>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import get from 'lodash/get'
 import DataId from './data-id'
 
@@ -39,14 +40,16 @@ export default {
   },
 
   props: {
-    tasks: Array,
-    area: Object,
-    columns: Object
+    tasks: Array
   },
 
-  methods: {
-    getLocationData (task, column) {
-      return get(task, 'areas.' + this.area.id + '.location.' + column.name)
+  computed: {
+    ...mapGetters({
+      tableColumns: 'columns/mapByTable'
+    }),
+
+    columns () {
+      return this.tableColumns.parts
     }
   }
 }
