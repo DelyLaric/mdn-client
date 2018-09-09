@@ -14,7 +14,7 @@
         <EditableCell
           :value="task.comment"
           @change="$wait(() => updateComment({id: task.id, comment: $event}))"
-          ref="comment"
+          :ref="'comment' + task.id"
         />
         <StatusCell
           :id="task.id"
@@ -28,7 +28,7 @@
         />
         <td class="is-centered">{{task.created_at.slice(0, 10)}}</td>
         <td class="is-centered">
-          <a @click="handleClickDestroy">
+          <a @click="handleClickDestroy(task.id)">
             删除
           </a>
         </td>
@@ -61,11 +61,11 @@ export default {
       'updateComment'
     ]),
 
-    handleClickDestroy () {
+    handleClickDestroy (taskId) {
       this.$router.push({
         name: 'task destroy',
         params: {
-          taskId: this.task.id,
+          taskId,
           ...this.$route.params
         }
       })

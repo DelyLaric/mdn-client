@@ -53,7 +53,7 @@ export default {
     }),
 
     columns () {
-      return this.columnsMapByTable.locations.filter(column => !column.is_fixed)
+      return this.columnsMapByTable.locations
     }
   }
 }

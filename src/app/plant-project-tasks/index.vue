@@ -133,10 +133,7 @@ export default {
       await this.$wait(async () => {
         id = await this.create({projectId: this.projectId})
       })
-
-      this.$refs.views[0].$refs.items.find(
-        item => item.task.id === id
-      ).$refs.comment.focus()
+      this.$refs.views[0].$refs['comment' + id][0].focus()
     },
 
     needToUpdate () {
