@@ -15,7 +15,7 @@
           v-for="column in columns"
           :key="column.id"
           v-if="column.name !== 'data_id'">
-          {{task.part[column.name]}}
+          {{getPartValue(task, column.name)}}
         </td>
         <DataId
           v-else
@@ -50,6 +50,12 @@ export default {
 
     columns () {
       return this.tableColumns.parts
+    }
+  },
+
+  methods: {
+    getPartValue (task, column) {
+      return get(task, 'part.' + column)
     }
   }
 }
