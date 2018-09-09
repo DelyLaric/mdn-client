@@ -16,6 +16,8 @@ import { mapActions } from 'vuex'
 import DestroyDialog from '@/components/common/destroy-dialog'
 
 export default {
+  name: 'TaskDestroy',
+
   components: {
     DestroyDialog
   },

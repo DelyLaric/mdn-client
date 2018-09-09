@@ -70,7 +70,7 @@ export default {
       App.$set(state.data[taskId].areas, areaId, {
         task_id: taskId,
         area_id: areaId,
-        location_id: null,
+        data_id: null,
         location: {}
       })
     },
@@ -79,8 +79,8 @@ export default {
       App.$delete(state.data[taskId].areas, areaId)
     },
 
-    updateAreaLocation (state, {taskId, areaId, locationId, location}) {
-      state.data[taskId].areas[areaId].location_id = locationId
+    updateAreaLocation (state, {taskId, areaId, dataId, location}) {
+      state.data[taskId].areas[areaId].data_id = dataId
       state.data[taskId].areas[areaId].location = location
     },
 

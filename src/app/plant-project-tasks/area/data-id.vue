@@ -8,13 +8,13 @@
   <EditableCell
     v-else
     class="is-centered"
-    :class="{ 'has-text-danger': taskArea.location_id !== null && !taskArea.location.id }"
+    :class="{ 'has-text-danger': taskArea.data_id !== null && !taskArea.location.id }"
     @change="$wait(() => updateAreaLocation({
       taskId: task.id,
-      areaId: area.id,
-      locationId: $event
+      areaId: taskArea.area_id,
+      dataId: $event
     }))"
-    :value="taskArea.location_id"
+    :value="taskArea.data_id"
   />
 </template>
 
@@ -31,13 +31,7 @@ export default {
 
   props: {
     task: Object,
-    area: Object
-  },
-
-  computed: {
-    taskArea () {
-      return this.task.areas[this.area.id]
-    }
+    taskArea: Object
   },
 
   methods: {

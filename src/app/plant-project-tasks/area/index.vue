@@ -12,7 +12,7 @@
       <tr v-for="(task, index) in tasks" :key="task.id">
         <td class="is-centered">{{index}}</td>
         <td>{{task.comment}}</td>
-        <LocationId :task="task" :area="area"/>
+        <DataId :task="task" :taskArea="task.areas[area.id]"/>
         <td v-for="id in area.columns" :key="id">
           {{getLocationData(task, columns[id])}}
         </td>
@@ -23,13 +23,13 @@
 
 <script>
 import get from 'lodash/get'
-import LocationId from './location-id'
+import DataId from './data-id'
 
 export default {
   name: 'TaskArea',
 
   components: {
-    LocationId
+    DataId
   },
 
   props: {
@@ -39,10 +39,6 @@ export default {
   },
 
   methods: {
-    getLocationId (task) {
-      return get(task, 'areas.' + this.area.id + '.location.location_id')
-    },
-
     getLocationData (task, column) {
       return get(task, 'areas.' + this.area.id + '.location.' + column.name)
     }
