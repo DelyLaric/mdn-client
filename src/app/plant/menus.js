@@ -26,6 +26,30 @@ export default function () {
             name: 'plant table data',
             params: { table: 'parts', categroyId: plantId }
           }
+        },
+        {
+          text: '包装数据',
+          icon: 'table',
+          actived: () => this.$router.hasMatched({
+            name: 'plant table',
+            params: { table: 'packages', categroyId: plantId }
+          }),
+          route: {
+            name: 'plant table data',
+            params: { table: 'packages', categroyId: plantId }
+          }
+        },
+        {
+          text: '工位数据',
+          icon: 'table',
+          actived: () => this.$router.hasMatched({
+            name: 'plant table',
+            params: { table: 'lines', categroyId: plantId }
+          }),
+          route: {
+            name: 'plant table data',
+            params: { table: 'lines', categroyId: plantId }
+          }
         }
       ]
     },

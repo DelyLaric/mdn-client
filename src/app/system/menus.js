@@ -10,19 +10,35 @@ export default [
     expanding: true,
     children: [
       {
-        text: '流程区域',
-        icon: 'process',
-        route: {
-          name: 'system table columns',
-          params: { table: 'locations' }
-        }
-      },
-      {
         text: '零件表',
         icon: 'table',
         route: {
           name: 'system table columns',
           params: { table: 'parts' }
+        }
+      },
+      {
+        text: '包装表',
+        icon: 'table',
+        route: {
+          name: 'system table columns',
+          params: { table: 'packages' }
+        }
+      },
+      {
+        text: '工位表',
+        icon: 'table',
+        route: {
+          name: 'system table columns',
+          params: { table: 'lines' }
+        }
+      },
+      {
+        text: '流程区域',
+        icon: 'process',
+        route: {
+          name: 'system table columns',
+          params: { table: 'locations' }
         }
       }
     ]
