@@ -1,7 +1,7 @@
 import LoadingBar from './loading-bar.vue'
 import Vue from 'vue'
 
-LoadingBar.newInstance = properties => {
+LoadingBar.newInstance = () => {
   const Instance = new Vue({
     render (h) {
       return h(LoadingBar)

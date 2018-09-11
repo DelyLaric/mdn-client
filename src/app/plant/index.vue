@@ -39,7 +39,7 @@ export default {
       areasMapByPlantId: 'areas/mapByPlantId'
     }),
 
-    areas (state) {
+    areas () {
       return this.areasMapByPlantId[this.plantId]
     },
 

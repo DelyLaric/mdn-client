@@ -144,7 +144,7 @@ export default {
       this.setValue(value)
     },
 
-    handleFocus (value) {
+    handleFocus () {
       this.isFocused = true
     }
   },
@@ -172,7 +172,7 @@ function reset () {
 function setValue (value) {
   value = value.trim()
   if (value === '' && !this.validation) {
-
+    /* ed-lint-disable */
   } else if (value === this.default) {
     this.reset()
   } else if (value !== this.value) {

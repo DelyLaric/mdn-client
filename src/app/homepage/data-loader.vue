@@ -1,5 +1,5 @@
 <script>
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   render (h) {
