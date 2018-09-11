@@ -18,7 +18,10 @@
       <div class="dropdown-content" style="max-width: 160px;">
         <a
           v-for="plant in plants" :key="plant.name"
-          :href="`#/plants/${plant.id}`"
+          @click="$router.push({
+            name: 'plant index',
+            params: { plantId: plant.id }
+          })"
           :class="{'is-active': isMatchedPlant(plant.id)}"
           class="dropdown-item"
           v-text="plant.name"
