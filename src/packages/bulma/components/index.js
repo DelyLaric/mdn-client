@@ -29,6 +29,7 @@ import Loading from './Loading'
 import Loader from './Loader'
 import Message from './Message'
 import {Wait, Waiting} from './Waiting'
+import Code from './Code'
 
 import RadioTable from './Form/RadioTable'
 
@@ -63,6 +64,7 @@ export default {
     Vue.component('FieldLabel', FieldLabel)
     Vue.component('Label', Label)
     Vue.component('Loader', Loader)
+    Vue.component('Code', Code)
 
     Vue.component('RadioTable', RadioTable)
 

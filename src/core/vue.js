@@ -7,7 +7,9 @@ import http from './axios'
 import 'element-ui/lib/theme-chalk/index.css'
 import { Scrollbar } from 'element-ui'
 import '@/assets/sass/index.sass'
+import VueHighlightJS from 'vue-highlightjs'
 
+Vue.use(VueHighlightJS)
 Vue.use(bulmaComponents)
 Vue.component(Scrollbar.name, Scrollbar)
 
