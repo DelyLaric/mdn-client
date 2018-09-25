@@ -9,5 +9,6 @@ export default build([
   ['updateDuetime', 'tasks/duetime/update'],
   ['addArea', 'tasks/areas/add'],
   ['removeArea', 'tasks/areas/remove'],
-  ['updateAreaLocation', 'tasks/areas/location/update', 'data']
+  ['updateAreaLocation', 'tasks/areas/location/update', 'data'],
+  ['updatePart', 'tasks/part/update', 'data']
 ])

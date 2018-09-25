@@ -41,6 +41,7 @@
             :areas="areas"
             :area="view.area"
             :columns="columns"
+            v-bind="view.props"
             ref="views"
           />
         </div>
@@ -62,6 +63,7 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 import TaskAreas from './areas'
 import TaskInfos from './primary'
 import TaskArea from './area'
+import TaskPart from './part'
 
 export default {
   name: 'ProjectTasks',
@@ -107,7 +109,8 @@ export default {
       return [
         [
           { text: '基本信息', component: TaskInfos },
-          { text: '区域管理', component: TaskAreas }
+          { text: '区域管理', component: TaskAreas },
+          { text: '零件规划', component: TaskPart }
         ],
         this.areas.map(area => ({
           area: area,

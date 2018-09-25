@@ -84,6 +84,11 @@ export default {
       state.data[taskId].areas[areaId].location = location
     },
 
+    updatePart (state, {taskId, part}) {
+      state.data[taskId].part_id = part.data_id
+      state.data[taskId].part = part
+    },
+
     startLoading (state) {
       state.isLoading = true
     },
@@ -150,6 +155,13 @@ export default {
         ...params,
         location: await tasks.updateAreaLocation(params)
       }) 
+    },
+
+    async updatePart ({commit}, params) {
+      commit('updatePart', {
+        ...params,
+        part: await tasks.updatePart(params)
+      })
     }
   }
 }
