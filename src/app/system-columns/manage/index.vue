@@ -38,6 +38,7 @@
 
       <div class="modal-card-foot">
         <a
+          v-if="!column.is_fixed"
           class="button is-danger"
           @click="$router.push({
             name: 'system table column destroy',

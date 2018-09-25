@@ -8,7 +8,7 @@
     <table class="table is-hoverable is-nowrapped is-bordered">
       <thead>
         <tr>
-          <th style="width: 1px">编号</th>
+          <th style="width: 36px">-</th>
           <th>字段名</th>
           <th>属性名</th>
           <th style="width: 360px">备注</th>

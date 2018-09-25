@@ -1,6 +1,8 @@
 <template>
   <tr>
-    <td class="is-centered">{{column.id}}</td>
+    <th class="is-centered has-text-danger">
+      {{column.is_fixed ? '*' : ''}}
+    </th>
     <td>{{column.name}}</td>
     <td>{{column.text}}</td>
     <td>{{column.comment}}</td>
