@@ -3,7 +3,6 @@
     <thead>
       <th class="is-centered" style="width: 1px">#</th>
       <th>备注</th>
-      <th class="is-centered">位置代码</th>
       <th v-for="id in area.columns" :key="id">
         {{columns[id].text}}
       </th>
@@ -12,10 +11,17 @@
       <tr v-for="(task, index) in tasks" :key="task.id">
         <td class="is-centered">{{index}}</td>
         <td>{{task.comment}}</td>
-        <DataId :task="task" :taskArea="task.areas[area.id]"/>
-        <td v-for="id in area.columns" :key="id">
+        <td
+          v-if="columns[id].name !== 'data_id'" 
+          v-for="id in area.columns"
+          :key="id">
           {{getLocationData(task, columns[id])}}
         </td>
+        <DataId
+          v-else
+          :task="task"
+          :taskArea="task.areas[area.id]"
+        />
       </tr>
     </tbody>
   </table>
