@@ -15,7 +15,7 @@ export default {
     data: {},
     meta: null,
 
-    query: undefined,
+    query: '',
 
     params: {
       table: null,
@@ -31,7 +31,7 @@ export default {
     params (state) {
       return {
         ...state.params,
-        query: state.query
+        query: state.query === '' ? undefined : state.query
       }
     },
 
@@ -80,9 +80,9 @@ export default {
       state.data = data
     },
 
-    setQuery (state, value) {
+    setQuery (state, value = '') {
       value = value.trim()
-      state.query = value === '' ? undefined : value
+      state.query = value
     },
 
     selectItem (state, id) {

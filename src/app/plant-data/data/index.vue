@@ -186,6 +186,7 @@ export default {
           table: this.table,
           categroyId: this.categroyId
         })
+        this.setQuery('')
         this.search()
       }
     }
