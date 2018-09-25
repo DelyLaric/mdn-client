@@ -134,10 +134,6 @@ export default {
         id = await this.create({projectId: this.projectId})
       })
       this.$refs.views[0].$refs['comment' + id][0].focus()
-    },
-
-    needToUpdate () {
-      return this.parent.list.indexOf(this.projectId) !== -1
     }
   },
 
@@ -146,7 +142,7 @@ export default {
       immediate: true,
 
       handler () {
-        this.search()
+        (this.projectId !== -1 && this.projectId !== '-1') && this.search()
       }
     }
   }
