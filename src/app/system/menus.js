@@ -5,7 +5,7 @@ export default [
     route: { name: 'plants' }
   },
   {
-    text: '数据表管理',
+    text: '基础数据管理',
     icon: 'table',
     expanding: true,
     children: [
@@ -15,14 +15,6 @@ export default [
         route: {
           name: 'system table columns',
           params: { table: 'parts' }
-        }
-      },
-      {
-        text: '流程区域',
-        icon: 'process',
-        route: {
-          name: 'system table columns',
-          params: { table: 'locations' }
         }
       },
       {
@@ -39,6 +31,14 @@ export default [
         route: {
           name: 'system table columns',
           params: { table: 'lines' }
+        }
+      },
+      {
+        text: '流程区域',
+        icon: 'process',
+        route: {
+          name: 'system table columns',
+          params: { table: 'locations' }
         }
       }
     ]
