@@ -1,22 +1,25 @@
 <template>
   <a
     @click="handleClick"
-    style="display: flex"
+    style="display: flex; height: 60px"
     :class="{
       'panel-block': true,
       'is-active': isActive
     }">
-    <div style="width: 100px; overflow: hidden;">
+
+    <span v-if="project.filed_at" class="tag is-primary">
+      已归档
+    </span>
+    <span v-else class="tag is-success">
+      进行中
+    </span>
+
+    <div style="margin-left: 20px; overflow: hidden;">
       <div>
         <p style="white-space: nowrap" v-html="matchedText(project.name)" />
       </div>
-      <div>
-        <p style="white-space: nowrap" v-html="matchedText(project.text)" />
-      </div>
-      <div>
-        <p style="white-space: nowrap" v-html="matchedText(project.comment)" />
-      </div>
     </div>
+    
     <div class="is-right is-flex" style="items-align: center; height: 1.5rem">
       <a
         v-show="isActive"
@@ -27,12 +30,6 @@
           <i class="iconfont icon-gear" />
         </span>
       </a>
-      <span v-if="project.filed_at" class="tag is-primary">
-        已归档
-      </span>
-      <span v-else class="tag is-success">
-        进行中
-      </span>
     </div>
   </a>
 </template>

@@ -99,11 +99,7 @@ export default {
       if (this.query !== '') {
         result = this.list.filter(id => {
           const item = this.data[id]
-          if (
-            item.name.indexOf(this.query) !== -1 ||
-            item.text.indexOf(this.query) !== -1 ||
-            item.comment.indexOf(this.query) !== -1
-          ) {
+          if (item.name.indexOf(this.query) !== -1) {
             return true
           } else {
             return false
