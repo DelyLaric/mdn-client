@@ -8,7 +8,17 @@ export default function () {
       route: {
         name: 'plant projects',
         params: { plantId }
-      }
+      },
+      children: [
+        {
+          text: '区域管理',
+          icon: 'table',
+          route: {
+            name: '',
+            params: {}
+          }
+        }
+      ]
     },
     {
       text: '基础数据',
@@ -50,33 +60,28 @@ export default function () {
             name: 'plant table data',
             params: { table: 'lines', categroyId: plantId }
           }
-        }
-      ]
-    },
-    {
-      text: '区域数据',
-      icon: 'process',
-      expanding: true,
-      children: this.areas.map(area => {
-        const params = {
-          plantId,
-          table: 'locations',
-          categroyId: area.id
-        }
-
-        return {
-          text: area.text,
-          icon: 'table',
-          actived: () => this.$router.hasMatched({
-            name: 'plant table',
-            params
-          }),
-          route: {
-            name: 'plant table data',
-            params
+        },
+        ...this.areas.map(area => {
+          const params = {
+            plantId,
+            table: 'locations',
+            categroyId: area.id
           }
-        }
-      })
+
+          return {
+            text: area.text,
+            icon: 'table',
+            actived: () => this.$router.hasMatched({
+              name: 'plant table',
+              params
+            }),
+            route: {
+              name: 'plant table data',
+              params
+            }
+          }
+        })
+      ]
     }
   ]
 }
