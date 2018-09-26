@@ -22,6 +22,16 @@
         </div>
         <div v-else class="loading" />
       </div>
+
+      <div style="margin-top: 0.5rem">
+        <Pagination
+          :meta="meta"
+          @change-page="(page) => {
+            setPage(page)
+            search()
+          }"
+        />
+      </div>
     </div>
     <router-view
       :task="data[taskId]"
@@ -32,15 +42,18 @@
 
 <script>
 import flatten from 'lodash/flatten'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import tasks from '@/api/tasks'
 
 import TaskInfos from './primary'
+import Pagination from '@/components/common/pagination'
 
 export default {
   name: 'ProjectTasks',
 
   components: {
-    TaskInfos
+    TaskInfos,
+    Pagination
   },
 
   props: {
@@ -59,6 +72,7 @@ export default {
     ...mapState({
       data: state => state.tasks.data,
       list: state => state.tasks.list,
+      meta: state => state.tasks.meta,
       isLoading: state => state.tasks.isLoading,
 
       tasks (state) {
@@ -77,12 +91,20 @@ export default {
       create: 'tasks/create'
     }),
 
+    ...mapMutations({
+      setPage: 'tasks/setPage'
+    }),
+
     async handleTaskCreate () {
       let id
       await this.$wait(async () => {
         id = await this.create({projectId: this.projectId})
       })
       this.$refs.views[0].$refs['comment' + id][0].focus()
+    },
+
+    handleChangePage () {
+
     }
   },
 

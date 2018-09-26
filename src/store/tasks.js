@@ -7,7 +7,9 @@ export default {
   state: {
     list: [],
     data: {},
+    meta: {},
 
+    page: 1,
     projectId: null,
 
     isLoading: true
@@ -21,6 +23,7 @@ export default {
 
     params (state, getters) {
       return {
+        page: state.page,
         projectId: getters.projectId
       }
     }
@@ -31,7 +34,8 @@ export default {
       const data = {}
       state.list = []
 
-      dataSource.forEach(item => {
+      state.meta = dataSource
+      dataSource.data.forEach(item => {
         state.list.push(item.id)
         data[item.id] = item
       })
@@ -42,6 +46,11 @@ export default {
     reset (state) {
       state.list = []
       state.data = {}
+      state.meta = {}
+    },
+
+    setPage (state, page) {
+      state.page = page
     },
 
     addItem (state, item) {
@@ -101,13 +110,9 @@ export default {
 
   actions: {
     async search ({getters, commit}) {
-      const params = {}
       commit('startLoading')
       try {
-        commit('setDataSource', await tasks.search({
-          ...params,
-          ...getters.params
-        }))
+        commit('setDataSource', await tasks.search(getters.params))
       } finally {
         commit('finishLoading')
       }
