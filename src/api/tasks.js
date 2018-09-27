@@ -10,5 +10,6 @@ export default build([
   ['addArea', 'tasks/areas/add'],
   ['removeArea', 'tasks/areas/remove'],
   ['updateAreaLocation', 'tasks/areas/location/update', 'data'],
-  ['updatePart', 'tasks/part/update', 'data']
+  ['updatePart', 'tasks/part/update', 'data'],
+  ['searchArea', 'tasks/area/search', 'data'],
 ])

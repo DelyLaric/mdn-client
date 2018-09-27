@@ -1,5 +1,6 @@
 import data from '../plant-data/routes'
 import projects from '../plant-projects/routes'
+import areaManage from '../plant-task-manage/area-manage/routes'
 
 export default {
   path: 'plants/:plantId',
@@ -8,6 +9,7 @@ export default {
   props: true,
   children: [
     data,
-    projects
+    projects,
+    areaManage
   ]
 }

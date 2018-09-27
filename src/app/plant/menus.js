@@ -8,16 +8,32 @@ export default function () {
       route: {
         name: 'plant projects',
         params: { plantId }
-      },
+      }
+    },
+    {
+      text: '任务规划',
+      icon: 'table',
+      expanding: true,
       children: [
-        {
-          text: '区域管理',
-          icon: 'table',
-          route: {
-            name: '',
-            params: {}
+        ...this.areas.map(area => {
+          const params = {
+            plantId,
+            areaId: area.id
           }
-        }
+
+          return {
+            text: area.text,
+            icon: 'table',
+            actived: () => this.$router.hasMatched({
+              name: 'plant area manage',
+              params
+            }),
+            route: {
+              name: 'plant area manage',
+              params
+            }
+          }
+        })
       ]
     },
     {
