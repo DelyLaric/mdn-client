@@ -15,11 +15,16 @@
 </template>
 
 <script>
+/**
+ * value: 默认值数据
+ * inputValue: 为用户输入的数据
+ * isChange: 是否需要高亮数据
+ */
 export default {
   props: {
     value: {},
-    isChanged: {},
     highlight: String,
+    isChanged: Boolean,
     isOutlined: Boolean,
   },
 
@@ -36,7 +41,9 @@ export default {
 
   computed: {
     hasChanged () {
-      return this.value !== this.inputValue
+      return this.value !== '' &&
+        this.value !== null &&
+        this.value !== this.inputValue
     }
   },
 
