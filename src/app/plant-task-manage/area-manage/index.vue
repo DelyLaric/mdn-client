@@ -1,7 +1,10 @@
 <template>
   <div class="full-container is-flex is-flex-column" style="padding: 0.5rem">
+
     <div>
       <div class="field has-addons">
+        <TaskStatusSelect v-model="taskStatus" />
+
         <div class="control">
           <input
             :value="query" class="input"
@@ -10,6 +13,7 @@
             @keypress.enter="handleQuery"
           >
         </div>
+
         <div class="control">
           <a
             @click="search"
@@ -19,7 +23,9 @@
           </a>
         </div>
       </div>
+
     </div>
+
     <div class="full-container is-flex-auto" style="margin-top: 0.5rem">
       <div class="table-container">
         <table v-if="!loading" class="table is-bordered is-nowrapped">
@@ -28,7 +34,9 @@
             <th>位置代码</th>
             <th>零件号</th>
             <th>项目代码</th>
+            <th>项目状态</th>
             <th>任务备注</th>
+            <th>任务状态</th>
             <th
               v-if="column.name !== 'data_id'"
               v-for="column in columns" :key="column.id">
@@ -56,12 +64,14 @@
                   :query="query"
                 />
               </td>
+              <ProjectStatusCell :value="task.project.filed_at" />
               <td>
                 <QueryHighlighter
                   :text="task.comment"
                   :query="query"
                 />
               </td>
+              <TaskStatusCell :value="task.status"/>
               <td
                 v-for="column in columns" :key="column.id"
                 v-if="column.name !== 'data_id'">
@@ -87,6 +97,9 @@ import { mapState, mapGetters } from 'vuex'
 import tasks from '@/api/tasks'
 
 import DataId from './data-id'
+import TaskStatusCell from '../_common/TaskStatusCell'
+import ProjectStatusCell from '../_common/ProjectStatusCell'
+import TaskStatusSelect from '../_common/TaskStatusSelect'
 import Pagination from '@/components/common/pagination'
 import EditableCell from '@/components/common/editable-cell'
 import QueryHighlighter from '@/components/common/query-highlighter'
@@ -98,6 +111,9 @@ export default {
     DataId,
     Pagination,
     EditableCell,
+    TaskStatusCell,
+    ProjectStatusCell,
+    TaskStatusSelect,
     QueryHighlighter
   },
 
@@ -113,7 +129,10 @@ export default {
       meta: {},
 
       page: 1,
+
       query: '',
+      taskStatus: null,
+
       loading: true,
       initialized: false
     }
@@ -125,6 +144,7 @@ export default {
         page: this.page,
         query: this.query,
         areaId: this.areaId,
+        taskStatus: this.taskStatus
       }
     },
 
