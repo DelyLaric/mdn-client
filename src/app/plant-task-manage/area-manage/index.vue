@@ -171,6 +171,7 @@ export default {
       })
 
       task.location = location
+      task.taskArea.data_id = dataId
     },
 
     async handleQuery (event) {

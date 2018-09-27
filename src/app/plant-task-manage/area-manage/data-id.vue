@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import EditableCell from '@/components/common/editable-cell'
 
 export default {
@@ -21,12 +20,6 @@ export default {
   props: {
     task: Object,
     taskArea: Object
-  },
-
-  methods: {
-    ...mapActions('tasks', [
-      'updateAreaLocation'
-    ])
   }
 }
 </script>
