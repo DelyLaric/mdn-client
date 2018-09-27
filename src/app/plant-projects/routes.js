@@ -33,7 +33,7 @@ export default {
         {
           path: ':taskId/destroy',
           name: 'task destroy',
-          component: () => import('../plant-project-tasks/primary/destroy'),
+          component: () => import('../plant-project-tasks/destroy'),
           props: true
         }
       ]

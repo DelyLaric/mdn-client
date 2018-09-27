@@ -7,7 +7,7 @@
 
       <div class="buttons has-addons" style="margin-right: 0.5rem">
         <a
-          @click="handleTaskCreate"
+          @click="$wait(() => handleTaskCreate())"
           class="button">
           <Icon name="create-record"/>
           <span>创建任务</span>
@@ -17,103 +17,185 @@
       <div style="height: 0.5rem"></div>
 
       <div class="table-container is-flex-auto">
-        <div class="full-container" v-if="!isLoading">
-          <TaskInfos :tasks="tasks"/>
+        <div class="full-container" v-show="!loading">
+          <table class="table is-bordered is-nowrapped">
+            <thead>
+              <th class="is-centered" style="width: 1px">#</th>
+              <th>备注</th>
+              <th class="is-centered" style="width: 120px;">任务状态</th>
+              <th class="is-centered" >截止日期</th>
+              <th class="is-centered" >创建时间</th>
+              <th class="is-centered">操作</th>
+            </thead>
+            <tbody>
+              <tr v-for="(task, index) in tasks" :key="task.id">
+                <td class="is-centered">{{index}}</td>
+                <EditableCell
+                  ref="comments"
+                  :value="task.comment"
+                  @change="$wait(() => updateComment({id: task.id, comment: $event}))"
+                />
+                <StatusCell
+                  :value="task.status"
+                  :down="tasks.length - index > 4"
+                  @change="$wait(() => updateStatus({id: task.id, status: $event}))"
+                />
+                <DuetimeCell
+                  :id="task.id"
+                  :value="task.duetime"
+                  @change="$wait(() => updateDuetime({id: task.id, duetime: $event}))"
+                />
+                <td class="is-centered">{{task.created_at.slice(0, 10)}}</td>
+                <td class="is-centered">
+                  <a @click="handleClickDestroy(task.id)">
+                    删除
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div v-else class="loading" />
+        <div v-show="loading" class="loading" />
       </div>
 
       <div style="margin-top: 0.5rem">
         <Pagination
           :meta="meta"
-          @change-page="(page) => {
-            setPage(page)
-            search()
-          }"
+          @change-page="$page => { page = $page, search() }"
         />
       </div>
     </div>
     <router-view
-      :task="data[taskId]"
       :project="project"
+      :task="data[taskId]"
+      :handleDestroy="destroyTask"
     />
   </div>
 </template>
 
 <script>
-import flatten from 'lodash/flatten'
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import tasks from '@/api/tasks'
 
-import TaskInfos from './primary'
+import StatusCell from './status-cell'
+import DuetimeCell from './duetime-cell'
 import Pagination from '@/components/common/pagination'
+import EditableCell from '@/components/common/editable-cell'
 
 export default {
   name: 'ProjectTasks',
 
   components: {
-    TaskInfos,
-    Pagination
+    Pagination,
+    StatusCell,
+    DuetimeCell,
+    EditableCell
   },
 
   props: {
     taskId: {},
+    plantId: {},
     projectId: {},
     project: Object,
   },
 
   data () {
     return {
-      currentView: '基本信息'
+      data: {},
+      list: [],
+      meta: {},
+
+      page: 1,
+      query: '',
+      loading: false,
+      initialized: false,
     }
   },
 
   computed: {
-    ...mapState({
-      data: state => state.tasks.data,
-      list: state => state.tasks.list,
-      meta: state => state.tasks.meta,
-      isLoading: state => state.tasks.isLoading,
+    tasks () {
+      return this.list.map(id => this.data[id])
+    },
 
-      tasks (state) {
-        return state.tasks.list.map(id => state.tasks.data[id])
+    params () {
+      return {
+        page: this.page,
+        query: this.query,
+        projectId: this.projectId
       }
-    }),
-
-    plantId () {
-      return this.$route.params.plantId
     }
   },
 
   methods: {
-    ...mapActions({
-      search: 'tasks/search',
-      create: 'tasks/create'
-    }),
-
-    ...mapMutations({
-      setPage: 'tasks/setPage'
-    }),
-
     async handleTaskCreate () {
-      let id
-      await this.$wait(async () => {
-        id = await this.create({projectId: this.projectId})
+      const task = await tasks.create({projectId: this.projectId})
+      this.list.splice(0, 0, task.id)
+      this.$set(this.data, task.id, task)
+      this.$nextTick(() => {
+        // 运用 vue.js 的底层复用原理来寻找最新创建的 vnode
+        this.$refs.comments[this.$refs.comments.length - 1].focus()
       })
-      this.$refs.views[0].$refs['comment' + id][0].focus()
     },
 
-    handleChangePage () {
+    async handleClickDestroy (id) {
+      this.$router.push({
+        name: 'task destroy',
+        params: { taskId: id, ...this.$route.params }
+      })
+    },
 
+    async search () {
+      this.loading = true
+      try {
+        const dataSource = await tasks.search(this.params)
+        this.data = {}
+        this.list = []
+
+        dataSource.data.forEach(item => {
+          this.list.push(item.id)
+          this.$set(this.data, item.id, item)
+        })
+
+        this.meta = dataSource
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async updateComment ({id, comment}) {
+      await tasks.updateComment({id, comment})
+      this.data[id].comment = comment
+    },
+
+    async updateStatus ({id, status}) {
+      await tasks.updateStatus({id, status})
+      this.data[id].status = status
+    },
+
+    async updateDuetime ({id, duetime}) {
+      if (this.data[id].duetime === duetime) {
+        duetime = null
+      }
+      await tasks.updateDuetime({id, duetime})
+      this.data[id].duetime = duetime
+    },
+
+    async destroyTask ({id}) {
+      const task = await tasks.destroy({id})
+      this.list.splice(this.list.indexOf(id), 1)
+      this.$delete(this.data, id)
     }
   },
 
   watch: {
-    projectId: {
+    'project.id': {
       immediate: true,
 
-      handler () {
-        (this.projectId !== -1 && this.projectId !== '-1') && this.search()
+      async handler () {
+        if (this.projectId !== -1 && this.projectId !== '-1') {
+        this.initialized = false
+          await this.search()
+          this.initialized = true
+        }
       }
     }
   }
