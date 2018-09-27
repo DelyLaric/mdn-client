@@ -45,7 +45,7 @@ export default {
       states: {
         0: { text: '待规划', color: 'warning' },
         1: { text: '规划中', color: 'info' },
-        2: { text: '已完成', color: 'success' }
+        2: { text: '已规划', color: 'success' }
       }
     }
   },
