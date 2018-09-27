@@ -32,7 +32,7 @@
 
         <p class="panel-tabs">
           <a
-            v-for="state in ['全部', '进行中', '已归档']"
+            v-for="state in ['进行中', '已归档', '全部']"
             :key="state"
             v-text="state"
             @click="queryArchived = state"
@@ -81,7 +81,7 @@ export default {
     return {
       query: '',
       isQueryFocus: false,
-      queryArchived: '全部',
+      queryArchived: '进行中',
 
       selectedProjectId: null
     }
