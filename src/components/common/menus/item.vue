@@ -122,3 +122,12 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+@import '@/assets/sass/index.sass'
+
+.menu
+  &.is-active
+    background-color: $background
+    border-right: 2px solid $info
+</style>
