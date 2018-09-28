@@ -22,7 +22,7 @@
         <div style="height: 12px"></div>
 
         <InputModifyField
-          text="流程区域名"
+          text="项目名称"
           :data="project.text"
           :handler="text => updateText({id, text})"
         />
