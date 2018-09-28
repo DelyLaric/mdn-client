@@ -33,6 +33,7 @@
             <th></th>
             <th>位置代码</th>
             <th>零件号</th>
+            <th>工位</th>
             <th>项目代码</th>
             <th>项目状态</th>
             <th>任务备注</th>
@@ -55,6 +56,12 @@
               <td>
                 <QueryHighlighter
                   :text="task.part_id"
+                  :query="query"
+                />
+              </td>
+              <td>
+                <QueryHighlighter
+                  :text="task.line_id"
                   :query="query"
                 />
               </td>
