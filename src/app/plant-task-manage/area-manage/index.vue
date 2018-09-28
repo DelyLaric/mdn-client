@@ -34,7 +34,7 @@
             <th>位置代码</th>
             <th>零件号</th>
             <th>工位</th>
-            <th>项目代码</th>
+            <th>项目编号</th>
             <th>项目状态</th>
             <th>任务备注</th>
             <th>任务状态</th>
@@ -67,7 +67,7 @@
               </td>
               <td>
                 <QueryHighlighter
-                  :text="task.project_id"
+                  :text="task.project.name"
                   :query="query"
                 />
               </td>
