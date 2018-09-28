@@ -22,6 +22,8 @@
             <thead>
               <th class="is-centered" style="width: 1px">#</th>
               <th>备注</th>
+              <th>零件号</th>
+              <th>工位</th>
               <th class="is-centered" style="width: 120px;">任务状态</th>
               <th class="is-centered" >截止日期</th>
               <th class="is-centered" >创建时间</th>
@@ -34,6 +36,14 @@
                   ref="comments"
                   :value="task.comment"
                   @change="$wait(() => updateComment({id: task.id, comment: $event}))"
+                />
+                <EditableCell
+                  :value="task.part_id"
+                  @change="$wait(() => updatePartId({id: task.id, partId: $event}))"
+                />
+                <EditableCell
+                  :value="task.line_id"
+                  @change="$wait(() => updateLineId({id: task.id, lineId: $event}))"
                 />
                 <StatusCell
                   :value="task.status"
@@ -177,6 +187,16 @@ export default {
       }
       await tasks.updateDuetime({id, duetime})
       this.data[id].duetime = duetime
+    },
+
+    async updatePartId ({id, partId}) {
+      await tasks.updatePart({id, partId})
+      this.data[id].part_id = partId
+    },
+
+    async updateLineId ({id, lineId}) {
+      await tasks.updateLine({id, lineId})
+      this.data[id].line_id = lineId
     },
 
     async destroyTask ({id}) {
