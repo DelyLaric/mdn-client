@@ -23,7 +23,7 @@ export default {
 
   computed: {
     state () {
-      const res = this.states[this.value !== null]
+      const res = this.states[this.value === null]
 
       if (res) return res
       else return {
