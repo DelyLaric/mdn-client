@@ -15,6 +15,14 @@ export default function () {
       icon: 'table',
       expanding: true,
       children: [
+        {
+          text: '区域管理',
+          icon: 'table',
+          route: {
+            name: 'plant areas manage',
+            params: { plantId }
+          }
+        },
         ...this.areas.map(area => {
           const params = {
             plantId,

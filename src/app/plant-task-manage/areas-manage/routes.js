@@ -1,6 +1,6 @@
 export default {
-  path: 'planner/areas/:areaId',
-  name: 'plant area manage',
+  path: 'planner/areas',
+  name: 'plant areas manage',
   component: () => import('./index'),
   props: true
 }

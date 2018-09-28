@@ -13,4 +13,5 @@ export default build([
   ['updatePart', 'tasks/part/update', 'data'],
   ['updateLine', 'tasks/line/update', 'data'],
   ['searchArea', 'tasks/area/search', 'data'],
+  ['searchAreas', 'tasks/areas/search', 'data']
 ])
