@@ -1,5 +1,5 @@
 <template>
-  <span class="icon" style="cursor: pointer;">
+  <span @click="$emit('click')" class="icon" style="cursor: pointer;">
     <i v-if="value === true"
       :class="`has-text-${color}`"
       class="iconfont icon-check-square"
