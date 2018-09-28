@@ -11,8 +11,8 @@ export default {
 
   computed: {
     highlight () {
-      const text = this.text + ''
       const query = this.query
+      const text = this.text === null ? '' : this.text + ''
 
       if (query === '') return text
 
